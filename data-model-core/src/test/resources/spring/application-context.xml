@@ -1,0 +1,36 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:util="http://www.springframework.org/schema/util"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <context:annotation-config/>
+
+    <context:component-scan
+     base-package="com.coherentlogic"/>
+
+    <!-- proxy-target-class forces the use of CGLIB proxies.
+
+         Note that if this flag is not set, the proxied class returned from the
+         Spring Framework will be different from the expected class and the
+         result, when the property is autowired, will indicate that no class can
+         be found that can be autowired with the given property.
+
+         @see 8.6 in http://docs.spring.io/spring/docs/3.0.0.M3/reference/html/ch08s06.html
+      -->
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
+
+    <!-- bean id="setterMethodInterceptor"
+     class="com.coherentlogic.coherent.data.model.core.advice.SetterMethodInterceptor"/ -->
+
+    <bean
+     class="com.coherentlogic.coherent.data.model.core.advice.ExampleBean"/>
+</beans>
