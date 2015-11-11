@@ -10,7 +10,7 @@
 
     <groupId>com.coherentlogic.coherent</groupId>
     <artifactId>data-model</artifactId>
-    <version>1.0.16-RELEASE</version>
+    <version>1.0.17-RELEASE</version>
     <packaging>pom</packaging>
 
     <name>data-model</name>
