@@ -18,7 +18,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spring.version>4.0.1.RELEASE</spring.version>
+        <spring.version>4.2.2.RELEASE</spring.version>
     </properties>
     <licenses>
         <license>
@@ -94,11 +94,6 @@
             <artifactId>javax.ws.rs-api</artifactId>
             <scope>provided</scope>
         </dependency>
-        <!-- dependency>
-            <groupId>commons-lang</groupId>
-            <artifactId>commons-lang</artifactId>
-            <scope>provided</scope>
-        </dependency -->
         <dependency>
             <groupId>commons-beanutils</groupId>
             <artifactId>commons-beanutils</artifactId>
