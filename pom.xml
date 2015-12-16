@@ -145,10 +145,9 @@
 
     <build>
         <plugins>
-            <plugin>
+            <!-- plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <!-- version>1.2.0.M2</version -->
                 <executions>
                     <execution>
                         <goals>
@@ -156,12 +155,11 @@
                         </goals>
                     </execution>
                 </executions>
-                <!-- TODO: This is Spring Boot-specific so move the examples to their own module. -->
                 <configuration>
                     <mainClass>${start-class}</mainClass>
                     <layout>ZIP</layout>
                 </configuration>
-            </plugin>
+            </plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
