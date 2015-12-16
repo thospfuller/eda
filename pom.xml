@@ -10,7 +10,7 @@
 
     <groupId>com.coherentlogic.coherent</groupId>
     <artifactId>data-model</artifactId>
-    <version>1.0.17-RELEASE</version>
+    <version>1.0.18-RELEASE</version>
     <packaging>pom</packaging>
 
     <name>data-model</name>
@@ -18,7 +18,8 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spring.version>4.2.2.RELEASE</spring.version>
+        <java.version>1.8</java.version>
+        <spring.version>4.2.3.RELEASE</spring.version>
     </properties>
     <licenses>
         <license>
@@ -40,8 +41,6 @@
     <modules>
         <module>bom</module>
         <module>data-model-core</module>
-        <!-- module>data-model-misc</module>
-        <module>data-model-query-builder</module -->
     </modules>
     <dependencyManagement>
         <dependencies>
@@ -55,12 +54,6 @@
         </dependencies>
     </dependencyManagement>
     <dependencies>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-core</artifactId>
-            <scope>provided</scope>
-        </dependency>
-    
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
@@ -153,18 +146,32 @@
     <build>
         <plugins>
             <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <!-- version>1.2.0.M2</version -->
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <!-- TODO: This is Spring Boot-specific so move the examples to their own module. -->
+                <configuration>
+                    <mainClass>${start-class}</mainClass>
+                    <layout>ZIP</layout>
+                </configuration>
+            </plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.1</version>
+                <version>3.3</version>
                 <configuration>
-                    <!-- Changing this to 1.8 results in an error "Unknown
-                         version '1.8', no version setting will be given to the
-                         compiler." because apparently the plugin is only aware
-                         of Java 7 at this time.
-                      -->
-                    <source>1.7</source>
-                    <target>1.5</target>
-                    <compilerId>eclipse</compilerId>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <!-- @TODO: Remove the executable as we really don't want to have this 
+                        here in order to make this work as this destroys platform independence. -->
+                    <executable>C:/Program Files/Java/jdk1.8.0_66/bin/javac</executable>
                 </configuration>
                 <dependencies>
                     <dependency>
@@ -176,13 +183,33 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <version>1.4.1</version>
+                <executions>
+                    <execution>
+                        <id>enforce-java</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <requireJavaVersion>
+                                    <version>1.8.0-66</version>
+                                </requireJavaVersion>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.16</version>
+                <version>2.19</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.9.1</version>
+                <version>2.10.3</version>
                 <configuration>
                     <doclet>org.umlgraph.doclet.UmlGraphDoc</doclet>
                     <docletPath>C:/development/software/UMLGraph-5.6.6/lib/UmlGraph.jar</docletPath>
@@ -202,9 +229,6 @@
                     </docletArtifact>
                     <additionalparam>-views</additionalparam>
                     <useStandardDocletOptions>true</useStandardDocletOptions>
-                    <!-- Upgrade to JDK 8 resulted in errors so the doclint param below 
-                         fixes this. -->
-                    <additionalparam>-Xdoclint:none</additionalparam>
                 </configuration>
                 <!-- Below is the yDoc configuration. <doclet>ydoc.doclets.YStandard</doclet> 
                     <docletPath>C:/development/software/yworks-uml-doclet/lib/ydoc.jar: C:/development/software/yworks-uml-doclet/lib/styleed.jar: 
@@ -226,7 +250,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-gpg-plugin</artifactId>
-                <version>1.4</version>
+                <version>1.6</version>
                 <executions>
                     <execution>
                         <id>sign-artifacts</id>
@@ -240,7 +264,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>
-                <version>3.2</version>
+                <version>3.4</version>
                 <!-- configuration>
                     <port>9000</port>
                     <tempWebappDirectory>${basedir}/target/site/tempdir</tempWebappDirectory>
@@ -248,4 +272,26 @@
             </plugin>
         </plugins>
     </build>
+
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>findbugs-maven-plugin</artifactId>
+                <version>3.0.3</version>
+                <configuration>
+                    <xmlOutput>true</xmlOutput>
+                    <xmlOutputDirectory>target/site</xmlOutputDirectory>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>2.9.1</version>
+                <configuration>
+                    <configLocation>sun_checks.xml</configLocation>
+                </configuration>
+            </plugin>
+        </plugins>
+    </reporting>
 </project>
