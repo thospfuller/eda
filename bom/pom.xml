@@ -87,6 +87,24 @@
                 <artifactId>spring-beans</artifactId>
                 <version>${spring.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-aop</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-expression</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <!--
+              Used by spring-ws-core in particular for credentials.
+              -->
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient</artifactId>
+                <version>4.5.1</version>
+            </dependency>
             <!-- Seems to have a dependency on Spring 3.1.1 which means the project 
                 will have a mix of 3.1.2 and 3.1.1 dependencies. This is not a good idea 
                 so for the moment we're rolling back from 3.1.2 to 3.1.1 until this is resolved. -->
