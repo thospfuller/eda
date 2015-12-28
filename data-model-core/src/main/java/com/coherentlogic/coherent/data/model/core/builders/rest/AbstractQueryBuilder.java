@@ -1,4 +1,4 @@
-package com.coherentlogic.coherent.data.model.core.builders;
+package com.coherentlogic.coherent.data.model.core.builders.rest;
 
 import java.net.URI;
 
@@ -8,8 +8,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.client.RestTemplate;
 
+import com.coherentlogic.coherent.data.model.core.builders.CacheableQueryBuilder;
+import com.coherentlogic.coherent.data.model.core.builders.HttpMethodsSpecification;
 import com.coherentlogic.coherent.data.model.core.cache.CacheServiceProviderSpecification;
-import com.coherentlogic.coherent.data.model.core.cache.NullCache;
 
 /**
  * This class acts as the foundation for QueryBuilder implementations. This
@@ -19,15 +20,16 @@ import com.coherentlogic.coherent.data.model.core.cache.NullCache;
  * @author <a href="mailto:support@coherentlogic.com">Support</a>
  */
 public abstract class AbstractQueryBuilder
+    extends CacheableQueryBuilder<String, Object>
     implements HttpMethodsSpecification {
 
     private final RestTemplate restTemplate;
 
     private final UriBuilder uriBuilder;
 
-    private final CacheServiceProviderSpecification<String, Object> cache;
-
-    protected static final NullCache NULL_CACHE = new NullCache();
+//    private final CacheServiceProviderSpecification<String, Object> cache;
+//
+//    protected static final NullCache NULL_CACHE = new NullCache();
 
     private static final Logger log = LoggerFactory
         .getLogger(AbstractQueryBuilder.class);
@@ -35,7 +37,7 @@ public abstract class AbstractQueryBuilder
     static {
         log.warn("***********************************************************");
         log.warn("*** Welcome to the Coherent Logic Foundation Data Model ***");
-        log.warn("***             version 1.0.16-RELEASE.                 ***");
+        log.warn("***             version 1.0.18-RELEASE.                 ***");
         log.warn("***                                                     ***");
         log.warn("***                Follow us on LinkedIn:               ***");
         log.warn("***                                                     ***");
@@ -93,9 +95,9 @@ public abstract class AbstractQueryBuilder
         UriBuilder uriBuilder,
         CacheServiceProviderSpecification<String, Object> cache
     ) {
+    	super (cache);
         this.restTemplate = restTemplate;
         this.uriBuilder = uriBuilder;
-        this.cache = cache;
     }
 
     /**
@@ -133,14 +135,14 @@ public abstract class AbstractQueryBuilder
         return this;
     }
 
-    /**
-     * Getter method for the cache service provider, which may be null if one
-     * was not set.
-     */
-    protected CacheServiceProviderSpecification<String, Object>
-        getCacheServiceProvider () {
-        return cache;
-    }
+//    /**
+//     * Getter method for the cache service provider, which may be null if one
+//     * was not set.
+//     */
+//    protected CacheServiceProviderSpecification<String, Object>
+//        getCacheServiceProvider () {
+//        return cache;
+//    }
 
     /**
      * Method returns the escaped URI that is actually send to the World Bank
@@ -187,6 +189,8 @@ public abstract class AbstractQueryBuilder
         String escapedURI = getEscapedURI();
 
         T result = null;
+
+        CacheServiceProviderSpecification<String, Object> cache = getCache();
 
         Object object = cache.get(escapedURI);
 
