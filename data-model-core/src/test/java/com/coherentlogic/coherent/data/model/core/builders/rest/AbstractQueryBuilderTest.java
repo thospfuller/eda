@@ -1,4 +1,4 @@
-package com.coherentlogic.coherent.data.model.core.builders;
+package com.coherentlogic.coherent.data.model.core.builders.rest;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
@@ -11,6 +11,7 @@ import java.util.Map;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Matchers;
 import org.springframework.web.client.RestTemplate;
 
 import com.coherentlogic.coherent.data.model.core.cache.CacheServiceProviderSpecification;
@@ -107,43 +108,43 @@ public class AbstractQueryBuilderTest {
         actual = testQueryBuilder.doGet(String.class);
     }
 
-    /**
-     * In this test we check to see if the object is added to the cache when we
-     * invoke the doGet method.
-     */
-    @Test
-    public void testCacheFunctionalityWhereObjectHasNotBeenCached () {
-
-        CacheServiceProviderSpecification<String, Object> cache =
-            new CacheServiceProvider();
-
-        RestTemplate restTemplate = mock (RestTemplate.class);
-
-        Object expected = new Object ();
-
-        when (
-            restTemplate.getForObject(
-                any(String.class),
-                any (Class.class)
-            )
-        ).thenReturn(expected);
-
-        TestQueryBuilder testQueryBuilder =
-            new TestQueryBuilder(restTemplate, TEST_COM, cache);
-
-        testQueryBuilder
-            .foo()
-            .setBar(TestQueryBuilder.BAZ);
-
-        String escapedURI = testQueryBuilder.getEscapedURI();
-
-        testQueryBuilder.doGet(Object.class);
-
-        // The object should be in the cache now.
-        Object actual = cache.get(escapedURI);
-
-        assertEquals(expected, actual);
-    }
+//    /**
+//     * In this test we check to see if the object is added to the cache when we
+//     * invoke the doGet method.
+//     */
+//    @Test
+//    public void testCacheFunctionalityWhereObjectHasNotBeenCached () {
+//
+//        CacheServiceProviderSpecification<String, Object> cache =
+//            new CacheServiceProvider();
+//
+//        RestTemplate restTemplate = mock (RestTemplate.class);
+//
+//        Object expected = new Object ();
+//
+//        when (
+//            restTemplate.getForObject(
+//                any(String.class),
+//                any(Class.class)
+//            )
+//        ).thenReturn(expected);
+//
+//        TestQueryBuilder testQueryBuilder =
+//            new TestQueryBuilder(restTemplate, TEST_COM, cache);
+//
+//        testQueryBuilder
+//            .foo()
+//            .setBar(TestQueryBuilder.BAZ);
+//
+//        String escapedURI = testQueryBuilder.getEscapedURI();
+//
+//        testQueryBuilder.doGet(Object.class);
+//
+//        // The object should be in the cache now.
+//        Object actual = cache.get(escapedURI);
+//
+//        assertEquals(expected, actual);
+//    }
 }
 
 class CacheServiceProvider
