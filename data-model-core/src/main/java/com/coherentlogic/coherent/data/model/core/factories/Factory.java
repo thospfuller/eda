@@ -10,5 +10,5 @@ package com.coherentlogic.coherent.data.model.core.factories;
  */
 public interface Factory<T> {
 
-	public T getInstance ();
+    public T getInstance ();
 }
