@@ -8,7 +8,7 @@ package com.coherentlogic.coherent.data.model.core.factories;
  *
  * @author <a href="support@coherentlogic.com">Support</a>
  */
-public interface Factory<T> {
+public interface Factory {
 
-    public T getInstance ();
+    public <T> T getInstance ();
 }

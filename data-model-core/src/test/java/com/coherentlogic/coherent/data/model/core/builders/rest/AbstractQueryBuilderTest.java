@@ -17,7 +17,7 @@ import org.springframework.web.client.RestTemplate;
 import com.coherentlogic.coherent.data.model.core.cache.CacheServiceProviderSpecification;
 
 /**
- * Unit test for the {@link AbstractQueryBuilder} class.
+ * Unit test for the {@link AbstractRESTQueryBuilder} class.
  *
  * @author <a href="mailto:support@coherentlogic.com">Support</a>
  */
@@ -26,7 +26,7 @@ public class AbstractQueryBuilderTest {
     private static final String TEST = "test",
         TEST_COM = "http://www.test.com/";
 
-    private AbstractQueryBuilder queryBuilder = null;
+    private AbstractRESTQueryBuilder queryBuilder = null;
 
     @Before
     public void setUp() throws Exception {
@@ -163,7 +163,7 @@ class CacheServiceProvider
     }
 }
 
-class TestQueryBuilder extends AbstractQueryBuilder {
+class TestQueryBuilder extends AbstractRESTQueryBuilder {
 
     public static final String FOO = "foo", BAR = "bar", BAZ = "baz";
 

@@ -2,8 +2,6 @@ package com.coherentlogic.coherent.data.model.core.factories;
 
 import org.springframework.web.client.RestTemplate;
 
-import com.coherentlogic.coherent.data.model.core.builders.HttpMethodsSpecification;
-
 /**
  * A factory which is used for creating instances of AbstractQueryBuilder.
  * <p>
@@ -17,8 +15,8 @@ import com.coherentlogic.coherent.data.model.core.builders.HttpMethodsSpecificat
  * <p>
  * @author <a href="support@coherentlogic.com">Support</a>
  */
-public abstract class AbstractQueryBuilderFactory
-    <T extends HttpMethodsSpecification> implements Factory<T> {
+public abstract class AbstractQueryBuilderFactory//<T extends HttpMethodsSpecification> 
+    implements Factory {
 
     private final RestTemplate restTemplate;
 

@@ -2,6 +2,9 @@ package com.coherentlogic.coherent.data.model.core.cache;
 
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * Use this class with cache providers that implement the java.util.Map
  * interface (JBoss Infinispan and Oracle Coherence are two examples).
@@ -14,6 +17,8 @@ import java.util.Map;
 public class MapCompliantCacheServiceProvider<K, V>
     implements CacheServiceProviderSpecification<K, V> {
 
+    private static final Logger log = LoggerFactory.getLogger(MapCompliantCacheServiceProvider.class);
+
     private final Map<K, V> cache;
 
     public MapCompliantCacheServiceProvider(Map<K, V> cache) {
@@ -22,11 +27,23 @@ public class MapCompliantCacheServiceProvider<K, V>
 
     @Override
     public V get(K key) {
-        return cache.get(key);
+
+        log.debug("get: method begins; key: " + key);
+
+        V value = cache.get(key);
+
+        log.debug("get: method ends; value: " + value);
+
+        return value;
     }
 
     @Override
     public void put(K key, V value) {
+
+        log.debug("put: method begins; key: " + key + ", value: " + value);
+
         cache.put(key, value);
+
+        log.debug("put: method ends.");
     }
 }
