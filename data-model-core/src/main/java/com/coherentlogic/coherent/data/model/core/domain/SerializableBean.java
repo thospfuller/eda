@@ -41,7 +41,7 @@ public class SerializableBean implements Serializable, Cloneable {
 
     private static final long serialVersionUID = 3761633862825579551L;
 
-	public static final String SERIALIZABLE_BEAN = "serializable_bean",
+    public static final String SERIALIZABLE_BEAN = "serializable_bean",
         PRIMARY_KEY = "primaryKey";
 
 //    private static final String FRAMEWORK_MISCONFIGURED_TEXT =
@@ -277,6 +277,48 @@ public class SerializableBean implements Serializable, Cloneable {
     }
 
     /**
+     * 
+     * The documentation for the PropertyChangeSupport class states that "[n]o event is fired if old and new values are
+     * equal and non-null."
+     * 
+     * @param oldValue
+     * @param newValue
+     * @return 
+     *
+     * @see https://docs.oracle.com/javase/7/docs/api/java/beans/PropertyChangeSupport.html
+     * @see https://docs.oracle.com/javase/tutorial/javabeans/writing/properties.html
+     */
+    protected boolean propertiesDiffer (Object oldValue, Object newValue) {
+
+        boolean result = false;
+
+        if ((oldValue != null && !oldValue.equals(newValue)) || (oldValue == null && newValue != null))
+            result = true;
+
+        return result;
+    }
+
+    protected boolean propertiesDiffer (int oldValue, int newValue) {
+
+        boolean result = false;
+
+        if (oldValue != newValue)
+            result = true;
+
+        return result;
+    }
+
+    protected boolean propertiesDiffer (boolean oldValue, boolean newValue) {
+
+        boolean result = false;
+
+        if (oldValue != newValue)
+            result = true;
+
+        return result;
+    }
+
+    /**
      * Method delegates to the
      * {@link java.beans.PropertyChangeSupport#firePropertyChange(
      * String, Object, Object)} method.
@@ -286,10 +328,7 @@ public class SerializableBean implements Serializable, Cloneable {
         Object oldValue,
         Object newValue
     ) {
-
-//        assertPropertyChangeSupportNotNull ();
-
-        if (propertyChangeSupport != null)
+        if (propertyChangeSupport != null && propertiesDiffer (oldValue, newValue))
             propertyChangeSupport.firePropertyChange(
                 propertyName,
                 oldValue,
@@ -307,9 +346,7 @@ public class SerializableBean implements Serializable, Cloneable {
         boolean oldValue,
         boolean newValue
     ) {
-//        assertPropertyChangeSupportNotNull ();
-
-        if (propertyChangeSupport != null)
+        if (propertyChangeSupport != null && propertiesDiffer(oldValue, newValue))
             propertyChangeSupport.firePropertyChange(
                 propertyName,
                 oldValue,
@@ -327,9 +364,7 @@ public class SerializableBean implements Serializable, Cloneable {
         int oldValue,
         int newValue
     ) {
-//        assertPropertyChangeSupportNotNull ();
-
-        if (propertyChangeSupport != null)
+        if (propertyChangeSupport != null && propertiesDiffer(oldValue, newValue))
             propertyChangeSupport.firePropertyChange(
                 propertyName,
                 oldValue,
