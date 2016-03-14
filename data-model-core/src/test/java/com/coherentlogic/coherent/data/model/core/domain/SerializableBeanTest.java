@@ -1,6 +1,7 @@
 package com.coherentlogic.coherent.data.model.core.domain;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.beans.PropertyChangeEvent;
@@ -9,6 +10,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.junit.After;
 import org.junit.Before;
@@ -123,6 +125,118 @@ public class SerializableBeanTest {
         serializableBean.firePropertyChange("fee", false, true);
         serializableBean.firePropertyChange(null, 2, 3);
         serializableBean.firePropertyChange("fee", "fi", "fo");
+    }
+
+    @Test
+    public void testPropertiesDifferForObjectObject () {
+
+        final AtomicBoolean latch = new AtomicBoolean (false);
+
+        serializableBean.addPropertyChangeListener(
+            listener -> {
+                latch.set(true);
+            }
+        );
+
+        serializableBean.firePropertyChange("foo", null, "bar");
+
+        assertTrue (latch.get());
+    }
+
+    @Test
+    public void testPropertiesDoNotDifferForObjectObject () {
+
+        final AtomicBoolean latch = new AtomicBoolean (false);
+
+        serializableBean.addPropertyChangeListener(
+            listener -> {
+                latch.set(true);
+            }
+        );
+
+        serializableBean.firePropertyChange("foo", "bar", "bar");
+
+        assertFalse (latch.get());
+    }
+
+    @Test
+    public void testPropertiesBothNullForObjectObject () {
+
+        final AtomicBoolean latch = new AtomicBoolean (false);
+
+        serializableBean.addPropertyChangeListener(
+            listener -> {
+                latch.set(true);
+            }
+        );
+
+        serializableBean.firePropertyChange("foo", null, null);
+
+        assertFalse (latch.get());
+    }
+
+    @Test
+    public void testPropertiesDifferForIntInt () {
+
+        final AtomicBoolean latch = new AtomicBoolean (false);
+
+        serializableBean.addPropertyChangeListener(
+            listener -> {
+                latch.set(true);
+            }
+        );
+
+        serializableBean.firePropertyChange("foo", 123, 456);
+
+        assertTrue (latch.get());
+    }
+
+    @Test
+    public void testPropertiesDoNotDifferForIntInt () {
+
+        final AtomicBoolean latch = new AtomicBoolean (false);
+
+        serializableBean.addPropertyChangeListener(
+            listener -> {
+                latch.set(true);
+            }
+        );
+
+        serializableBean.firePropertyChange("foo", 123, 123);
+
+        assertFalse (latch.get());
+    }
+
+    @Test
+    public void testPropertiesDifferForBooleanBoolean () {
+
+        final AtomicBoolean latch = new AtomicBoolean (false);
+
+        serializableBean.addPropertyChangeListener(
+            listener -> {
+                latch.set(true);
+            }
+        );
+
+        serializableBean.firePropertyChange("foo", false, true);
+
+        assertTrue (latch.get());
+    }
+
+    @Test
+    public void testPropertiesDoNotDifferForBooleanBoolean () {
+
+        final AtomicBoolean latch = new AtomicBoolean (false);
+
+        serializableBean.addPropertyChangeListener(
+            listener -> {
+                latch.set(true);
+            }
+        );
+
+        serializableBean.firePropertyChange("foo", true, true);
+
+        assertFalse (latch.get());
     }
 
     @Test
