@@ -2,6 +2,7 @@ package com.coherentlogic.coherent.data.model.core.xstream;
 
 import java.beans.PropertyChangeSupport;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 
 import org.slf4j.Logger;
@@ -21,6 +22,13 @@ import com.thoughtworks.xstream.mapper.Mapper;
  * A marshalling strategy that assigns an instance of the {@link
  * #propertyChangeSupportType} to any object which extends from {@link
  * com.coherentlogic.coherent.data.model.core.domain.SerializableBean}.
+ *
+ * The CustomMarshallingStrategy is set on the XStreamMarshaller as follows:
+ * <pre>
+ * XStreamMarshaller result = new XStreamMarshaller ();
+ *
+ * result.setMarshallingStrategy(new CustomMarshallingStrategy ());
+ * </pre>
  *
  * @author <a href="mailto:support@coherentlogic.com">Support</a>
  */
@@ -72,15 +80,17 @@ public class CustomMarshallingStrategy extends
      * Method assigns an instance of {@link java.beans.PropertyChangeSupport} to
      * all objects of type {@link
      * com.coherentlogic.coherent.data.model.core.domain.SerializableBean}.
+     * @throws NoSuchFieldException 
+     *
+     * @deprecated Recent changes to the {@link SerializableBean} such that the PropertyChangeSupport reference should
+     *  never be null should render this unnecessary.
      */
     static void assignPropertyChangeSupport (
         Object object,
         Class<? extends PropertyChangeSupport> propertyChangeSupportType
     ) {
         if (object instanceof SerializableBean)
-            assignPropertyChangeSupport (
-                (SerializableBean) object,
-                propertyChangeSupportType);
+            assignPropertyChangeSupport ((SerializableBean) object, propertyChangeSupportType);
     }
 
     /**
@@ -88,25 +98,51 @@ public class CustomMarshallingStrategy extends
      * the {@link defaultObject
      * com.coherentlogic.coherent.data.model.core.domain.SerializableBean}
      * parameter.
+     *
+     * @throws NoSuchFieldException 
      */
     static void assignPropertyChangeSupport (
         SerializableBean serializableBean,
         Class<? extends PropertyChangeSupport> propertyChangeSupportType
     ) {
-        PropertyChangeSupport propertyChangeSupport =
-            new PropertyChangeSupport (serializableBean);
+        /* From here:
+         * 
+         * https://coherentlogic.com/middleware-development/are-you-looking-to-retrieve-economic-data-from-the-federal-reserve-bank-of-st-louis/propertychangesupport-features/
+         *
+         * Note that the xstreamMarshaller bean is set to com.coherentlogic.coherent.data.model.core.xstream.
+         * CustomXStreamMarshaller.
+         *
+         * This class allows the developer to easily switch between a standard PropertyChangeSupport (the default) and
+         * javax.swing.event.SwingPropertyChangeSupport for projects that run on the desktop and utilize the Java Swing
+         * API.
+         */
 
         Constructor<? extends PropertyChangeSupport> constructor;
 
         try {
+            // This block basically creates the instance of PropertyChangeSupport / SwingPropertyChangeSupport by
+            // invoking the ctor and passing in the serializableBean.
             constructor =
                 propertyChangeSupportType.getConstructor(Object.class);
 
-            PropertyChangeSupport proopertyChangeSupport =
-                    (PropertyChangeSupport) constructor.newInstance(
-                        serializableBean);
+            PropertyChangeSupport propertyChangeSupport = (PropertyChangeSupport) constructor.newInstance(
+                serializableBean);
 
-            serializableBean.setPropertyChangeSupport(propertyChangeSupport);
+            try {
+
+                Field propertyChangeSupportField = SerializableBean.class.getField("propertyChangeSupport");
+
+                propertyChangeSupportField.setAccessible(true);
+
+                propertyChangeSupportField.set(serializableBean, propertyChangeSupport);
+
+                propertyChangeSupportField.setAccessible(false);
+
+            } catch (NoSuchFieldException noSuchFieldException) {
+                throw new GenericReflectionException("The propertyChangeSupport field set operation failed so this "
+                    + "property may have been renamed or removed altogether.", noSuchFieldException);
+            }
+
         } catch (
             NoSuchMethodException |
             SecurityException |
