@@ -6,6 +6,8 @@ import static org.junit.Assert.assertTrue;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.beans.PropertyVetoException;
+import java.beans.VetoableChangeSupport;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -108,24 +110,26 @@ public class SerializableBeanTest {
         assertTrue (flag.isValue());
     }
 
-    /**
-     * This check ensures that no NPE is thrown when the PropertyChangeSupport
-     * reference is null.
-     */
-    @Test
-    public void testNullPropertyChangeSupport () {
-
-        serializableBean = new SerializableBean (null);
-
-        serializableBean.fireIndexedPropertyChange(null, 1, true, false);
-        serializableBean.fireIndexedPropertyChange(null, 0, 2, 3);
-        serializableBean.fireIndexedPropertyChange(null, 1, "fee", "bar");
-        serializableBean.firePropertyChange(
-            new PropertyChangeEvent(this, "fee", "fi", "fo"));
-        serializableBean.firePropertyChange("fee", false, true);
-        serializableBean.firePropertyChange(null, 2, 3);
-        serializableBean.firePropertyChange("fee", "fi", "fo");
-    }
+//    /**
+//     * This check ensures that no NPE is thrown when the PropertyChangeSupport
+//     * reference is null.
+//     *
+//     * @deprecated The PropertyChangeSupport and VetoableChangeSupport should never be null.
+//     */
+//    @Test
+//    public void testNullPropertyChangeSupport () {
+//
+//        serializableBean = new SerializableBean (null, null);
+//
+//        serializableBean.fireIndexedPropertyChange(null, 1, true, false);
+//        serializableBean.fireIndexedPropertyChange(null, 0, 2, 3);
+//        serializableBean.fireIndexedPropertyChange(null, 1, "fee", "bar");
+//        serializableBean.firePropertyChange(
+//            new PropertyChangeEvent(this, "fee", "fi", "fo"));
+//        serializableBean.firePropertyChange("fee", false, true);
+//        serializableBean.firePropertyChange(null, 2, 3);
+//        serializableBean.firePropertyChange("fee", "fi", "fo");
+//    }
 
     @Test
     public void testPropertiesDifferForObjectObject () {
@@ -237,6 +241,19 @@ public class SerializableBeanTest {
         serializableBean.firePropertyChange("foo", true, true);
 
         assertFalse (latch.get());
+    }
+
+    @Test
+    public void testVetoableChangeSupportIsNotNull () throws PropertyVetoException {
+        /*
+         * Test should not result in a NPE.
+         */
+        serializableBean.addVetoableChangeListener(
+            listener -> {
+            }
+        );
+
+        serializableBean.fireVetoableChange("foo", false, true);
     }
 
     @Test
