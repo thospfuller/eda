@@ -2,8 +2,10 @@ package com.coherentlogic.coherent.data.model.core.xstream;
 
 import static org.junit.Assert.assertNotNull;
 
+import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyVetoException;
+import java.beans.VetoableChangeListener;
 
 import org.junit.Test;
 
@@ -41,7 +43,7 @@ public class CustomMarshallingStrategyTest {
 
         TestSerializableBean fooBean = new TestSerializableBean ();
 
-        CustomMarshallingStrategy.assignPropertyChangeSupport(
+        CustomMarshallingStrategy.assignChangeSupportInstances(
             (SerializableBean) fooBean,
             PropertyChangeSupport.class
         );
@@ -49,7 +51,16 @@ public class CustomMarshallingStrategyTest {
         assertNotNull (fooBean.getPropertyChangeSupport());
         assertNotNull (fooBean.getVetoableChangeSupport());
 
-        // This should not result in an NPE, which is what we're watching for here.
+        // The following should not result in an NPE, which is what we're watching for here.
+
+        fooBean.addVetoableChangeListener(
+            new VetoableChangeListener() {
+
+            @Override
+            public void vetoableChange(PropertyChangeEvent evt) throws PropertyVetoException {
+            }
+        });
+
         fooBean.setFoo("bar");
     }
 }
