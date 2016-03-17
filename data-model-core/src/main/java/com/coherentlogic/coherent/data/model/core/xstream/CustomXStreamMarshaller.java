@@ -9,6 +9,8 @@ import com.thoughtworks.xstream.XStream;
  * {@link com.coherentlogic.coherent.data.model.core.xstream.
  * CustomMarshallingStrategy}.
  *
+ * @deprecated We don't really need this as we can set the marshalling strategy using a getter method.
+ *
  * @author <a href="mailto:support@coherentlogic.com">Support</a>
  */
 public class CustomXStreamMarshaller extends XStreamMarshaller {
