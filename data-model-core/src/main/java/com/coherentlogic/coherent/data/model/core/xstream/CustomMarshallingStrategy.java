@@ -142,9 +142,6 @@ public class CustomMarshallingStrategy extends ReferenceByXPathMarshallingStrate
 
             setPrivateFinalFieldOn(serializableBean, "vetoableChangeSupport", vetoableChangeSupport);
 
-            if (serializableBean.getVetoableChangeSupport() == null)
-                throw new NullPointerException ("The vetoableChangeSupport instance is null!");
-
         } catch (NoSuchFieldException noSuchFieldException) {
             throw new GenericReflectionException("The set operation on the field has failed so this "
                 + "property may have been renamed or removed altogether.", noSuchFieldException);
