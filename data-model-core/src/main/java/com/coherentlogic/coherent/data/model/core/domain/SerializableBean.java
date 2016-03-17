@@ -53,7 +53,7 @@ public class SerializableBean implements Serializable, Cloneable {
      */
     @Transient
     @XStreamOmitField
-    private transient final VetoableChangeSupport vetoableChangeSupport = new VetoableChangeSupport (this);
+    private transient final VetoableChangeSupport vetoableChangeSupport;
 
     /**
      * Note that this property must be set to a <b>non-null value</b> otherwise
@@ -82,11 +82,13 @@ public class SerializableBean implements Serializable, Cloneable {
 
     public SerializableBean() {
         propertyChangeSupport = createDefaultPropertyChangeSupport (this);
+        vetoableChangeSupport = new VetoableChangeSupport (this);
     }
 
-    public SerializableBean(PropertyChangeSupport propertyChangeSupport) {
+    public SerializableBean(PropertyChangeSupport propertyChangeSupport, VetoableChangeSupport vetoableChangeSupport) {
         super();
         this.propertyChangeSupport = propertyChangeSupport;
+        this.vetoableChangeSupport = vetoableChangeSupport;
     }
 
     @Id
