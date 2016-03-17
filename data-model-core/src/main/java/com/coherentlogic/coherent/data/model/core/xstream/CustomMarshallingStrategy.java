@@ -1,6 +1,7 @@
 package com.coherentlogic.coherent.data.model.core.xstream;
 
 import java.beans.PropertyChangeSupport;
+import java.beans.VetoableChangeSupport;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -87,7 +88,19 @@ public class CustomMarshallingStrategy extends ReferenceByXPathMarshallingStrate
         Class<? extends PropertyChangeSupport> propertyChangeSupportType
     ) {
         if (object instanceof SerializableBean)
-            assignPropertyChangeSupport ((SerializableBean) object, propertyChangeSupportType);
+            assignChangeSupportInstances ((SerializableBean) object, propertyChangeSupportType);
+    }
+
+    static void setPrivateFinalFieldOn (SerializableBean targetSerializableBean, String fieldName, Object value)
+        throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException {
+
+        Field targetField = SerializableBean.class.getDeclaredField(fieldName);
+
+        targetField.setAccessible(true);
+
+        targetField.set(targetSerializableBean, value);
+
+        targetField.setAccessible(false);
     }
 
     /**
@@ -96,7 +109,7 @@ public class CustomMarshallingStrategy extends ReferenceByXPathMarshallingStrate
      *
      * @throws NoSuchFieldException 
      */
-    static void assignPropertyChangeSupport (
+    static void assignChangeSupportInstances (
         SerializableBean serializableBean,
         Class<? extends PropertyChangeSupport> propertyChangeSupportType
     ) {
@@ -123,16 +136,17 @@ public class CustomMarshallingStrategy extends ReferenceByXPathMarshallingStrate
             PropertyChangeSupport propertyChangeSupport = (PropertyChangeSupport) constructor.newInstance(
                 serializableBean);
 
-                Field propertyChangeSupportField = SerializableBean.class.getField("propertyChangeSupport");
+            setPrivateFinalFieldOn(serializableBean, "propertyChangeSupport", propertyChangeSupport);
 
-                propertyChangeSupportField.setAccessible(true);
+            VetoableChangeSupport vetoableChangeSupport = new VetoableChangeSupport (serializableBean);
 
-                propertyChangeSupportField.set(serializableBean, propertyChangeSupport);
+            setPrivateFinalFieldOn(serializableBean, "vetoableChangeSupport", vetoableChangeSupport);
 
-                propertyChangeSupportField.setAccessible(false);
+            if (serializableBean.getVetoableChangeSupport() == null)
+                throw new NullPointerException ("The vetoableChangeSupport instance is null!");
 
         } catch (NoSuchFieldException noSuchFieldException) {
-            throw new GenericReflectionException("The propertyChangeSupport field set operation failed so this "
+            throw new GenericReflectionException("The set operation on the field has failed so this "
                 + "property may have been renamed or removed altogether.", noSuchFieldException);
         } catch (
             NoSuchMethodException |
