@@ -31,10 +31,7 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
  *  really ever be null.
  *
  * @see <a href="http://docs.oracle.com/javase/7/docs/api/java/beans/
- *  PropertyChangeSupport.html"> PropertyChangeSupport</a>
- *
- * http://rolandtapken.de/blog/2010-08/
- * let-xstream-call-default-constructor-where-possible
+ *  PropertyChangeSupport.html">PropertyChangeSupport</a>
  *
  * @author <a href="support@coherentlogic.com">Support</a>
  */
@@ -43,23 +40,10 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
 @Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
 public class SerializableBean implements Serializable, Cloneable {
 
-
     private static final long serialVersionUID = 8988324213870032630L;
 
     public static final String SERIALIZABLE_BEAN = "serializable_bean",
         PRIMARY_KEY = "primaryKey";
-
-//    private static final String FRAMEWORK_MISCONFIGURED_TEXT =
-//        "The propertyChangeSupport instance is null which indicates that " +
-//        "the framework has not been configured properly. Refer to the " +
-//        "example applications (specifically to the Spring application " +
-//        "context configuration) and note that if the bean with the id " +
-//        "xstreamMarshaller is set to org.springframework.oxm.xstream." +
-//        "XStreamMarshaller then this needs to be changed so that it uses the " +
-//        "com.coherentlogic.coherent.data.model.core.xstream." +
-//        "CustomXStreamMarshaller class instead." +
-//        "" +
-//        "See also http://bit.ly/1hducQL";
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long primaryKey = null;
@@ -215,18 +199,15 @@ public class SerializableBean implements Serializable, Cloneable {
     }
 
     /**
-     * 
+     * Method determines if the firePropertyChange method should be called.
+     *
      * The documentation for the PropertyChangeSupport class states that "[n]o event is fired if old and new values are
-     * equal and non-null."
-     * 
-     * @param oldValue
-     * @param newValue
-     * @return 
+     * equal and non-null." and this is what this method is checking for.
      *
      * @see https://docs.oracle.com/javase/7/docs/api/java/beans/PropertyChangeSupport.html
      * @see https://docs.oracle.com/javase/tutorial/javabeans/writing/properties.html
      */
-    protected boolean propertiesDiffer (Object oldValue, Object newValue) {
+    static boolean propertiesDiffer (Object oldValue, Object newValue) {
 
         boolean result = false;
 
