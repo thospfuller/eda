@@ -22,6 +22,9 @@ import com.coherentlogic.coherent.data.model.core.cache.CacheServiceProviderSpec
  * The important item to note here is that the pointcut is applied to the </b>interface<b> and not the implementation --
  * if you target the implementation nothing will appear in the log.
  *
+ * Also note that whatever bean you're applying the interceptor to <b>must</b> be obtained through the Spring container,
+ * otherwise the interceptor will not be applied to it.
+ *
  * @todo Auto-apply the performance interceptor.
  *
  * @author <a href="mailto:support@coherentlogic.com">Support</a>
