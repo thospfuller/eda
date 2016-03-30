@@ -5,7 +5,7 @@
     <groupId>com.coherentlogic.coherent.data-model</groupId>
     <artifactId>bom</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.19-RELEASE</version>
+    <version>1.0.20-RELEASE</version>
 
     <name>Coherent Data Model Bill of Materials</name>
     <description>The bill of materials (bom) for the CL Data Model.</description>
@@ -141,7 +141,7 @@
             <dependency>
                 <groupId>com.thoughtworks.xstream</groupId>
                 <artifactId>xstream</artifactId>
-                <version>1.4.8</version>
+                <version>1.4.9</version>
             </dependency>
             <dependency>
                 <groupId>org.glassfish.jersey.core</groupId>
@@ -157,6 +157,11 @@
                 <groupId>javax.ws.rs</groupId>
                 <artifactId>javax.ws.rs-api</artifactId>
                 <version>2.0.1</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>3.4</version>
             </dependency>
             <dependency>
                 <groupId>commons-beanutils</groupId>
