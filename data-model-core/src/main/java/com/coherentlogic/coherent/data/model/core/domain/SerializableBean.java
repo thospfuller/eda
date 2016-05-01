@@ -22,6 +22,7 @@ import javax.persistence.Transient;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import com.coherentlogic.coherent.data.model.core.exceptions.CloneFailedException;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
@@ -415,6 +416,10 @@ public class SerializableBean implements Serializable, Cloneable {
         return this;
     }
 
+    public SerializableBean fireBulkPropertyChange () {
+    	return this;
+    }
+
     /**
      * Returns the result of the call to EqualsBuilder#reflectionEquals(this, target, false);
      *
@@ -435,7 +440,6 @@ public class SerializableBean implements Serializable, Cloneable {
 
     @Override
     public String toString() {
-        return "SerializableBean [primaryKey=" + primaryKey + ", vetoableChangeSupport=" + vetoableChangeSupport
-            + ", propertyChangeSupport=" + propertyChangeSupport + "]";
+        return ToStringBuilder.reflectionToString(this);
     }
 }
