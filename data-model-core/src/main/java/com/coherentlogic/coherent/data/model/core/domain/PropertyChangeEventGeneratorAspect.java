@@ -31,7 +31,7 @@ import com.coherentlogic.coherent.datafeed.annotations.Changeable;
  *
  * @RFAType(type=MarketPriceConstants.BID)
  * @Adapt(using=OMMNumericAdapter.class)
- * public void setBid(@Changeable("bid") BigDecimal bid) {
+ * public void setBid(@Changeable(BID) BigDecimal bid) {
  *     this.bid = bid;
  * }
  *
@@ -73,7 +73,8 @@ public class PropertyChangeEventGeneratorAspect<T> implements MethodInterceptor 
         if (targetObject instanceof SerializableBean)
             target = (SerializableBean) targetObject;
         else
-            throw new MisconfiguredException("The bean must extend SerializableBean; targetObject: " + targetObject);
+            throw new MisconfiguredException("The bean must extend SerializableBean; targetObject class: " +
+                targetObject.getClass());
 
         Method method = invocation.getMethod();
 
@@ -102,7 +103,7 @@ public class PropertyChangeEventGeneratorAspect<T> implements MethodInterceptor 
 
                 field.setAccessible(true);
 
-                Object oldValue = oldValue = field.get(targetObject);
+                Object oldValue = field.get(targetObject);
 
                 result = invocation.proceed();
 
