@@ -70,8 +70,10 @@ public class PropertyChangeEventGeneratorAspect<T> implements MethodInterceptor 
 
         SerializableBean target = null;
 
-        if (targetObject instanceof SerializableBean)
+        if (targetObject != null && targetObject instanceof SerializableBean)
             target = (SerializableBean) targetObject;
+        else if (targetObject == null)
+            throw new NullPointerException("The targetObject is null.");
         else
             throw new MisconfiguredException("The bean must extend SerializableBean; targetObject class: " +
                 targetObject.getClass());
@@ -82,7 +84,7 @@ public class PropertyChangeEventGeneratorAspect<T> implements MethodInterceptor 
 
         Object result = null;
 
-        if (target != null && parameterCount == 1) {
+        if (parameterCount == 1) {
 
             Parameter[] parameters = method.getParameters();
 
@@ -121,6 +123,13 @@ public class PropertyChangeEventGeneratorAspect<T> implements MethodInterceptor 
                 );
 
                 firePropertyChangeMethod.invoke(target, propertyChangeEvent);
+
+            } else {
+                log.debug("The method " + method + " exists and has one parameter however the parameter has not " +
+                    "been annotated with the " + Changeable.class + " annotation, hence no PropertyChangeEvents will " +
+                    "be fired.");
+
+                result = invocation.proceed();
             }
         } else {
             result = invocation.proceed();
