@@ -1,13 +1,11 @@
 package com.coherentlogic.coherent.data.model.core.exceptions;
 
-import org.springframework.core.NestedRuntimeException;
-
 /**
  * An exception that is thrown when the framework is not configured properly.
  *
  * @author <a href="mailto:support@coherentlogic.com">Support</a>
  */
-public class FrameworkMisconfiguredException extends NestedRuntimeException {
+public class FrameworkMisconfiguredException extends MisconfiguredException {
 
     private static final long serialVersionUID = 8813225924591445071L;
 
