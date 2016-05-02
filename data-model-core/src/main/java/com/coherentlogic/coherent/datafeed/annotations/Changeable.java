@@ -17,7 +17,12 @@ import java.lang.annotation.Target;
  * }</pre>
  *
  * In the above example it is important to note that the annotation value (BID) must match <i>exactly</i> the name of
- * the corresponding property in the class which is being modified.
+ * the corresponding property in the class which is being modified. We also need the value since once the class has been
+ * compiled, the bid parameter name may change to arg0, for example, so we can't rely on the parameter (we can set a
+ * compiler option to keep this information, but then that forces us to always set that flag).
+ *
+ * Finally, if the property name is refactored the developer must make sure the static constant property name is also
+ * updated.
  *
  * @see {@link com.coherentlogic.coherent.data.model.core.domain#PropertyChangeEventGeneratorAspect}
  *
