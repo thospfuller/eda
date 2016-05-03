@@ -16,6 +16,8 @@ import java.lang.annotation.Target;
  *     this.bid = bid;
  * }</pre>
  *
+ * ** IMPORTANT **
+ *
  * In the above example it is important to note that the annotation value (BID) must match <i>exactly</i> the name of
  * the corresponding property in the class which is being modified. We also need the value since once the class has been
  * compiled, the bid parameter name may change to arg0, for example, so we can't rely on the parameter (we can set a

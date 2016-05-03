@@ -33,7 +33,7 @@ public class PropertyChangeEventGeneratorAspectTest {
 
     @Before
     public void setUp() throws Exception {
-        aspect = new PropertyChangeEventGeneratorAspect (Foo.class);
+        aspect = new PropertyChangeEventGeneratorAspect<Foo> (Foo.class);
         foo = new Foo ();
         bar = new Bar ();
         flag = new AtomicBoolean (false);
@@ -67,6 +67,21 @@ public class PropertyChangeEventGeneratorAspectTest {
         aspect.invoke(methodInvocation);
 
         assertTrue (flag.get());
+    }
+
+    @Test
+    public void testInvokeAsSerializableBeanHappyPath() throws Throwable {
+        assertNotNull (aspect.asSerializableBean(new Foo ()));
+    }
+
+    @Test(expected=MisconfiguredException.class)
+    public void testInvokeAsSerializableBeanWithWrongBean() throws Throwable {
+        assertNotNull (aspect.asSerializableBean(new Bar ()));
+    }
+
+    @Test(expected=NullPointerException.class)
+    public void testInvokeAsSerializableBeanWithNullBean() throws Throwable {
+        assertNotNull (aspect.asSerializableBean(null));
     }
 
     @Test(expected=MisconfiguredException.class)

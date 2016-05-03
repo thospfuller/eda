@@ -15,6 +15,11 @@ import com.coherentlogic.coherent.data.model.core.exceptions.MisconfiguredExcept
 import com.coherentlogic.coherent.datafeed.annotations.Changeable;
 
 /**
+ * An aspect that invokes the corresponding setter method and then fires the
+ * {@link SerializableBean#firePropertyChange(PropertyChangeEvent)} method.
+ *
+ * Sample usage:
+ * <pre>
  * <bean id="marketPriceSetterInterceptor"
  *  class="com.coherentlogic.coherent.data.model.core.domain.PropertyChangeEventGeneratorAspect">
  *     <constructor-arg value="com.coherentlogic.coherent.datafeed.domain.MarketPrice"/>
@@ -34,6 +39,9 @@ import com.coherentlogic.coherent.datafeed.annotations.Changeable;
  * public void setBid(@Changeable(BID) BigDecimal bid) {
  *     this.bid = bid;
  * }
+ * </pre>
+ *
+ * @see {@link Changeable}
  *
  * @param <T> The class type which is being intercepted.
  *
@@ -68,15 +76,7 @@ public class PropertyChangeEventGeneratorAspect<T> implements MethodInterceptor 
 
         Object targetObject = invocation.getThis();
 
-        SerializableBean target = null;
-
-        if (targetObject != null && targetObject instanceof SerializableBean)
-            target = (SerializableBean) targetObject;
-        else if (targetObject == null)
-            throw new NullPointerException("The targetObject is null.");
-        else
-            throw new MisconfiguredException("The bean must extend SerializableBean; targetObject class: " +
-                targetObject.getClass());
+        SerializableBean target = asSerializableBean (targetObject);
 
         Method method = invocation.getMethod();
 
@@ -103,37 +103,68 @@ public class PropertyChangeEventGeneratorAspect<T> implements MethodInterceptor 
 
                 log.debug("parameterName: " + parameterName + ", field: " + field.getName());
 
-                field.setAccessible(true);
-
-                Object oldValue = field.get(targetObject);
-
-                result = invocation.proceed();
-
-                Object newValue = field.get(targetObject);
-
-                log.debug("oldValue: " + oldValue + ", newValue: " + newValue);
-
-                field.setAccessible(false);
-
-                PropertyChangeEvent propertyChangeEvent = new PropertyChangeEvent(
-                    target,
-                    parameterName,
-                    oldValue,
-                    newValue
-                );
-
-                firePropertyChangeMethod.invoke(target, propertyChangeEvent);
+                doSetAndFireUpdate (invocation, target, field, targetObject, parameterName);
 
             } else {
                 log.debug("The method " + method + " exists and has one parameter however the parameter has not " +
                     "been annotated with the " + Changeable.class + " annotation, hence no PropertyChangeEvents will " +
-                    "be fired.");
+                    "be fired unless the code has been manually added to the method.");
 
                 result = invocation.proceed();
             }
         } else {
+            log.debug("The method " + method + " exists and has either zero or more than one parameter so no " +
+                "PropertyChangeEvents will be fired unless the code has been manually added to the method.");
+
             result = invocation.proceed();
         }
+        return result;
+    }
+
+    SerializableBean asSerializableBean (Object targetObject) {
+
+        SerializableBean result = null;
+
+        if (targetObject != null && targetObject instanceof SerializableBean)
+            result = (SerializableBean) targetObject;
+        else if (targetObject == null)
+            throw new NullPointerException("The targetObject is null.");
+        else
+            throw new MisconfiguredException("The bean must extend SerializableBean; targetObject class: " +
+                targetObject.getClass());
+
+        return result;
+    }
+
+    Object doSetAndFireUpdate (
+        MethodInvocation invocation,
+        SerializableBean target,
+        Field field,
+        Object targetObject,
+        String parameterName
+    ) throws Throwable {
+
+        field.setAccessible(true);
+
+        Object oldValue = field.get(targetObject);
+
+        Object result = invocation.proceed();
+
+        Object newValue = field.get(targetObject);
+
+        log.debug("oldValue: " + oldValue + ", newValue: " + newValue);
+
+        field.setAccessible(false);
+
+        PropertyChangeEvent propertyChangeEvent = new PropertyChangeEvent(
+            target,
+            parameterName,
+            oldValue,
+            newValue
+        );
+
+        firePropertyChangeMethod.invoke(target, propertyChangeEvent);
+
         return result;
     }
 }
