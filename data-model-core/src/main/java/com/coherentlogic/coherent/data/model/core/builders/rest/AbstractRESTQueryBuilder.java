@@ -34,7 +34,7 @@ public abstract class AbstractRESTQueryBuilder
     static {
         log.warn("***********************************************************");
         log.warn("*** Welcome to the Coherent Logic Foundation Data Model ***");
-        log.warn("***             version 1.0.19-RELEASE.                 ***");
+        log.warn("***             version 1.0.20-RELEASE.                 ***");
         log.warn("***                                                     ***");
         log.warn("***                Follow us on LinkedIn:               ***");
         log.warn("***                                                     ***");
