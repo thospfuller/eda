@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.client.RestTemplate;
 
 import com.coherentlogic.coherent.data.model.core.builders.CacheableQueryBuilder;
-import com.coherentlogic.coherent.data.model.core.builders.HttpMethodsSpecification;
+import com.coherentlogic.coherent.data.model.core.builders.HTTPGetMethodSpecification;
 import com.coherentlogic.coherent.data.model.core.cache.CacheServiceProviderSpecification;
 import com.coherentlogic.coherent.data.model.core.cache.NullCache;
 
@@ -22,7 +22,7 @@ import com.coherentlogic.coherent.data.model.core.cache.NullCache;
  */
 public abstract class AbstractRESTQueryBuilder
     extends CacheableQueryBuilder<String, Object>
-    implements HttpMethodsSpecification {
+    implements HTTPGetMethodSpecification {
 
     private final RestTemplate restTemplate;
 
