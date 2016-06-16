@@ -33,8 +33,9 @@ public abstract class AbstractRESTQueryBuilder
 
     static {
         log.warn("***********************************************************");
+        log.warn("***                                                     ***");
         log.warn("*** Welcome to the Coherent Logic Foundation Data Model ***");
-        log.warn("***             version 1.0.20-RELEASE.                 ***");
+        log.warn("***             version 1.0.21-RELEASE.                 ***");
         log.warn("***                                                     ***");
         log.warn("***                Follow us on LinkedIn:               ***");
         log.warn("***                                                     ***");
@@ -44,11 +45,13 @@ public abstract class AbstractRESTQueryBuilder
         log.warn("***                                                     ***");
         log.warn("***         https://twitter.com/CoherentMktData         ***");
         log.warn("***                                                     ***");
-        log.warn("***    Feedback is appreciated so feel free to take     ***");
-        log.warn("***    a short survey that will help us improve this    ***");
-        log.warn("***                    framework.                       ***");
+        log.warn("*** We   offer   support  and  consulting  services  to ***");
+        log.warn("*** businesses that utilize this framework or that need ***");
+        log.warn("*** help  with  bespoke  data  acquisition  projects -- ***");
+        log.warn("*** inquiries can be directed to:                       ***");
         log.warn("***                                                     ***");
-        log.warn("***       http://www.surveymonkey.com/s/83HWTZF         ***");
+        log.warn("*** [M] sales@coherentlogic.com                         ***");
+        log.warn("*** [T] +1.571.306.3403 (GMT-5)                         ***");
         log.warn("***                                                     ***");
         log.warn("***********************************************************");
     }
