@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.client.RestTemplate;
 
 import com.coherentlogic.coherent.data.model.core.builders.CacheableQueryBuilder;
-import com.coherentlogic.coherent.data.model.core.builders.HTTPGetMethodSpecification;
+import com.coherentlogic.coherent.data.model.core.builders.GetMethodSpecification;
 import com.coherentlogic.coherent.data.model.core.cache.CacheServiceProviderSpecification;
 import com.coherentlogic.coherent.data.model.core.cache.NullCache;
 
@@ -22,14 +22,13 @@ import com.coherentlogic.coherent.data.model.core.cache.NullCache;
  */
 public abstract class AbstractRESTQueryBuilder
     extends CacheableQueryBuilder<String, Object>
-    implements HTTPGetMethodSpecification {
+    implements GetMethodSpecification {
 
     private final RestTemplate restTemplate;
 
     private final UriBuilder uriBuilder;
 
-    private static final Logger log = LoggerFactory
-        .getLogger(AbstractRESTQueryBuilder.class);
+    private static final Logger log = LoggerFactory.getLogger(AbstractRESTQueryBuilder.class);
 
     static {
         log.warn("***********************************************************");
@@ -51,7 +50,6 @@ public abstract class AbstractRESTQueryBuilder
         log.warn("*** inquiries can be directed to:                       ***");
         log.warn("***                                                     ***");
         log.warn("*** [M] sales@coherentlogic.com                         ***");
-        log.warn("*** [T] +1.571.306.3403 (GMT-5)                         ***");
         log.warn("***                                                     ***");
         log.warn("***********************************************************");
     }
@@ -135,15 +133,6 @@ public abstract class AbstractRESTQueryBuilder
         return this;
     }
 
-//    /**
-//     * Getter method for the cache service provider, which may be null if one
-//     * was not set.
-//     */
-//    protected CacheServiceProviderSpecification<String, Object>
-//        getCacheServiceProvider () {
-//        return cache;
-//    }
-
     /**
      * Method returns the escaped URI that is actually send to the World Bank
      * web service when the execute method has been called.
@@ -178,6 +167,8 @@ public abstract class AbstractRESTQueryBuilder
         return uriBuilder;
     }
 
+    protected abstract <T> T doExecute (Class<T> type);
+
     /**
      * Method constructs the URI and first checks to see if the object currently
      * exists in the cache -- if it does, then this object is returned, other-
@@ -201,7 +192,7 @@ public abstract class AbstractRESTQueryBuilder
                 "The object " + object +
                 " cannot be cast to type " + type + ".");
         else if (object == null) {
-            result = (T) restTemplate.getForObject(escapedURI, type);
+            result = (T) doExecute (type);
             cache.put(escapedURI, result);
         }
         return result;
