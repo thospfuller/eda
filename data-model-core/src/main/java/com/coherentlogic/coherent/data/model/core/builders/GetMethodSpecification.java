@@ -1,7 +1,7 @@
 package com.coherentlogic.coherent.data.model.core.builders;
 
 /**
- * Specification for the HTTP get method.
+ * Specification for the get method that returns data from the call to the web service end point.
  *
  * @author <a href="mailto:support@coherentlogic.com">Support</a>
  *
@@ -11,7 +11,7 @@ package com.coherentlogic.coherent.data.model.core.builders;
  * @see <a href="http://static.springsource.org/spring/docs/3.0.x/api/org/
  *  springframework/web/client/RestTemplate.html">RestTemplate</a>
  */
-public interface HTTPGetMethodSpecification {
+public interface GetMethodSpecification {
 
     /**
      * Method executes an HTTP get and returns the result.
