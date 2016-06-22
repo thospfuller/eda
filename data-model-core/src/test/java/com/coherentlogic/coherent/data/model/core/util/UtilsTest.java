@@ -4,7 +4,7 @@ import org.junit.Test;
 
 /**
  * Unit test for the {@link Utils} class.
- * 
+ *
  * @author <a href="mailto:support@coherentlogic.com">Support</a>
  */
 public class UtilsTest {
