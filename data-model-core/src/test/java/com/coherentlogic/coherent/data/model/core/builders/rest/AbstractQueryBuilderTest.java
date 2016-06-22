@@ -1,9 +1,6 @@
 package com.coherentlogic.coherent.data.model.core.builders.rest;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,7 +8,6 @@ import java.util.Map;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Matchers;
 import org.springframework.web.client.RestTemplate;
 
 import com.coherentlogic.coherent.data.model.core.cache.CacheServiceProviderSpecification;
@@ -150,8 +146,8 @@ public class AbstractQueryBuilderTest {
 class CacheServiceProvider
     implements CacheServiceProviderSpecification<String, Object> {
 
-	private final Map<String, Object> cache = new HashMap<String, Object> ();
-	
+    private final Map<String, Object> cache = new HashMap<String, Object> ();
+    
     @Override
     public Object get(String key) {
         return cache.get(key);
@@ -199,5 +195,10 @@ class TestQueryBuilder extends AbstractRESTQueryBuilder {
         addParameter(BAR, bar);
 
         return this;
+    }
+
+    @Override
+    protected <T> T doExecute(Class<T> type) {
+        throw new UnsupportedOperationException();
     }
 }
