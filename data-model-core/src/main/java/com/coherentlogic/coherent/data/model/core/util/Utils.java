@@ -81,4 +81,13 @@ public class Utils {
 
         return builder.parse ( source );
     }
+
+    /**
+     * Method throws NullPointerException when the variable named variableName has a null value.
+     */
+    public static void assertNotNull (String variableName, Object value) {
+
+        if (value == null)
+            throw new NullPointerException ("The variable named " + variableName + " is null.");
+    }
 }
