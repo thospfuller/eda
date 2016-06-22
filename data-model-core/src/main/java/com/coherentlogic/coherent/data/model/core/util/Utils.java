@@ -84,10 +84,14 @@ public class Utils {
 
     /**
      * Method throws NullPointerException when the variable named variableName has a null value.
+     *
+     * @return The value.
      */
-    public static void assertNotNull (String variableName, Object value) {
+    public static Object assertNotNull (String variableName, Object value) {
 
         if (value == null)
             throw new NullPointerException ("The variable named " + variableName + " is null.");
+
+        return value;
     }
 }
