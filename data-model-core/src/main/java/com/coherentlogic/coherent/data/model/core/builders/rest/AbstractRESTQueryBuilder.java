@@ -20,8 +20,7 @@ import com.coherentlogic.coherent.data.model.core.cache.NullCache;
  *
  * @author <a href="mailto:support@coherentlogic.com">Support</a>
  */
-public abstract class AbstractRESTQueryBuilder
-    extends CacheableQueryBuilder<String, Object>
+public abstract class AbstractRESTQueryBuilder<K> extends CacheableQueryBuilder<K, Object>
     implements GetMethodSpecification {
 
     private final RestTemplate restTemplate;
@@ -77,13 +76,13 @@ public abstract class AbstractRESTQueryBuilder
         RestTemplate restTemplate,
         UriBuilder uriBuilder
     ) {
-        this (restTemplate, uriBuilder, new NullCache<String, Object> ());
+        this (restTemplate, uriBuilder, new NullCache<K, Object> ());
     }
 
     protected AbstractRESTQueryBuilder (
         RestTemplate restTemplate,
         String uri,
-        CacheServiceProviderSpecification<String, Object> cache
+        CacheServiceProviderSpecification<K, Object> cache
     ) {
         this (restTemplate, newUriBuilder (uri), cache);
     }
@@ -91,9 +90,9 @@ public abstract class AbstractRESTQueryBuilder
     protected AbstractRESTQueryBuilder (
         RestTemplate restTemplate,
         UriBuilder uriBuilder,
-        CacheServiceProviderSpecification<String, Object> cache
+        CacheServiceProviderSpecification<K, Object> cache
     ) {
-    	super (cache);
+        super (cache);
         this.restTemplate = restTemplate;
         this.uriBuilder = uriBuilder;
     }
@@ -167,6 +166,8 @@ public abstract class AbstractRESTQueryBuilder
         return uriBuilder;
     }
 
+    protected abstract K getKey ();
+
     protected abstract <T> T doExecute (Class<T> type);
 
     /**
@@ -175,25 +176,25 @@ public abstract class AbstractRESTQueryBuilder
      * -wise the URI is called and the resultant XML is converted into an
      * instance of type <i>type</i> and the result is returned to the user. 
      */
+    @Override
     public <T> T doGet (Class<T> type) {
 
-        String escapedURI = getEscapedURI();
+        K key = getKey ();
 
         T result = null;
 
-        CacheServiceProviderSpecification<String, Object> cache = getCache();
+        CacheServiceProviderSpecification<K, Object> cache = getCache();
 
-        Object object = cache.get(escapedURI);
+        Object object = cache.get(key);
 
         if (object != null && type.isInstance(object))
             result = (T) object;
         else if (object != null && !type.isInstance(object))
             throw new ClassCastException (
-                "The object " + object +
-                " cannot be cast to type " + type + ".");
+                "The object " + object + " cannot be cast to type " + type + ".");
         else if (object == null) {
-            result = (T) doExecute (type);
-            cache.put(escapedURI, result);
+            result = doExecute (type);
+            cache.put(key, result);
         }
         return result;
     }

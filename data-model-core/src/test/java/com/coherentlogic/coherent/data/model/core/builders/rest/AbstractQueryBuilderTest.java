@@ -159,7 +159,7 @@ class CacheServiceProvider
     }
 }
 
-class TestQueryBuilder extends AbstractRESTQueryBuilder {
+class TestQueryBuilder extends AbstractRESTQueryBuilder<String> {
 
     public static final String FOO = "foo", BAR = "bar", BAZ = "baz";
 
@@ -195,6 +195,11 @@ class TestQueryBuilder extends AbstractRESTQueryBuilder {
         addParameter(BAR, bar);
 
         return this;
+    }
+
+    @Override
+    protected String getKey() {
+        return getEscapedURI();
     }
 
     @Override
