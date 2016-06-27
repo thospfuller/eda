@@ -7,7 +7,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * 
+ * Class allows the developer to add some text and then log it (at info level) and also print it to System.out. The
+ * message to System.out can be ignored by setting the ignoreWelcomeMessageFlag system property to true.
+ *
  * @author <a href="mailto:support@coherentlogic.com">Support</a>
  */
 public class WelcomeMessage {
