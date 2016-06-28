@@ -45,7 +45,7 @@ public class JNDIExporter implements InitializingBean {
         }
     }
 
-    public void export (String key, Object value) {
+    public JNDIExporter export (String key, Object value) {
 
         log.info("export: method begins; key: " + key + ", value '" + value);
 
@@ -56,5 +56,7 @@ public class JNDIExporter implements InitializingBean {
         }
 
         log.info("export: method ends.");
+
+        return this;
     }
 }
