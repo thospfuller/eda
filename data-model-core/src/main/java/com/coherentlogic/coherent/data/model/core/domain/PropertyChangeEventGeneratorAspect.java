@@ -11,7 +11,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.coherentlogic.coherent.data.model.annotations.Changeable;
+import com.coherentlogic.coherent.data.model.core.annotations.Changeable;
 import com.coherentlogic.coherent.data.model.core.exceptions.MisconfiguredException;
 
 /**
@@ -45,7 +45,7 @@ import com.coherentlogic.coherent.data.model.core.exceptions.MisconfiguredExcept
  *
  * @param <T> The class type which is being intercepted.
  *
- * @see {@link com.coherentlogic.coherent.data.model.annotations#Changeable}
+ * @see {@link com.coherentlogic.coherent.data.model.core.annotations#Changeable}
  */
 @Aspect
 public class PropertyChangeEventGeneratorAspect<T> implements MethodInterceptor {

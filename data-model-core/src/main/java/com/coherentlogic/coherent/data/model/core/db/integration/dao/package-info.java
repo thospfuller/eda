@@ -3,4 +3,4 @@
  * create, read, update, and delete operations to be performed on the domain
  * model.
  */
-package com.coherentlogic.coherent.data.model.db.integration.dao;
+package com.coherentlogic.coherent.data.model.core.db.integration.dao;
