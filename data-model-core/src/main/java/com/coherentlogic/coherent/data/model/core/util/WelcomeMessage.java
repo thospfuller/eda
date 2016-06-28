@@ -7,9 +7,20 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Class allows the developer to add some text and then log it (at info level) and also print it to System.out. The
- * message to System.out can be ignored by setting the ignoreWelcomeMessageFlag system property to true.
+ * Class allows the developer to add some text and then log it (at info level) and also print it to System.out.
  *
+ * <pre>
+ * new WelcomeMessage()
+ *     .addText("********************************************************************************")
+ *     .addText("*** All work and no play makes Jack a dull boy.                              ***")
+ *     .addText("********************************************************************************")
+ * .display();
+ * </pre>
+ *
+ * The message to System.out can be ignored by setting the ignoreWelcomeMessageFlag system property to true -- ie:
+ * <pre>
+ * System.setProperty("ignoreWelcomeMessageFlag", "false");
+ * </pre>
  * @author <a href="mailto:support@coherentlogic.com">Support</a>
  */
 public class WelcomeMessage {
@@ -68,6 +79,8 @@ public class WelcomeMessage {
     }
 
     public static void main (String[] unused) {
+
+        System.setProperty("ignoreWelcomeMessageFlag", "false");
 
         new WelcomeMessage()
             .addText("********************************************************************************")
