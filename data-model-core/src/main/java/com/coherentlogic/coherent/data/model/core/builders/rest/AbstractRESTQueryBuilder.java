@@ -12,6 +12,7 @@ import com.coherentlogic.coherent.data.model.core.builders.CacheableQueryBuilder
 import com.coherentlogic.coherent.data.model.core.builders.GetMethodSpecification;
 import com.coherentlogic.coherent.data.model.core.cache.CacheServiceProviderSpecification;
 import com.coherentlogic.coherent.data.model.core.cache.NullCache;
+import com.coherentlogic.coherent.data.model.core.util.WelcomeMessage;
 
 /**
  * This class acts as the foundation for QueryBuilder implementations. This
@@ -30,27 +31,29 @@ public abstract class AbstractRESTQueryBuilder<K> extends CacheableQueryBuilder<
     private static final Logger log = LoggerFactory.getLogger(AbstractRESTQueryBuilder.class);
 
     static {
-        log.warn("***********************************************************");
-        log.warn("***                                                     ***");
-        log.warn("*** Welcome to the Coherent Logic Foundation Data Model ***");
-        log.warn("***             version 1.0.21-RELEASE.                 ***");
-        log.warn("***                                                     ***");
-        log.warn("***                Follow us on LinkedIn:               ***");
-        log.warn("***                                                     ***");
-        log.warn("***       https://www.linkedin.com/company/229316       ***");
-        log.warn("***                                                     ***");
-        log.warn("***                Follow us on Twitter:                ***");
-        log.warn("***                                                     ***");
-        log.warn("***         https://twitter.com/CoherentMktData         ***");
-        log.warn("***                                                     ***");
-        log.warn("*** We   offer   support  and  consulting  services  to ***");
-        log.warn("*** businesses that utilize this framework or that need ***");
-        log.warn("*** help  with  bespoke  data  acquisition  projects -- ***");
-        log.warn("*** inquiries can be directed to:                       ***");
-        log.warn("***                                                     ***");
-        log.warn("*** [M] sales@coherentlogic.com                         ***");
-        log.warn("***                                                     ***");
-        log.warn("***********************************************************");
+        new WelcomeMessage()
+            .addText("***********************************************************")
+            .addText("***                                                     ***")
+            .addText("*** Welcome to the Coherent Logic Foundation Data Model ***")
+            .addText("***             version 1.0.21-RELEASE.                 ***")
+            .addText("***                                                     ***")
+            .addText("***                Follow us on LinkedIn:               ***")
+            .addText("***                                                     ***")
+            .addText("***       https://www.linkedin.com/company/229316       ***")
+            .addText("***                                                     ***")
+            .addText("***                Follow us on Twitter:                ***")
+            .addText("***                                                     ***")
+            .addText("***         https://twitter.com/CoherentMktData         ***")
+            .addText("***                                                     ***")
+            .addText("*** We   offer   support  and  consulting  services  to ***")
+            .addText("*** businesses that utilize this framework or that need ***")
+            .addText("*** help  with  bespoke  data  acquisition  projects -- ***")
+            .addText("*** inquiries can be directed to:                       ***")
+            .addText("***                                                     ***")
+            .addText("*** [E] sales@coherentlogic.com                         ***")
+            .addText("***                                                     ***")
+            .addText("***********************************************************")
+        .display();
     }
 
     /**
