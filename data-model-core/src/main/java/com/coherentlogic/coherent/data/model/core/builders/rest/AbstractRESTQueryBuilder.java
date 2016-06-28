@@ -28,8 +28,6 @@ public abstract class AbstractRESTQueryBuilder<K> extends CacheableQueryBuilder<
 
     private final UriBuilder uriBuilder;
 
-    private static final Logger log = LoggerFactory.getLogger(AbstractRESTQueryBuilder.class);
-
     static {
         new WelcomeMessage()
             .addText("***********************************************************")
@@ -37,11 +35,11 @@ public abstract class AbstractRESTQueryBuilder<K> extends CacheableQueryBuilder<
             .addText("*** Welcome to the Coherent Logic Foundation Data Model ***")
             .addText("***             version 1.0.21-RELEASE.                 ***")
             .addText("***                                                     ***")
-            .addText("***                Follow us on LinkedIn:               ***")
+            .addText("***   Please  take a moment to follow us on LinkedIn:   ***")
             .addText("***                                                     ***")
             .addText("***       https://www.linkedin.com/company/229316       ***")
             .addText("***                                                     ***")
-            .addText("***                Follow us on Twitter:                ***")
+            .addText("***                   or  on Twitter:                   ***")
             .addText("***                                                     ***")
             .addText("***         https://twitter.com/CoherentMktData         ***")
             .addText("***                                                     ***")
