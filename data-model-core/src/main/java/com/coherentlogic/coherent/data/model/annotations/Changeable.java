@@ -1,4 +1,4 @@
-package com.coherentlogic.coherent.datafeed.annotations;
+package com.coherentlogic.coherent.data.model.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

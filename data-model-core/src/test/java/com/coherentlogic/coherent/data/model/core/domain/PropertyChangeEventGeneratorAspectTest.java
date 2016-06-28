@@ -13,8 +13,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import com.coherentlogic.coherent.data.model.annotations.Changeable;
 import com.coherentlogic.coherent.data.model.core.exceptions.MisconfiguredException;
-import com.coherentlogic.coherent.datafeed.annotations.Changeable;
 
 /**
  * Unit test for the {@link PropertyChangeEventGeneratorAspect} class.
