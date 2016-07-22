@@ -11,12 +11,12 @@ import com.coherentlogic.coherent.data.model.core.builders.GetMethodSpecificatio
 import com.coherentlogic.coherent.data.model.core.cache.CacheServiceProviderSpecification;
 import com.coherentlogic.coherent.data.model.core.cache.NullCache;
 import com.coherentlogic.coherent.data.model.core.listeners.QueryBuilderEvent;
+import com.coherentlogic.coherent.data.model.core.listeners.QueryBuilderExceptionEvent;
 import com.coherentlogic.coherent.data.model.core.util.WelcomeMessage;
 
 /**
- * This class acts as the foundation for QueryBuilder implementations. This
- * class has caching capabilities where the key is the URI and the value is an
- * instance of a domain class.
+ * This class acts as the foundation for QueryBuilder implementations. This class has caching capabilities where the key
+ * is the URI and the value is an instance of a domain class.
  *
  * @author <a href="mailto:support@coherentlogic.com">Support</a>
  */
@@ -126,7 +126,7 @@ public abstract class AbstractRESTQueryBuilder<K> extends CacheableQueryBuilder<
      * 
      * @param path The additional path value -- in the example above, 'baz'.
      */
-    protected AbstractRESTQueryBuilder extendPathWith (String path) {
+    protected AbstractRESTQueryBuilder<K> extendPathWith (String path) {
         uriBuilder.path(path);
 
         return this;
@@ -166,8 +166,16 @@ public abstract class AbstractRESTQueryBuilder<K> extends CacheableQueryBuilder<
         return uriBuilder;
     }
 
+    /**
+     * Method is used to get the key for this instance of the {@link AbstractRESTQueryBuilder} -- the key is then used
+     * to lookup the value in the cache. If the value exists then it is returned to the user, otherwise the call to the
+     * web service will be executed.
+     */
     protected abstract K getKey ();
 
+    /**
+     * Use the {@link #restTemplate} to execute the call to the web service -- this can be a get or post operation, etc.
+     */
     protected abstract <T> T doExecute (Class<T> type);
 
     /**
@@ -179,7 +187,7 @@ public abstract class AbstractRESTQueryBuilder<K> extends CacheableQueryBuilder<
     @Override
     public <T> T doGet (Class<T> type) {
 
-    	long operationBeganAtMillis = System.currentTimeMillis();
+        long operationBeganAtMillis = System.currentTimeMillis();
 
         fireQueryBuilderEvent(
             new QueryBuilderEvent<K, Object>(
@@ -197,16 +205,65 @@ public abstract class AbstractRESTQueryBuilder<K> extends CacheableQueryBuilder<
 
         CacheServiceProviderSpecification<K, Object> cache = getCache();
 
+        fireQueryBuilderEvent(
+            new QueryBuilderEvent<K, Object>(
+                this,
+                QueryBuilderEvent.EventType.preCache,
+                key,
+                null,
+                operationBeganAtMillis, System.currentTimeMillis()
+            )
+        );
+
         Object object = cache.get(key);
 
-        if (object != null && type.isInstance(object))
+        if (object != null && type.isInstance(object)) {
+
             result = (T) object;
-        else if (object != null && !type.isInstance(object))
-            throw new ClassCastException (
+
+            fireQueryBuilderEvent(
+                new QueryBuilderEvent<K, Object>(
+                    this,
+                    QueryBuilderEvent.EventType.cacheHit,
+                    key,
+                    result,
+                    operationBeganAtMillis, System.currentTimeMillis()
+                )
+            );
+
+        } else if (object != null && !type.isInstance(object)) {
+
+            RuntimeException exception = new ClassCastException (
                 "The object " + object + " cannot be cast to type " + type + ".");
-        else if (object == null) {
+
+            fireQueryBuilderEvent(
+                new QueryBuilderExceptionEvent<K, Object>(
+                    this,
+                    QueryBuilderEvent.EventType.methodEnds,
+                    key,
+                    result,
+                    exception,
+                    operationBeganAtMillis, System.currentTimeMillis()
+                )
+            );
+
+            throw exception;
+
+        } else if (object == null) {
+
             result = doExecute (type);
+
             cache.put(key, result);
+
+            fireQueryBuilderEvent(
+                new QueryBuilderEvent<K, Object>(
+                    this,
+                    QueryBuilderEvent.EventType.cacheMiss,
+                    key,
+                    result,
+                    operationBeganAtMillis, System.currentTimeMillis()
+                )
+            );
         }
 
         fireQueryBuilderEvent(

@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicLong;
 
 import org.junit.After;
 import org.junit.Before;
@@ -32,6 +33,25 @@ public class AbstractQueryBuilderTest {
     @After
     public void tearDown() throws Exception {
         queryBuilder = null;
+    }
+
+    /**
+     * @todo Test for when an exception is thrown.
+     */
+    @Test
+    public void testQueryBuilderEventListener() {
+
+        AtomicLong ctr = new AtomicLong ();
+
+        queryBuilder.addQueryBuilderEventListener(
+            event -> {
+                ctr.incrementAndGet();
+            }
+        );
+
+        queryBuilder.doGet(Object.class);
+
+        assertEquals(4, ctr.get());
     }
 
     @Test(expected=NullPointerException.class)
@@ -204,6 +224,7 @@ class TestQueryBuilder extends AbstractRESTQueryBuilder<String> {
 
     @Override
     protected <T> T doExecute(Class<T> type) {
-        throw new UnsupportedOperationException();
+        // throw new UnsupportedOperationException();
+        return null;
     }
 }
