@@ -38,7 +38,7 @@ public class QueryBuilderEvent<K, V> extends EventObject {
      * @param eventType One of the various stages in method execution.
      */
     public QueryBuilderEvent(
-        AbstractQueryBuilder queryBuilder,
+        AbstractQueryBuilder<K, V> queryBuilder,
         EventType eventType,
         K key,
         V value,

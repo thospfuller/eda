@@ -8,7 +8,8 @@ package com.coherentlogic.coherent.data.model.core.listeners;
  * @param <K> The key type.
  * @param <V> The value type.
  */
-public interface QueryBuilderListener<K, V> {
+@FunctionalInterface
+public interface QueryBuilderEventListener<K, V> {
 
     void onEvent (QueryBuilderEvent<K, V> event);
 }

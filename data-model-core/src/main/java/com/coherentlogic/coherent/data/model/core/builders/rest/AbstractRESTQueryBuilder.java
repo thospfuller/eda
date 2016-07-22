@@ -4,14 +4,13 @@ import java.net.URI;
 
 import javax.ws.rs.core.UriBuilder;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.web.client.RestTemplate;
 
 import com.coherentlogic.coherent.data.model.core.builders.CacheableQueryBuilder;
 import com.coherentlogic.coherent.data.model.core.builders.GetMethodSpecification;
 import com.coherentlogic.coherent.data.model.core.cache.CacheServiceProviderSpecification;
 import com.coherentlogic.coherent.data.model.core.cache.NullCache;
+import com.coherentlogic.coherent.data.model.core.listeners.QueryBuilderEvent;
 import com.coherentlogic.coherent.data.model.core.util.WelcomeMessage;
 
 /**
@@ -180,6 +179,18 @@ public abstract class AbstractRESTQueryBuilder<K> extends CacheableQueryBuilder<
     @Override
     public <T> T doGet (Class<T> type) {
 
+    	long operationBeganAtMillis = System.currentTimeMillis();
+
+        fireQueryBuilderEvent(
+            new QueryBuilderEvent<K, Object>(
+                this,
+                QueryBuilderEvent.EventType.methodBegins,
+                null,
+                null,
+                operationBeganAtMillis, operationBeganAtMillis
+            )
+        );
+
         K key = getKey ();
 
         T result = null;
@@ -197,6 +208,17 @@ public abstract class AbstractRESTQueryBuilder<K> extends CacheableQueryBuilder<
             result = doExecute (type);
             cache.put(key, result);
         }
+
+        fireQueryBuilderEvent(
+            new QueryBuilderEvent<K, Object>(
+                this,
+                QueryBuilderEvent.EventType.methodEnds,
+                key,
+                result,
+                operationBeganAtMillis, System.currentTimeMillis()
+            )
+        );
+
         return result;
     }
 }
