@@ -33,6 +33,8 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
  * @todo Consider removing the guard around calls to fire methods as the various ChangeSupport references should not
  *  really ever be null.
  *
+ * @todo Can we utilize the ExceptionListener here?
+ *
  * @see <a href="http://docs.oracle.com/javase/7/docs/api/java/beans/
  *  PropertyChangeSupport.html">PropertyChangeSupport</a>
  *
