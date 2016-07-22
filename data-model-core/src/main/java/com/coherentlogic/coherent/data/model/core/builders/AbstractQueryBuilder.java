@@ -8,37 +8,39 @@ import com.coherentlogic.coherent.data.model.core.listeners.QueryBuilderEvent;
 import com.coherentlogic.coherent.data.model.core.listeners.QueryBuilderEventListener;
 
 /**
- * 
+ * The foundation for QueryBuilder classes which the developer can use to register {@link QueryBuilderEventListener}
+ * instances.
+ *
  * @author <a href="mailto:support@coherentlogic.com">Support</a>
  */
 public abstract class AbstractQueryBuilder<K, V> {
 
-    private final List<QueryBuilderEventListener<K, V>> queryBuilderListeners;
+    private final List<QueryBuilderEventListener<K, V>> queryBuilderEventListeners;
 
     public AbstractQueryBuilder() {
         this (new ArrayList<QueryBuilderEventListener<K, V>> ());
     }
 
     public AbstractQueryBuilder(List<QueryBuilderEventListener<K, V>> queryBuilderListeners) {
-        this.queryBuilderListeners = queryBuilderListeners;
+        this.queryBuilderEventListeners = queryBuilderListeners;
     }
 
     public List<QueryBuilderEventListener<K, V>> getQueryBuilderListeners() {
-        return queryBuilderListeners;
+        return queryBuilderEventListeners;
     }
 
     @SafeVarargs
-    public final void addQueryBuilderListener (QueryBuilderEventListener<K, V>... queryBuilderListeners) {
-        this.queryBuilderListeners.addAll(Arrays.asList(queryBuilderListeners));
+    public final void addQueryBuilderEventListener (QueryBuilderEventListener<K, V>... queryBuilderListeners) {
+        this.queryBuilderEventListeners.addAll(Arrays.asList(queryBuilderListeners));
     }
 
     @SafeVarargs
-    public final void removeQueryBuilderListener (QueryBuilderEventListener<K, V>... queryBuilderListeners) {
-        this.queryBuilderListeners.removeAll(Arrays.asList(queryBuilderListeners));
+    public final void removeQueryBuilderEventListener (QueryBuilderEventListener<K, V>... queryBuilderListeners) {
+        this.queryBuilderEventListeners.removeAll(Arrays.asList(queryBuilderListeners));
     }
 
     protected void fireQueryBuilderEvent (QueryBuilderEvent<K, V> queryBuilderEvent) {
-        for (QueryBuilderEventListener<K, V> queryBuilderListener : queryBuilderListeners) {
+        for (QueryBuilderEventListener<K, V> queryBuilderListener : queryBuilderEventListeners) {
             queryBuilderListener.onEvent(queryBuilderEvent);
         }
     }
