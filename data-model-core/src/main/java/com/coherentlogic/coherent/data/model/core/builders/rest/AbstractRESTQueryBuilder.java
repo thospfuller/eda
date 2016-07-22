@@ -33,7 +33,7 @@ public abstract class AbstractRESTQueryBuilder<K> extends CacheableQueryBuilder<
             .addText("***********************************************************")
             .addText("***                                                     ***")
             .addText("*** Welcome to the Coherent Logic Foundation Data Model ***")
-            .addText("***             version 1.0.21-RELEASE.                 ***")
+            .addText("***             version 1.0.22-RELEASE.                 ***")
             .addText("***                                                     ***")
             .addText("***   Please  take a moment to follow us on LinkedIn:   ***")
             .addText("***                                                     ***")
