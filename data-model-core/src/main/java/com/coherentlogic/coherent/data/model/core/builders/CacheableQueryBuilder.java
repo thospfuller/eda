@@ -29,7 +29,7 @@ import com.coherentlogic.coherent.data.model.core.cache.CacheServiceProviderSpec
  *
  * @author <a href="mailto:support@coherentlogic.com">Support</a>
  */
-public abstract class CacheableQueryBuilder<K, V> {
+public abstract class CacheableQueryBuilder<K, V> extends AbstractQueryBuilder<K, V> {
 
     private final CacheServiceProviderSpecification<K, V> cache;
 
