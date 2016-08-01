@@ -8,6 +8,7 @@ import com.coherentlogic.coherent.data.model.core.builders.rest.AbstractRESTQuer
 /**
  * An event that is fired as the {@link AbstractRESTQueryBuilder#doExecute} method is executed.
  *
+ * @author <a href="https://www.linkedin.com/in/thomasfuller">Thomas P. Fuller</a>
  * @author <a href="mailto:support@coherentlogic.com">Support</a>
  *
  * @param <K> The key type.

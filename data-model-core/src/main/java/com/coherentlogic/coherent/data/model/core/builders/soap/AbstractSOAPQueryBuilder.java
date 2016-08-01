@@ -6,6 +6,15 @@ import com.coherentlogic.coherent.data.model.core.builders.CacheableQueryBuilder
 import com.coherentlogic.coherent.data.model.core.cache.CacheServiceProviderSpecification;
 import com.coherentlogic.coherent.data.model.core.cache.NullCache;
 
+/**
+ * The foundation for working with SOAP-style web services.
+ *
+ * @param <K> The key type.
+ * @param <V> The value type.
+ *
+ * @author <a href="https://www.linkedin.com/in/thomasfuller">Thomas P. Fuller</a>
+ * @author <a href="mailto:support@coherentlogic.com">Support</a>
+ */
 public abstract class AbstractSOAPQueryBuilder<K, V>
     extends CacheableQueryBuilder<K, V>
     implements RequestMethodSpecification<V> {

@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
  * @param <K> The key type.
  * @param <V> The value type.
  *
+ * @author <a href="https://www.linkedin.com/in/thomasfuller">Thomas P. Fuller</a>
  * @author <a href="mailto:support@coherentlogic.com">Support</a>
  */
 public class NullCache<K, V>

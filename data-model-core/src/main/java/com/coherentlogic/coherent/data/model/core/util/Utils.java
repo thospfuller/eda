@@ -19,10 +19,10 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 /**
- * This class provides various utility methods which are shared amongst several
- * modules.
+ * This class provides various utility methods which are shared amongst several modules.
  *
- * @author <a href="support@coherentlogic.com">Support</a>
+ * @author <a href="https://www.linkedin.com/in/thomasfuller">Thomas P. Fuller</a>
+ * @author <a href="mailto:support@coherentlogic.com">Support</a>
  */
 public class Utils {
 
@@ -49,9 +49,8 @@ public class Utils {
     }
 
     /**
-     * Method iterates over all children under the <i>targetElement</i> and, for
-     * each one with a tag name equal to <i>tagName</i>, executes the <i>action
-     * </i>, passing in that child element.
+     * Method iterates over all children under the <i>targetElement</i> and, for each one with a tag name equal to
+     * <i>tagName</i>, executes the <i>action</i>, passing in that child element.
      */
     public static void forEachChild (
         Element targetElement,

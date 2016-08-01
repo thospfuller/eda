@@ -5,7 +5,8 @@ import java.util.regex.Pattern;
 /**
  * A class which contains various constants that are used in this project.
  *
- * @author <a href="support@coherentlogic.com">Support</a>
+ * @author <a href="https://www.linkedin.com/in/thomasfuller">Thomas P. Fuller</a>
+ * @author <a href="mailto:support@coherentlogic.com">Support</a>
  */
 public class Constants {
 

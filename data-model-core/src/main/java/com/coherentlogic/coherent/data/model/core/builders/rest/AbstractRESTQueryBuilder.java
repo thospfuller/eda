@@ -18,6 +18,7 @@ import com.coherentlogic.coherent.data.model.core.util.WelcomeMessage;
  * This class acts as the foundation for QueryBuilder implementations. This class has caching capabilities where the key
  * is the URI and the value is an instance of a domain class.
  *
+ * @author <a href="https://www.linkedin.com/in/thomasfuller">Thomas P. Fuller</a>
  * @author <a href="mailto:support@coherentlogic.com">Support</a>
  */
 public abstract class AbstractRESTQueryBuilder<K> extends CacheableQueryBuilder<K, Object>

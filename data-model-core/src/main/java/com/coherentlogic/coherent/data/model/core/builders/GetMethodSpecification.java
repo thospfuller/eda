@@ -3,6 +3,7 @@ package com.coherentlogic.coherent.data.model.core.builders;
 /**
  * Specification for the get method that returns data from the call to the web service end point.
  *
+ * @author <a href="https://www.linkedin.com/in/thomasfuller">Thomas P. Fuller</a>
  * @author <a href="mailto:support@coherentlogic.com">Support</a>
  *
  * @see <a href="http://docs.oracle.com/javaee/6/api/javax/servlet/http/

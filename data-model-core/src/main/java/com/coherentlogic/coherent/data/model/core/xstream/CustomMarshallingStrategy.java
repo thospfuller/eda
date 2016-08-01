@@ -39,6 +39,8 @@ import com.thoughtworks.xstream.mapper.Mapper;
  *     ...
  * </bean>
  * </pre>
+ *
+ * @author <a href="https://www.linkedin.com/in/thomasfuller">Thomas P. Fuller</a>
  * @author <a href="mailto:support@coherentlogic.com">Support</a>
  */
 public class CustomMarshallingStrategy extends ReferenceByXPathMarshallingStrategy {

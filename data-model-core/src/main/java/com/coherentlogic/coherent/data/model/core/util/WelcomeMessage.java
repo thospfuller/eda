@@ -21,6 +21,8 @@ import org.slf4j.LoggerFactory;
  * <pre>
  * System.setProperty("ignoreWelcomeMessageFlag", "false");
  * </pre>
+ *
+ * @author <a href="https://www.linkedin.com/in/thomasfuller">Thomas P. Fuller</a>
  * @author <a href="mailto:support@coherentlogic.com">Support</a>
  */
 public class WelcomeMessage {

@@ -1,12 +1,11 @@
 package com.coherentlogic.coherent.data.model.core.cache;
 
 /**
- * An interface that can be implemented such that calls to any Cache
- * implementation can be performed.
+ * An interface that can be implemented such that calls to any Cache implementation can be performed.
  *
- * Note that since JSR-107 is not complete at this time, which is why we're not
- * using it in this framework.
+ * Note that since JSR-107 is not complete at this time, which is why we're not using it in this framework.
  *
+ * @author <a href="https://www.linkedin.com/in/thomasfuller">Thomas P. Fuller</a>
  * @author <a href="mailto:support@coherentlogic.com">Support</a>
  *
  * @param <K> The key type.

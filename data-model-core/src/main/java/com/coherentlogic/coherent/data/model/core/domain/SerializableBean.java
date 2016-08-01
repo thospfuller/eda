@@ -38,7 +38,8 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
  * @see <a href="http://docs.oracle.com/javase/7/docs/api/java/beans/
  *  PropertyChangeSupport.html">PropertyChangeSupport</a>
  *
- * @author <a href="support@coherentlogic.com">Support</a>
+ * @author <a href="https://www.linkedin.com/in/thomasfuller">Thomas P. Fuller</a>
+ * @author <a href="mailto:support@coherentlogic.com">Support</a>
  */
 @Entity()
 @Table(name=SerializableBean.SERIALIZABLE_BEAN)
@@ -418,7 +419,7 @@ public class SerializableBean implements Serializable, Cloneable {
         return this;
     }
 
-    public SerializableBean fireBulkPropertyChange () {
+    public SerializableBean fireAggregatePropertyChangeEvent () {
     	return this;
     }
 

@@ -14,7 +14,8 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 /**
  * A bean that has an id property and associated getter and setter methods.
  *
- * @author <a href="support@coherentlogic.com">Support</a>
+ * @author <a href="https://www.linkedin.com/in/thomasfuller">Thomas P. Fuller</a>
+ * @author <a href="mailto:support@coherentlogic.com">Support</a>
  */
 @Entity
 @Table(name=IDENTITY_BEAN)

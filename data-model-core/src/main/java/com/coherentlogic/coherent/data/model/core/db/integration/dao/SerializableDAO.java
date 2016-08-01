@@ -10,10 +10,10 @@ import org.springframework.transaction.annotation.Transactional;
 import com.coherentlogic.coherent.data.model.core.domain.SerializableBean;
 
 /**
- * A base class for building data access objects that provides access to the
- * {@link EntityManager} along with some basic create, read, update, and delete
- * (CRUD) methods.
+ * A base class for building data access objects that provides access to the {@link EntityManager} along with some basic
+ * create, read, update, and delete (CRUD) methods.
  *
+ * @author <a href="https://www.linkedin.com/in/thomasfuller">Thomas P. Fuller</a>
  * @author <a href="mailto:support@coherentlogic.com">Support</a>
  */
 @Transactional

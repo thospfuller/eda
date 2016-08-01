@@ -13,7 +13,9 @@ import org.springframework.jndi.JndiTemplate;
 import com.coherentlogic.coherent.data.model.core.exceptions.BindFailedException;
 
 /**
- * 
+ * Class is used to register an object, by key, with the Java Naming and Directory Interface (JNDI).
+ *
+ * @author <a href="https://www.linkedin.com/in/thomasfuller">Thomas P. Fuller</a>
  * @author <a href="mailto:support@coherentlogic.com">Support</a>
  */
 public class JNDIExporter implements InitializingBean {

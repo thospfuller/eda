@@ -1,12 +1,13 @@
 package com.coherentlogic.coherent.data.model.core.util;
 
 /**
- * An action is executed on some data. The action is similar to a closure,
- * however since Java does not have closures (yet), we can get around this by
- * using an instance of this class as an anonymous inner class.
+ * An action is executed on some data. The action is similar to a closure, however since Java does not have closures
+ * (yet), we can get around this by using an instance of this class as an anonymous inner class.
  *
- * @author <a href="support@coherentlogic.com">Support</a>
+ * @author <a href="https://www.linkedin.com/in/thomasfuller">Thomas P. Fuller</a>
+ * @author <a href="mailto:support@coherentlogic.com">Support</a>
  */
+@FunctionalInterface
 public interface Action<D> {
 
     /**

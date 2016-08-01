@@ -11,6 +11,7 @@ import com.coherentlogic.coherent.data.model.core.listeners.QueryBuilderEventLis
  * The foundation for QueryBuilder classes which the developer can use to register {@link QueryBuilderEventListener}
  * instances.
  *
+ * @author <a href="https://www.linkedin.com/in/thomasfuller">Thomas P. Fuller</a>
  * @author <a href="mailto:support@coherentlogic.com">Support</a>
  */
 public abstract class AbstractQueryBuilder<K, V> {

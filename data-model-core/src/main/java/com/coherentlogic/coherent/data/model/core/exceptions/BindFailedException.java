@@ -3,6 +3,9 @@ package com.coherentlogic.coherent.data.model.core.exceptions;
 import org.springframework.core.NestedRuntimeException;
 
 /**
+ * 
+ *
+ * @author <a href="https://www.linkedin.com/in/thomasfuller">Thomas P. Fuller</a>
  * @author <a href="mailto:support@coherentlogic.com">Support</a>
  */
 public class BindFailedException extends NestedRuntimeException {

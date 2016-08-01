@@ -3,6 +3,7 @@ package com.coherentlogic.coherent.data.model.core.exceptions;
 /**
  * An exception that is thrown when the framework is not configured properly.
  *
+ * @author <a href="https://www.linkedin.com/in/thomasfuller">Thomas P. Fuller</a>
  * @author <a href="mailto:support@coherentlogic.com">Support</a>
  */
 public class FrameworkMisconfiguredException extends MisconfiguredException {

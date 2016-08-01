@@ -11,6 +11,7 @@ import com.thoughtworks.xstream.XStream;
  *
  * @deprecated We don't really need this as we can set the marshalling strategy using a getter method.
  *
+ * @author <a href="https://www.linkedin.com/in/thomasfuller">Thomas P. Fuller</a>
  * @author <a href="mailto:support@coherentlogic.com">Support</a>
  */
 public class CustomXStreamMarshaller extends XStreamMarshaller {

@@ -6,16 +6,15 @@ import com.thoughtworks.xstream.annotations.XStreamConverter;
 import com.thoughtworks.xstream.converters.basic.StringConverter;
 
 /**
- * Note that children of this class currently need to have an associated
- * converter that extends from IdentityValueBeanConverter registered, otherwise
- * you'll see null values in the result (there really needs to be a better
- * solution for this).
+ * Note that children of this class currently need to have an associated converter that extends from
+ * IdentityValueBeanConverter registered, otherwise you'll see null values in the result (there really needs to be a
+ * better solution for this).
  *
- * @todo We need to consider making the id generic since there is at least one
- *  version of this where the id is a number (see IndicatorSource). Another
- *  solution would be to add a helper method to convert this to a number however
- *  this is less ideal.
+ * @todo We need to consider making the id generic since there is at least one version of this where the id is a number
+ * (see IndicatorSource). Another solution would be to add a helper method to convert this to a number however this is
+ * less ideal.
  *
+ * @author <a href="https://www.linkedin.com/in/thomasfuller">Thomas P. Fuller</a>
  * @author <a href="mailto:support@coherentlogic.com">Support</a>
  */
 public class IdentityValueBean extends AbstractIdentityValueBean<String> {
@@ -65,7 +64,6 @@ public class IdentityValueBean extends AbstractIdentityValueBean<String> {
 
     @Override
     public String toString() {
-        return "IdentityValueBean [value=" + value + ", toString()="
-            + super.toString() + "]";
+        return "IdentityValueBean [value=" + value + ", toString()=" + super.toString() + "]";
     }
 }

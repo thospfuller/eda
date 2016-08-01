@@ -6,9 +6,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Use this class with cache providers that implement the java.util.Map
- * interface (JBoss Infinispan and Oracle Coherence are two examples).
+ * Use this class with cache providers that implement the java.util.Map interface (JBoss Infinispan and Oracle Coherence
+ * are two examples).
  *
+ * @author <a href="https://www.linkedin.com/in/thomasfuller">Thomas P. Fuller</a>
  * @author <a href="mailto:support@coherentlogic.com">Support</a>
  *
  * @param <K> The key type.

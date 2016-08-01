@@ -27,6 +27,7 @@ import com.coherentlogic.coherent.data.model.core.cache.CacheServiceProviderSpec
  *
  * @todo Auto-apply the performance interceptor.
  *
+ * @author <a href="https://www.linkedin.com/in/thomasfuller">Thomas P. Fuller</a>
  * @author <a href="mailto:support@coherentlogic.com">Support</a>
  */
 public abstract class CacheableQueryBuilder<K, V> extends AbstractQueryBuilder<K, V> {

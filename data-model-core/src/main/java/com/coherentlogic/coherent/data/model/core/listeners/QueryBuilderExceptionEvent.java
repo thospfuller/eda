@@ -5,6 +5,7 @@ import com.coherentlogic.coherent.data.model.core.builders.AbstractQueryBuilder;
 /**
  * An event that is fired when an exception is thrown from within the {@link AbstractQueryBuilder}.
  *
+ * @author <a href="https://www.linkedin.com/in/thomasfuller">Thomas P. Fuller</a>
  * @author <a href="mailto:support@coherentlogic.com">Support</a>
  *
  * @param <K> The key type.

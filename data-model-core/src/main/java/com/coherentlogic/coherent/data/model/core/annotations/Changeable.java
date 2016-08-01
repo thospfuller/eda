@@ -28,6 +28,7 @@ import java.lang.annotation.Target;
  *
  * @see {@link com.coherentlogic.coherent.data.model.core.domain#PropertyChangeEventGeneratorAspect}
  *
+ * @author <a href="https://www.linkedin.com/in/thomasfuller">Thomas P. Fuller</a>
  * @author <a href="mailto:support@coherentlogic.com">Support</a>
  */
 @Target(ElementType.PARAMETER)
