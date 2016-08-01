@@ -3,7 +3,7 @@ package com.coherentlogic.coherent.data.model.core.exceptions;
 import org.springframework.core.NestedRuntimeException;
 
 /**
- * 
+ * An exception that is thrown when an object could not be bound to the JNDI registry.
  *
  * @author <a href="https://www.linkedin.com/in/thomasfuller">Thomas P. Fuller</a>
  * @author <a href="mailto:support@coherentlogic.com">Support</a>
