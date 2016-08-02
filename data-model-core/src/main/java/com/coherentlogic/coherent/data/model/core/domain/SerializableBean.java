@@ -8,7 +8,9 @@ import java.beans.VetoableChangeListener;
 import java.beans.VetoableChangeSupport;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,6 +27,8 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import com.coherentlogic.coherent.data.model.core.exceptions.CloneFailedException;
+import com.coherentlogic.coherent.data.model.core.listeners.AggregatePropertyChangeEvent;
+import com.coherentlogic.coherent.data.model.core.listeners.AggregatePropertyChangeListener;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 /**
@@ -82,6 +86,10 @@ public class SerializableBean implements Serializable, Cloneable {
     @XStreamOmitField
     public transient final PropertyChangeSupport propertyChangeSupport;
 
+    @Transient
+    @XStreamOmitField
+    public transient final List<AggregatePropertyChangeListener> aggregatePropertyChangeListeners;
+
     static PropertyChangeSupport createDefaultPropertyChangeSupport (SerializableBean serializableBean) {
         return new PropertyChangeSupport(serializableBean);
     }
@@ -89,12 +97,18 @@ public class SerializableBean implements Serializable, Cloneable {
     public SerializableBean() {
         propertyChangeSupport = createDefaultPropertyChangeSupport (this);
         vetoableChangeSupport = new VetoableChangeSupport (this);
+        this.aggregatePropertyChangeListeners = new ArrayList<AggregatePropertyChangeListener> ();
     }
 
-    public SerializableBean(PropertyChangeSupport propertyChangeSupport, VetoableChangeSupport vetoableChangeSupport) {
+    public SerializableBean(
+        PropertyChangeSupport propertyChangeSupport,
+        VetoableChangeSupport vetoableChangeSupport,
+        List<AggregatePropertyChangeListener> aggregatePropertyChangeListeners
+    ) {
         super();
         this.propertyChangeSupport = propertyChangeSupport;
         this.vetoableChangeSupport = vetoableChangeSupport;
+        this.aggregatePropertyChangeListeners = aggregatePropertyChangeListeners;
     }
 
     @Id
@@ -419,8 +433,32 @@ public class SerializableBean implements Serializable, Cloneable {
         return this;
     }
 
-    public SerializableBean fireAggregatePropertyChangeEvent () {
-    	return this;
+    @Transient
+    public List<AggregatePropertyChangeListener> getAggregatePropertyChangeListeners() {
+        return aggregatePropertyChangeListeners;
+    }
+
+    public void addAggregatePropertyChangeListener (
+        AggregatePropertyChangeListener aggregatePropertyChangeListener) {
+        aggregatePropertyChangeListeners.add(aggregatePropertyChangeListener);
+    }
+
+    public boolean removeAggregatePropertyChangeListener (
+        AggregatePropertyChangeListener aggregatePropertyChangeListener) {
+        return aggregatePropertyChangeListeners.remove(aggregatePropertyChangeListener);
+    }
+
+    /**
+     * Method invokes the {@link AggregatePropertyChangeListener#onAggregatePropertyChangeEvent(AggregatePropertyChangeEvent)}
+     * method for all {@link AggregatePropertyChangeListener}s that have registered for update notifications.
+     */
+    public SerializableBean fireAggregatePropertyChangeEvent (
+        AggregatePropertyChangeEvent aggregatePropertyChangeEvent) {
+
+        for (AggregatePropertyChangeListener aggregatePropertyChangeListener : aggregatePropertyChangeListeners)
+            aggregatePropertyChangeListener.onAggregatePropertyChangeEvent(aggregatePropertyChangeEvent);
+
+        return this;
     }
 
     /**
