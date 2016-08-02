@@ -79,6 +79,11 @@
                 <artifactId>data-model-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.coherentlogic.coherent.data-model</groupId>
+                <artifactId>data-adapter-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
             <!-- dependency>
                 <groupId>com.coherentlogic.coherent.data-model</groupId>
                 <artifactId>logging</artifactId>

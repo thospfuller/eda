@@ -40,6 +40,7 @@
     <modules>
         <module>bom</module>
         <module>data-model-core</module>
+        <module>data-adapter-core</module>
     </modules>
     <dependencyManagement>
         <dependencies>
