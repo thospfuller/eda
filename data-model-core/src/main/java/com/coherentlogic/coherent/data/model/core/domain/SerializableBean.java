@@ -269,14 +269,7 @@ public class SerializableBean implements Serializable, Cloneable {
         Object oldValue,
         Object newValue
     ) {
-        if (propertiesDiffer (oldValue, newValue))
-            propertyChangeSupport.firePropertyChange(
-                propertyName,
-                oldValue,
-                newValue
-            );
-
-        return this;
+        return firePropertyChange (new PropertyChangeEvent (this, propertyName, oldValue, newValue));
     }
 
     /**
@@ -289,14 +282,7 @@ public class SerializableBean implements Serializable, Cloneable {
         boolean oldValue,
         boolean newValue
     ) {
-        if (propertiesDiffer(oldValue, newValue))
-            propertyChangeSupport.firePropertyChange(
-                propertyName,
-                oldValue,
-                newValue
-            );
-
-        return this;
+        return firePropertyChange (new PropertyChangeEvent (this, propertyName, oldValue, newValue));
     }
 
     /**
@@ -309,14 +295,7 @@ public class SerializableBean implements Serializable, Cloneable {
         int oldValue,
         int newValue
     ) {
-        if (propertiesDiffer(oldValue, newValue))
-            propertyChangeSupport.firePropertyChange(
-                propertyName,
-                oldValue,
-                newValue
-            );
-
-        return this;
+        return firePropertyChange (new PropertyChangeEvent (this, propertyName, oldValue, newValue));
     }
 
     /**
@@ -325,10 +304,10 @@ public class SerializableBean implements Serializable, Cloneable {
      * PropertyChangeEvent)}
      * method.
      */
-    protected SerializableBean firePropertyChange (
-        PropertyChangeEvent propertyChangeEvent
-    ) {
-        propertyChangeSupport.firePropertyChange(propertyChangeEvent);
+    protected SerializableBean firePropertyChange (PropertyChangeEvent propertyChangeEvent) {
+
+        if (propertiesDiffer(propertyChangeEvent.getOldValue(), propertyChangeEvent.getNewValue()))
+            propertyChangeSupport.firePropertyChange(propertyChangeEvent);
 
         return this;
     }

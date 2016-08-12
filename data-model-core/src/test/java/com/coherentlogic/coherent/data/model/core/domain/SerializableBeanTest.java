@@ -110,6 +110,54 @@ public class SerializableBeanTest {
     }
 
     @Test
+    public void testPropertiesBothNullForPropertyChangeEvent () {
+
+        final AtomicBoolean latch = new AtomicBoolean (false);
+
+        serializableBean.addPropertyChangeListener(
+            listener -> {
+                latch.set(true);
+            }
+        );
+
+        serializableBean.firePropertyChange(new PropertyChangeEvent (serializableBean, "foo", null, null));
+
+        assertFalse (latch.get());
+    }
+
+    @Test
+    public void testPropertiesOldNullNewNonNullForPropertyChangeEvent () {
+
+        final AtomicBoolean latch = new AtomicBoolean (false);
+
+        serializableBean.addPropertyChangeListener(
+            listener -> {
+                latch.set(true);
+            }
+        );
+
+        serializableBean.firePropertyChange(new PropertyChangeEvent (serializableBean, "foo", null, "foo"));
+
+        assertTrue (latch.get());
+    }
+
+    @Test
+    public void testPropertiesOldAndNewAreSameForPropertyChangeEvent () {
+
+        final AtomicBoolean latch = new AtomicBoolean (false);
+
+        serializableBean.addPropertyChangeListener(
+            listener -> {
+                latch.set(true);
+            }
+        );
+
+        serializableBean.firePropertyChange(new PropertyChangeEvent (serializableBean, "foo", "foo", "foo"));
+
+        assertFalse (latch.get());
+    }
+
+    @Test
     public void testPropertiesDifferForObjectObject () {
 
         final AtomicBoolean latch = new AtomicBoolean (false);
@@ -142,6 +190,11 @@ public class SerializableBeanTest {
     }
 
     @Test
+    public void testPropertiesDifferReturnsFalseForBothNulls () {
+        assertFalse (serializableBean.propertiesDiffer(null, null));
+    }
+
+    @Test
     public void testPropertiesBothNullForObjectObject () {
 
         final AtomicBoolean latch = new AtomicBoolean (false);
@@ -153,6 +206,22 @@ public class SerializableBeanTest {
         );
 
         serializableBean.firePropertyChange("foo", null, null);
+
+        assertFalse (latch.get());
+    }
+
+    @Test
+    public void testPropertiesBothNullForLongLong () {
+
+        final AtomicBoolean latch = new AtomicBoolean (false);
+
+        serializableBean.addPropertyChangeListener(
+            listener -> {
+                latch.set(true);
+            }
+        );
+
+        serializableBean.firePropertyChange("foo", (Long) null, (Long) null);
 
         assertFalse (latch.get());
     }
