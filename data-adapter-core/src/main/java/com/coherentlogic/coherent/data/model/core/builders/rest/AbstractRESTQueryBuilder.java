@@ -33,7 +33,7 @@ public abstract class AbstractRESTQueryBuilder<K> extends CacheableQueryBuilder<
             .addText("***********************************************************")
             .addText("***                                                     ***")
             .addText("*** Welcome to the Coherent Logic Foundation Data Model ***")
-            .addText("***             version 1.0.23-RELEASE.                 ***")
+            .addText("***             version 1.0.24-RELEASE.                 ***")
             .addText("***                                                     ***")
             .addText("***   Please  take a moment to follow us on LinkedIn:   ***")
             .addText("***                                                     ***")
@@ -117,7 +117,29 @@ public abstract class AbstractRESTQueryBuilder<K> extends CacheableQueryBuilder<
                 "both be set to non-null values (name: " + name + ", value: " +
                 value + ").");
 
-        uriBuilder.queryParam(name, value);//addParameter(name, value);
+        uriBuilder.queryParam(name, value);
+    }
+
+    /**
+     * Method adds a name-value pair to the internal list of name-value pairs.
+     *
+     * @param name The name of the parameter.
+     * @param value The parameter value.
+     *
+     * @throws IllegaStateException If either the name or value is null.
+     */
+    protected void addParameter (String name, Number value) {
+
+        // The uriBuilder will throw an exception if the name is null. We add
+        // an additional check so that an exception is thrown if the value is
+        // null. The reason for this is that the parameter should not be added
+        // unless there's an appropriate value.
+        if (name == null || value == null)
+            throw new NullPointerException ("The name and value must " +
+                "both be set to non-null values (name: " + name + ", value: " +
+                value + ").");
+
+        uriBuilder.queryParam(name, value.toString());
     }
 
     /**
