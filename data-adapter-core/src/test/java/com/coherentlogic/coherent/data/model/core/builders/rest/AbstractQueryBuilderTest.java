@@ -2,6 +2,7 @@ package com.coherentlogic.coherent.data.model.core.builders.rest;
 
 import static org.junit.Assert.assertEquals;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
@@ -60,8 +61,13 @@ public class AbstractQueryBuilderTest {
     }
 
     @Test(expected=NullPointerException.class)
-    public void testPutWithNullValue() {
-        queryBuilder.addParameter(TEST, null);
+    public void testPutWithNullValue1() {
+        queryBuilder.addParameter(TEST, (String) null);
+    }
+
+    @Test(expected=NullPointerException.class)
+    public void testPutWithNullValue2() {
+        queryBuilder.addParameter(TEST, (BigDecimal) null);
     }
 
     @Test
