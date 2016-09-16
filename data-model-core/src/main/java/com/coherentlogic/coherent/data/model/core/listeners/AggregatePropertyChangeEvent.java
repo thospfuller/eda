@@ -14,14 +14,25 @@ import java.util.Map;
  */
 public class AggregatePropertyChangeEvent<S> implements Serializable {
 
-    private static final long serialVersionUID = 7169677559654674929L;
+    private static final long serialVersionUID = -802305061589758686L;
+
+    public enum UpdateType {
+        partial, full;
+    }
 
     private final S source;
 
+    private final UpdateType updateType;
+
     private final Map<String, PropertyChangeEvent> propertyChangeEventMap;
 
-    public AggregatePropertyChangeEvent(S source, Map<String, PropertyChangeEvent> propertyChangeEventMap) {
+    public AggregatePropertyChangeEvent(
+        S source,
+        UpdateType updateType,
+        Map<String, PropertyChangeEvent> propertyChangeEventMap
+    ) {
         this.source = source;
+        this.updateType = updateType;
         this.propertyChangeEventMap = propertyChangeEventMap;
     }
 
@@ -30,9 +41,13 @@ public class AggregatePropertyChangeEvent<S> implements Serializable {
      */
     public S getSource() {
         /* Note that we could take the source from any of the PropertyChangeEvent instances and it will suffice but this
-         * isn't really clean (IMO) hence we've added this method here..
+         * isn't really clean (IMO) hence we've added this method here.
          */
         return source;
+    }
+
+    public UpdateType getUpdateType() {
+        return updateType;
     }
 
     public Map<String, PropertyChangeEvent> getPropertyChangeEventMap() {
@@ -45,6 +60,7 @@ public class AggregatePropertyChangeEvent<S> implements Serializable {
         int result = 1;
         result = prime * result + ((propertyChangeEventMap == null) ? 0 : propertyChangeEventMap.hashCode());
         result = prime * result + ((source == null) ? 0 : source.hashCode());
+        result = prime * result + ((updateType == null) ? 0 : updateType.hashCode());
         return result;
     }
 
@@ -67,12 +83,14 @@ public class AggregatePropertyChangeEvent<S> implements Serializable {
                 return false;
         } else if (!source.equals(other.source))
             return false;
+        if (updateType != other.updateType)
+            return false;
         return true;
     }
 
     @Override
     public String toString() {
-        return "AggregatePropertyChangeEvent [source=" + source + ", propertyChangeEventMap=" + propertyChangeEventMap
-            + "]";
+        return "AggregatePropertyChangeEvent [source=" + source + ", updateType=" + updateType
+            + ", propertyChangeEventMap=" + propertyChangeEventMap + "]";
     }
 }
