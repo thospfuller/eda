@@ -12,14 +12,20 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.persistence.Version;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -48,15 +54,27 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
 @Entity()
 @Table(name=SerializableBean.SERIALIZABLE_BEAN)
 @Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
-public class SerializableBean implements Serializable, Cloneable {
+public class SerializableBean<T> implements Serializable, Cloneable {
 
-    private static final long serialVersionUID = 8988324213870032630L;
+    private static final long serialVersionUID = 3557664417023869095L;
 
     public static final String SERIALIZABLE_BEAN = "serializable_bean",
-        PRIMARY_KEY = "primaryKey";
+        PRIMARY_KEY = "primaryKey", CREATED_TIME_MILLIS = "createdTimeMillis";
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long primaryKey = null;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "createdDate", nullable = false)
+    private Date createdDate;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "updatedDate", nullable = false)
+    private Date updatedDate;
+
+    @Version
+    @Column(name = "optlock", columnDefinition = "integer DEFAULT 0", nullable = false)
+    private long version = 0L;
 
     /**
      * @see {@link java.beans.VetoableChangeSupport}
@@ -88,27 +106,61 @@ public class SerializableBean implements Serializable, Cloneable {
 
     @Transient
     @XStreamOmitField
-    public transient final List<AggregatePropertyChangeListener> aggregatePropertyChangeListeners;
+    public transient final List<AggregatePropertyChangeListener<T>> aggregatePropertyChangeListeners;
 
-    static PropertyChangeSupport createDefaultPropertyChangeSupport (SerializableBean serializableBean) {
+    static PropertyChangeSupport createDefaultPropertyChangeSupport (SerializableBean<?> serializableBean) {
         return new PropertyChangeSupport(serializableBean);
     }
 
     public SerializableBean() {
         propertyChangeSupport = createDefaultPropertyChangeSupport (this);
         vetoableChangeSupport = new VetoableChangeSupport (this);
-        this.aggregatePropertyChangeListeners = new ArrayList<AggregatePropertyChangeListener> ();
+        this.aggregatePropertyChangeListeners = new ArrayList<AggregatePropertyChangeListener<T>> ();
     }
 
     public SerializableBean(
         PropertyChangeSupport propertyChangeSupport,
         VetoableChangeSupport vetoableChangeSupport,
-        List<AggregatePropertyChangeListener> aggregatePropertyChangeListeners
+        List<AggregatePropertyChangeListener<T>> aggregatePropertyChangeListeners
     ) {
         super();
         this.propertyChangeSupport = propertyChangeSupport;
         this.vetoableChangeSupport = vetoableChangeSupport;
         this.aggregatePropertyChangeListeners = aggregatePropertyChangeListeners;
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        createdDate = new Date();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedDate = new Date();
+    }
+
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public Date getUpdatedDate() {
+        return updatedDate;
+    }
+
+    public void setUpdatedDate(Date updatedDate) {
+        this.updatedDate = updatedDate;
+    }
+
+    public long getVersion() {
+        return version;
+    }
+
+    public void setVersion(long version) {
+        this.version = version;
     }
 
     @Id
@@ -142,11 +194,11 @@ public class SerializableBean implements Serializable, Cloneable {
         return newDate;
     }
 
-    public <T> T clone (Class<T> type) {
+    public <X> X clone (Class<X> type) {
 
         Object object = clone ();
 
-        T result = type.cast(object);
+        X result = type.cast(object);
 
         return result;
     }
@@ -156,18 +208,13 @@ public class SerializableBean implements Serializable, Cloneable {
         try {
             return BeanUtils.cloneBean(this);
         } catch (IllegalAccessException illegalAccessException) {
-            throw new CloneFailedException("Illegal access exception thrown",
-                illegalAccessException);
+            throw new CloneFailedException("Illegal access exception thrown", illegalAccessException);
         } catch (InstantiationException instantiationException) {
-            throw new CloneFailedException("Failed to instantiate the class.",
-                instantiationException);
+            throw new CloneFailedException("Failed to instantiate the class.", instantiationException);
         } catch (InvocationTargetException invocationTargetException) {
-            throw new CloneFailedException(
-                "Invocation target exception thrown.",
-                invocationTargetException);
+            throw new CloneFailedException("Invocation target exception thrown.", invocationTargetException);
         } catch (NoSuchMethodException noSuchMethodException) {
-            throw new CloneFailedException(
-                "No such method exception thrown.", noSuchMethodException);
+            throw new CloneFailedException("No such method exception thrown.", noSuchMethodException);
         }
     }
 
@@ -264,7 +311,7 @@ public class SerializableBean implements Serializable, Cloneable {
      * {@link java.beans.PropertyChangeSupport#firePropertyChange(
      * String, Object, Object)} method.
      */
-    protected SerializableBean firePropertyChange (
+    protected SerializableBean<T> firePropertyChange (
         String propertyName,
         Object oldValue,
         Object newValue
@@ -277,7 +324,7 @@ public class SerializableBean implements Serializable, Cloneable {
      * {@link java.beans.PropertyChangeSupport#firePropertyChange(
      * String, boolean, boolean)} method.
      */
-    protected SerializableBean firePropertyChange (
+    protected SerializableBean<T> firePropertyChange (
         String propertyName,
         boolean oldValue,
         boolean newValue
@@ -290,7 +337,7 @@ public class SerializableBean implements Serializable, Cloneable {
      * {@link java.beans.PropertyChangeSupport#firePropertyChange(String, int,
      * int)} method.
      */
-    protected SerializableBean firePropertyChange (
+    protected SerializableBean<T> firePropertyChange (
         String propertyName,
         int oldValue,
         int newValue
@@ -304,7 +351,7 @@ public class SerializableBean implements Serializable, Cloneable {
      * PropertyChangeEvent)}
      * method.
      */
-    protected SerializableBean firePropertyChange (PropertyChangeEvent propertyChangeEvent) {
+    protected SerializableBean<T> firePropertyChange (PropertyChangeEvent propertyChangeEvent) {
 
         if (propertiesDiffer(propertyChangeEvent.getOldValue(), propertyChangeEvent.getNewValue()))
             propertyChangeSupport.firePropertyChange(propertyChangeEvent);
@@ -317,7 +364,7 @@ public class SerializableBean implements Serializable, Cloneable {
      * {@link java.beans.PropertyChangeSupport#fireIndexedPropertyChange(String,
      * int, Object, Object)} method.
      */
-    protected SerializableBean fireIndexedPropertyChange (
+    protected SerializableBean<T> fireIndexedPropertyChange (
         String propertyName,
         int index,
         Object oldValue,
@@ -333,7 +380,7 @@ public class SerializableBean implements Serializable, Cloneable {
      * {@link java.beans.PropertyChangeSupport#fireIndexedPropertyChange(String,
      * int, int, int)} method.
      */
-    protected SerializableBean fireIndexedPropertyChange (
+    protected SerializableBean<T> fireIndexedPropertyChange (
         String propertyName,
         int index,
         int oldValue,
@@ -349,7 +396,7 @@ public class SerializableBean implements Serializable, Cloneable {
      * {@link java.beans.PropertyChangeSupport#fireIndexedPropertyChange(String,
      * int, boolean, boolean)} method.
      */
-    protected SerializableBean fireIndexedPropertyChange (
+    protected SerializableBean<T> fireIndexedPropertyChange (
         String propertyName,
         int index,
         boolean oldValue,
@@ -365,7 +412,7 @@ public class SerializableBean implements Serializable, Cloneable {
      *
      * @see <a href="https://docs.oracle.com/javase/7/docs/api/java/beans/VetoableChangeSupport.html">VetoableChangeSupport</a>
      */
-    protected SerializableBean fireVetoableChange (String propertyName, Object oldValue, Object newValue)
+    protected SerializableBean<T> fireVetoableChange (String propertyName, Object oldValue, Object newValue)
         throws PropertyVetoException {
 
         vetoableChangeSupport.fireVetoableChange(propertyName, oldValue, newValue);
@@ -378,7 +425,7 @@ public class SerializableBean implements Serializable, Cloneable {
      *
      * @see <a href="https://docs.oracle.com/javase/7/docs/api/java/beans/VetoableChangeSupport.html">VetoableChangeSupport</a>
      */
-    protected SerializableBean fireVetoableChange (String propertyName, boolean oldValue, boolean newValue)
+    protected SerializableBean<T> fireVetoableChange (String propertyName, boolean oldValue, boolean newValue)
         throws PropertyVetoException {
 
         vetoableChangeSupport.fireVetoableChange(propertyName, oldValue, newValue);
@@ -391,7 +438,7 @@ public class SerializableBean implements Serializable, Cloneable {
      *
      * @see <a href="https://docs.oracle.com/javase/7/docs/api/java/beans/VetoableChangeSupport.html">VetoableChangeSupport</a>
      */
-    protected SerializableBean fireVetoableChange (String propertyName, int oldValue, int newValue)
+    protected SerializableBean<T> fireVetoableChange (String propertyName, int oldValue, int newValue)
         throws PropertyVetoException {
 
         vetoableChangeSupport.fireVetoableChange(propertyName, oldValue, newValue);
@@ -404,7 +451,7 @@ public class SerializableBean implements Serializable, Cloneable {
      *
      * @see <a href="https://docs.oracle.com/javase/7/docs/api/java/beans/VetoableChangeSupport.html">VetoableChangeSupport</a>
      */
-    protected SerializableBean fireVetoableChange (PropertyChangeEvent propertyChangeEvent)
+    protected SerializableBean<T> fireVetoableChange (PropertyChangeEvent propertyChangeEvent)
         throws PropertyVetoException {
 
         vetoableChangeSupport.fireVetoableChange(propertyChangeEvent);
@@ -413,17 +460,17 @@ public class SerializableBean implements Serializable, Cloneable {
     }
 
     @Transient
-    public List<AggregatePropertyChangeListener> getAggregatePropertyChangeListeners() {
+    public List<AggregatePropertyChangeListener<T>> getAggregatePropertyChangeListeners() {
         return aggregatePropertyChangeListeners;
     }
 
     public void addAggregatePropertyChangeListener (
-        AggregatePropertyChangeListener aggregatePropertyChangeListener) {
+        AggregatePropertyChangeListener<T> aggregatePropertyChangeListener) {
         aggregatePropertyChangeListeners.add(aggregatePropertyChangeListener);
     }
 
     public boolean removeAggregatePropertyChangeListener (
-        AggregatePropertyChangeListener aggregatePropertyChangeListener) {
+        AggregatePropertyChangeListener<T> aggregatePropertyChangeListener) {
         return aggregatePropertyChangeListeners.remove(aggregatePropertyChangeListener);
     }
 
@@ -431,23 +478,23 @@ public class SerializableBean implements Serializable, Cloneable {
      * Method invokes the {@link AggregatePropertyChangeListener#onAggregatePropertyChangeEvent(AggregatePropertyChangeEvent)}
      * method for all {@link AggregatePropertyChangeListener}s that have registered for update notifications.
      */
-    public SerializableBean fireAggregatePropertyChangeEvent (
-        AggregatePropertyChangeEvent aggregatePropertyChangeEvent) {
+    public SerializableBean<T> fireAggregatePropertyChangeEvent (
+        AggregatePropertyChangeEvent<T> aggregatePropertyChangeEvent) {
 
-        for (AggregatePropertyChangeListener aggregatePropertyChangeListener : aggregatePropertyChangeListeners)
+        for (AggregatePropertyChangeListener<T> aggregatePropertyChangeListener : aggregatePropertyChangeListeners)
             aggregatePropertyChangeListener.onAggregatePropertyChangeEvent(aggregatePropertyChangeEvent);
 
         return this;
     }
 
     /**
-     * Returns the result of the call to EqualsBuilder#reflectionEquals(this, target, false);
+     * Returns the result of the call to EqualsBuilder#reflectionEquals(this, target, CREATED_TIME_MILLIS);
      *
      * @see {@link java.lang.Object#equals(Object)}
      */
     @Override
     public boolean equals(Object target) {
-        return EqualsBuilder.reflectionEquals(this, target, false);
+        return EqualsBuilder.reflectionEquals(this, target, CREATED_TIME_MILLIS);
     }
 
     /**
