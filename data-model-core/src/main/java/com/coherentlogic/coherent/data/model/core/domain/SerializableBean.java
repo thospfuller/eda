@@ -13,12 +13,10 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
+import javax.persistence.MappedSuperclass;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
@@ -51,9 +49,10 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
  * @author <a href="https://www.linkedin.com/in/thomasfuller">Thomas P. Fuller</a>
  * @author <a href="mailto:support@coherentlogic.com">Support</a>
  */
-@Entity()
-@Table(name=SerializableBean.SERIALIZABLE_BEAN)
-@Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
+//@Entity()
+//@Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
+//@Table(name=SerializableBean.SERIALIZABLE_BEAN)
+@MappedSuperclass
 public class SerializableBean<T> implements Serializable, Cloneable {
 
     private static final long serialVersionUID = 3557664417023869095L;
