@@ -41,6 +41,7 @@
         <module>bom</module>
         <module>data-model-core</module>
         <module>data-adapter-core</module>
+        <module>data-adapter-application</module>
     </modules>
     <dependencyManagement>
         <dependencies>
