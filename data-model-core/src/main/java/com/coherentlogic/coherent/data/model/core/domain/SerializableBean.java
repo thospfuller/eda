@@ -19,7 +19,6 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
-import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
@@ -73,6 +72,7 @@ public class SerializableBean<T> implements Serializable, Cloneable {
 
     @Version
     @Column(name = "optlock", columnDefinition = "integer DEFAULT 0", nullable = false)
+    @XStreamOmitField()
     private long version = 0L;
 
     /**
@@ -332,9 +332,7 @@ public class SerializableBean<T> implements Serializable, Cloneable {
     }
 
     /**
-     * Method delegates to the
-     * {@link java.beans.PropertyChangeSupport#firePropertyChange(String, int,
-     * int)} method.
+     * Method delegates to the {@link java.beans.PropertyChangeSupport#firePropertyChange(String, int, int)} method.
      */
     protected SerializableBean<T> firePropertyChange (
         String propertyName,
