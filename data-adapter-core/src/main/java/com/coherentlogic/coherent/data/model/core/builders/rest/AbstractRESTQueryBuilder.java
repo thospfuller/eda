@@ -120,6 +120,9 @@ public abstract class AbstractRESTQueryBuilder<K> extends CacheableQueryBuilder<
         uriBuilder.queryParam(name, value);
     }
 
+    // TODO: Consider implementing the following method.
+    // protected void addParameter (String name, Object value)
+
     /**
      * Method adds a name-value pair to the internal list of name-value pairs.
      *
@@ -144,9 +147,9 @@ public abstract class AbstractRESTQueryBuilder<K> extends CacheableQueryBuilder<
 
     /**
      * Method extends the {@link #uriBuilder}'s path with the path value -- ie.
-     * 
+     *
      * http://www.foo.bar/ becomes http://www.foo.bar/baz/.
-     * 
+     *
      * @param path The additional path value -- in the example above, 'baz'.
      */
     protected AbstractRESTQueryBuilder<K> extendPathWith (String path) {
@@ -205,7 +208,7 @@ public abstract class AbstractRESTQueryBuilder<K> extends CacheableQueryBuilder<
      * Method constructs the URI and first checks to see if the object currently
      * exists in the cache -- if it does, then this object is returned, other-
      * -wise the URI is called and the resultant XML is converted into an
-     * instance of type <i>type</i> and the result is returned to the user. 
+     * instance of type <i>type</i> and the result is returned to the user.
      */
     @Override
     public <T> T doGet (Class<T> type) {
