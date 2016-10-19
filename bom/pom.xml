@@ -5,7 +5,7 @@
     <groupId>com.coherentlogic.coherent.data-model</groupId>
     <artifactId>bom</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.24-RELEASE</version>
+    <version>1.0.25-RELEASE</version>
 
     <name>Coherent Data Model Bill of Materials</name>
     <description>The bill of materials (bom) for the CL Data Model.</description>
