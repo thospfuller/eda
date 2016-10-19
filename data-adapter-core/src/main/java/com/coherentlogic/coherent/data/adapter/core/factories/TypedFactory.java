@@ -1,4 +1,4 @@
-package com.coherentlogic.coherent.data.model.core.factories;
+package com.coherentlogic.coherent.data.adapter.core.factories;
 
 /**
  * Generic interface for classes that follow the factory pattern.

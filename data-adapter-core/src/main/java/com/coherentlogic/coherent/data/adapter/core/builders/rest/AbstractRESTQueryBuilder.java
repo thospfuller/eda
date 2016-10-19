@@ -1,4 +1,4 @@
-package com.coherentlogic.coherent.data.model.core.builders.rest;
+package com.coherentlogic.coherent.data.adapter.core.builders.rest;
 
 import java.net.URI;
 
@@ -6,13 +6,13 @@ import javax.ws.rs.core.UriBuilder;
 
 import org.springframework.web.client.RestTemplate;
 
-import com.coherentlogic.coherent.data.model.core.builders.CacheableQueryBuilder;
-import com.coherentlogic.coherent.data.model.core.builders.GetMethodSpecification;
-import com.coherentlogic.coherent.data.model.core.cache.CacheServiceProviderSpecification;
-import com.coherentlogic.coherent.data.model.core.cache.NullCache;
-import com.coherentlogic.coherent.data.model.core.listeners.QueryBuilderEvent;
-import com.coherentlogic.coherent.data.model.core.listeners.QueryBuilderExceptionEvent;
-import com.coherentlogic.coherent.data.model.core.util.WelcomeMessage;
+import com.coherentlogic.coherent.data.adapter.core.builders.CacheableQueryBuilder;
+import com.coherentlogic.coherent.data.adapter.core.builders.GetMethodSpecification;
+import com.coherentlogic.coherent.data.adapter.core.cache.CacheServiceProviderSpecification;
+import com.coherentlogic.coherent.data.adapter.core.cache.NullCache;
+import com.coherentlogic.coherent.data.adapter.core.listeners.QueryBuilderEvent;
+import com.coherentlogic.coherent.data.adapter.core.listeners.QueryBuilderExceptionEvent;
+import com.coherentlogic.coherent.data.adapter.core.util.WelcomeMessage;
 
 /**
  * This class acts as the foundation for QueryBuilder implementations. This class has caching capabilities where the key

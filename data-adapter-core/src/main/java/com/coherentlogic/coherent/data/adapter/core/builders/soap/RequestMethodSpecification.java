@@ -1,4 +1,4 @@
-package com.coherentlogic.coherent.data.model.core.builders.soap;
+package com.coherentlogic.coherent.data.adapter.core.builders.soap;
 
 /**
  * Specification for requesting data of a known type.

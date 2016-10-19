@@ -1,11 +1,11 @@
-package com.coherentlogic.coherent.data.model.core.builders;
+package com.coherentlogic.coherent.data.adapter.core.builders;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.coherentlogic.coherent.data.model.core.listeners.QueryBuilderEvent;
-import com.coherentlogic.coherent.data.model.core.listeners.QueryBuilderEventListener;
+import com.coherentlogic.coherent.data.adapter.core.listeners.QueryBuilderEvent;
+import com.coherentlogic.coherent.data.adapter.core.listeners.QueryBuilderEventListener;
 
 /**
  * The foundation for QueryBuilder classes which the developer can use to register {@link QueryBuilderEventListener}

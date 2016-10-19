@@ -1,4 +1,4 @@
-package com.coherentlogic.coherent.data.model.core.xstream;
+package com.coherentlogic.coherent.data.adapter.core.xstream;
 
 import org.springframework.oxm.xstream.XStreamMarshaller;
 
@@ -6,7 +6,7 @@ import com.thoughtworks.xstream.XStream;
 
 /**
  * Marshaller that sets the XStream marshalling strategy to an instance of
- * {@link com.coherentlogic.coherent.data.model.core.xstream.
+ * {@link com.coherentlogic.coherent.data.adapter.core.xstream.
  * CustomMarshallingStrategy}.
  *
  * @deprecated We don't really need this as we can set the marshalling strategy using a getter method.

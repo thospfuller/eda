@@ -1,4 +1,4 @@
-package com.coherentlogic.coherent.data.model.core.xstream;
+package com.coherentlogic.coherent.data.adapter.core.xstream;
 
 import java.beans.PropertyChangeSupport;
 import java.beans.VetoableChangeSupport;
@@ -9,8 +9,8 @@ import java.lang.reflect.InvocationTargetException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.coherentlogic.coherent.data.adapter.core.exceptions.GenericReflectionException;
 import com.coherentlogic.coherent.data.model.core.domain.SerializableBean;
-import com.coherentlogic.coherent.data.model.core.exceptions.GenericReflectionException;
 import com.thoughtworks.xstream.converters.Converter;
 import com.thoughtworks.xstream.converters.ConverterLookup;
 import com.thoughtworks.xstream.core.ReferenceByXPathMarshallingStrategy;

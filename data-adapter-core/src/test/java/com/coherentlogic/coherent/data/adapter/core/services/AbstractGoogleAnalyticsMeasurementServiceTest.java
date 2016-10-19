@@ -1,10 +1,12 @@
-package com.coherentlogic.coherent.data.model.core.services;
+package com.coherentlogic.coherent.data.adapter.core.services;
 
 import static org.junit.Assert.*;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import com.coherentlogic.coherent.data.adapter.core.services.AbstractGoogleAnalyticsMeasurementService;
 
 /**
  * Unit test for the {@link AbstractGoogleAnalyticsMeasurementService} class.

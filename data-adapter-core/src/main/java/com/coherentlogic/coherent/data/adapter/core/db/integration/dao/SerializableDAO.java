@@ -1,4 +1,4 @@
-package com.coherentlogic.coherent.data.model.core.db.integration.dao;
+package com.coherentlogic.coherent.data.adapter.core.db.integration.dao;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

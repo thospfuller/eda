@@ -1,4 +1,4 @@
-package com.coherentlogic.coherent.data.model.core.exceptions;
+package com.coherentlogic.coherent.data.adapter.core.exceptions;
 
 import org.springframework.core.NestedRuntimeException;
 

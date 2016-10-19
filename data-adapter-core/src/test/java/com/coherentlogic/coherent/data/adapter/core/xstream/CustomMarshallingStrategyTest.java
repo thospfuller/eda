@@ -1,4 +1,4 @@
-package com.coherentlogic.coherent.data.model.core.xstream;
+package com.coherentlogic.coherent.data.adapter.core.xstream;
 
 import static org.junit.Assert.assertNotNull;
 
@@ -9,6 +9,7 @@ import java.beans.VetoableChangeListener;
 
 import org.junit.Test;
 
+import com.coherentlogic.coherent.data.adapter.core.xstream.CustomMarshallingStrategy;
 import com.coherentlogic.coherent.data.model.core.domain.SerializableBean;
 
 /**

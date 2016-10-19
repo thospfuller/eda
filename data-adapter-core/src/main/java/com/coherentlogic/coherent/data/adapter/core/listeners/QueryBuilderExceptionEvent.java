@@ -1,6 +1,6 @@
-package com.coherentlogic.coherent.data.model.core.listeners;
+package com.coherentlogic.coherent.data.adapter.core.listeners;
 
-import com.coherentlogic.coherent.data.model.core.builders.AbstractQueryBuilder;
+import com.coherentlogic.coherent.data.adapter.core.builders.AbstractQueryBuilder;
 
 /**
  * An event that is fired when an exception is thrown from within the {@link AbstractQueryBuilder}.

@@ -1,4 +1,4 @@
-package com.coherentlogic.coherent.data.model.core.cache;
+package com.coherentlogic.coherent.data.adapter.core.cache;
 
 /**
  * An interface that can be implemented such that calls to any Cache implementation can be performed.

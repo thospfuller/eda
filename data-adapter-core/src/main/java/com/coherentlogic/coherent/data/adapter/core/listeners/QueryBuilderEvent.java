@@ -1,9 +1,9 @@
-package com.coherentlogic.coherent.data.model.core.listeners;
+package com.coherentlogic.coherent.data.adapter.core.listeners;
 
 import java.util.EventObject;
 
-import com.coherentlogic.coherent.data.model.core.builders.AbstractQueryBuilder;
-import com.coherentlogic.coherent.data.model.core.builders.rest.AbstractRESTQueryBuilder;
+import com.coherentlogic.coherent.data.adapter.core.builders.AbstractQueryBuilder;
+import com.coherentlogic.coherent.data.adapter.core.builders.rest.AbstractRESTQueryBuilder;
 
 /**
  * An event that is fired as the {@link AbstractRESTQueryBuilder#doExecute} method is executed.

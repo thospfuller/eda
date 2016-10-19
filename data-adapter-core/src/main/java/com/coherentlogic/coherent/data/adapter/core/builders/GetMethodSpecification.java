@@ -1,4 +1,4 @@
-package com.coherentlogic.coherent.data.model.core.builders;
+package com.coherentlogic.coherent.data.adapter.core.builders;
 
 /**
  * Specification for the get method that returns data from the call to the web service end point.

@@ -1,4 +1,4 @@
-package com.coherentlogic.coherent.data.model.core.builders.rest;
+package com.coherentlogic.coherent.data.adapter.core.builders.rest;
 
 import static org.junit.Assert.assertEquals;
 
@@ -12,7 +12,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.web.client.RestTemplate;
 
-import com.coherentlogic.coherent.data.model.core.cache.CacheServiceProviderSpecification;
+import com.coherentlogic.coherent.data.adapter.core.builders.rest.AbstractRESTQueryBuilder;
+import com.coherentlogic.coherent.data.adapter.core.cache.CacheServiceProviderSpecification;
 
 /**
  * Unit test for the {@link AbstractRESTQueryBuilder} class.

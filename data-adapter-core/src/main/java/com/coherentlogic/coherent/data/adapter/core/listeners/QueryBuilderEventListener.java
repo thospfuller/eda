@@ -1,4 +1,4 @@
-package com.coherentlogic.coherent.data.model.core.listeners;
+package com.coherentlogic.coherent.data.adapter.core.listeners;
 
 /**
  * A listener for events that are fired by the {@link QueryBuilder}.

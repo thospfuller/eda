@@ -1,4 +1,4 @@
-package com.coherentlogic.coherent.data.model.core.adapters;
+package com.coherentlogic.coherent.data.adapter.core.adapters;
 
 /**
  * An adapter specification for adapters that create the source before and the actual adapt logic is responsible for

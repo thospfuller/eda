@@ -1,10 +1,10 @@
-package com.coherentlogic.coherent.data.model.core.builders.soap;
+package com.coherentlogic.coherent.data.adapter.core.builders.soap;
 
 import org.springframework.ws.client.core.WebServiceTemplate;
 
-import com.coherentlogic.coherent.data.model.core.builders.CacheableQueryBuilder;
-import com.coherentlogic.coherent.data.model.core.cache.CacheServiceProviderSpecification;
-import com.coherentlogic.coherent.data.model.core.cache.NullCache;
+import com.coherentlogic.coherent.data.adapter.core.builders.CacheableQueryBuilder;
+import com.coherentlogic.coherent.data.adapter.core.cache.CacheServiceProviderSpecification;
+import com.coherentlogic.coherent.data.adapter.core.cache.NullCache;
 
 /**
  * The foundation for working with SOAP-style web services.

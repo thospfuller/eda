@@ -1,4 +1,4 @@
-package com.coherentlogic.coherent.data.model.core.util;
+package com.coherentlogic.coherent.data.adapter.core.util;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.coherentlogic.coherent.data.model.core.container;
+package com.coherentlogic.coherent.data.adapter.core.container;
 
 import java.util.Map;
 import java.util.Map.Entry;
@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.jndi.JndiTemplate;
 
-import com.coherentlogic.coherent.data.model.core.exceptions.BindFailedException;
+import com.coherentlogic.coherent.data.adapter.core.exceptions.BindFailedException;
 
 /**
  * Class is used to register an object, by key, with the Java Naming and Directory Interface (JNDI).

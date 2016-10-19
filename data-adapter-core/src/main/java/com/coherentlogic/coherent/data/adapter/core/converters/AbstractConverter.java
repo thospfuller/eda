@@ -1,6 +1,6 @@
-package com.coherentlogic.coherent.data.model.core.converters;
+package com.coherentlogic.coherent.data.adapter.core.converters;
 
-import com.coherentlogic.coherent.data.model.core.exceptions.MethodNotSupportedException;
+import com.coherentlogic.coherent.data.adapter.core.exceptions.MethodNotSupportedException;
 import com.thoughtworks.xstream.converters.Converter;
 import com.thoughtworks.xstream.converters.MarshallingContext;
 import com.thoughtworks.xstream.io.HierarchicalStreamWriter;

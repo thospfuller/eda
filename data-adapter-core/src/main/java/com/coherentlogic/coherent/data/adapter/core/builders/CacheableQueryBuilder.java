@@ -1,6 +1,6 @@
-package com.coherentlogic.coherent.data.model.core.builders;
+package com.coherentlogic.coherent.data.adapter.core.builders;
 
-import com.coherentlogic.coherent.data.model.core.cache.CacheServiceProviderSpecification;
+import com.coherentlogic.coherent.data.adapter.core.cache.CacheServiceProviderSpecification;
 
 /**
  * Apply the JAMON Performance Interceptor as follows:

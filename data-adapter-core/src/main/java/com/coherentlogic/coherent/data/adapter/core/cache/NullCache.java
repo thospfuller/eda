@@ -1,4 +1,4 @@
-package com.coherentlogic.coherent.data.model.core.cache;
+package com.coherentlogic.coherent.data.adapter.core.cache;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
