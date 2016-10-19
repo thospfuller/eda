@@ -7,7 +7,7 @@ import java.io.StringWriter;
 import org.apache.commons.io.IOUtils;
 import org.springframework.core.io.ClassPathResource;
 
-import com.coherentlogic.coherent.data.model.core.factories.TypedFactory;
+import com.coherentlogic.coherent.data.adapter.core.factories.TypedFactory;
 
 /**
  * A class that is used to load examples from a file which is embedded in a jar.
