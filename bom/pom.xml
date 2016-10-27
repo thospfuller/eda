@@ -5,7 +5,7 @@
     <groupId>com.coherentlogic.coherent.data-model</groupId>
     <artifactId>bom</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.25-RELEASE</version>
+    <version>1.0.26-RELEASE</version>
 
     <name>Coherent Data Model Bill of Materials</name>
     <description>The bill of materials (bom) for the CL Data Model.</description>
@@ -167,6 +167,23 @@
                 <groupId>org.jboss.resteasy</groupId>
                 <artifactId>resteasy-client</artifactId>
                 <version>3.0.19.Final</version>
+                <exclusions>
+                    <!-- RESTEasy ships with jboss-logging version 3.1.4.GA and this causes problems with the
+                         spring-boot-starter-data-jpa dependency, which ships with version 3.3.0.Final, which we
+                         import below. If we don't do this, we'll see an exception that looks as follows:
+
+                         NoSuchMethodError: org.jboss.logging.Logger.debugf(Ljava/lang/String;I)V
+                      -->
+                    <exclusion>
+                        <groupId>org.jboss.logging</groupId>
+                        <artifactId>jboss-logging</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss.logging</groupId>
+                <artifactId>jboss-logging</artifactId>
+                <version>3.3.0.Final</version>
             </dependency>
             <dependency>
                 <groupId>org.infinispan</groupId>
