@@ -54,10 +54,27 @@ public class AboutDialog extends JDialog {
         );
     }
 
+    public AboutDialog(String titleText, String[] aboutText) throws IOException {
+        this (titleText, newLabel(aboutText));
+    }
+
     public AboutDialog(String titleText, JLabel[] aboutText) throws IOException {
         this.titleText = titleText;
         this.aboutLabels = aboutText;
         init();
+    }
+
+    private static JLabel[] newLabel (String[] textArray) {
+
+        JLabel[] result = new JLabel[textArray.length];
+
+        int ctr = 0;
+
+        for (String next : textArray) {
+            result[ctr++] = newLabel(next);
+        }
+
+        return result;
     }
 
     private static JLabel newLabel (String text) {
@@ -104,6 +121,33 @@ public class AboutDialog extends JDialog {
         for (JLabel next : aboutLabels) {
             add(next);
         }
+
+        JLabel follow = newLabel("Follow us on Twitter at:");
+
+        add(follow);
+
+        JLabel link = newLabel(TWITTER_URL);
+
+        add(link);
+
+        link.setForeground(Color.blue);
+
+        link.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
+        link.addMouseListener(
+            new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    try {
+                        open (TWITTER_URL);
+                    } catch (URISyntaxException uriSyntaxException) {
+                        throw new InvalidURIException (
+                            "The uri '" + TWITTER_URL +
+                            "' could not be opened.", uriSyntaxException);
+                    }
+                }
+            }
+        );
 
 //        link.setForeground(Color.blue);
 //

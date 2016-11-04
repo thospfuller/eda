@@ -31,6 +31,7 @@ import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingUtilities;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -142,6 +143,12 @@ public abstract class AbstractApplication extends JFrame implements CommandLineR
         addHelpAbout (menuBar);
     }
 
+    protected abstract String getAPIJavadocURI ();
+
+    protected abstract String getAboutTitle ();
+
+    protected abstract String[] getAboutText ();
+
     private void addHelpAbout (JMenuBar menuBar) {
         JMenu helpMenu = new JMenu("Help");
         menuBar.add(helpMenu);
@@ -160,7 +167,7 @@ public abstract class AbstractApplication extends JFrame implements CommandLineR
                     AboutDialog dialog;
 
                     try {
-                        dialog = new AboutDialog ();
+                        dialog = new AboutDialog (getAboutTitle (), getAboutText ());
                     } catch (IOException ioException) {
                         throw new IORuntimeException(
                             "Unable to create the AboutDialog.", ioException);
@@ -173,7 +180,7 @@ public abstract class AbstractApplication extends JFrame implements CommandLineR
 
     private void addAPIMenuItem (JMenu helpMenu) {
 
-        final String destination = "http://bit.ly/1G3dwJG";
+        final String destination = getAPIJavadocURI ();
 
         JMenuItem apiJavadocs = new JMenuItem("API Javadocs");
 
@@ -387,13 +394,17 @@ public abstract class AbstractApplication extends JFrame implements CommandLineR
 
                         String errorMessage = throwable.getMessage();
 
-                        JOptionPane.showMessageDialog(
-                            panel,
-                            (errorMessage == null || "".equals(errorMessage))
-                                ? "No error message provided -- see the log, which should have more details."
-                                : errorMessage,
-                            "Evaluation failed!",
-                            JOptionPane.ERROR_MESSAGE
+                        SwingUtilities.invokeLater(
+                            () -> {
+                                JOptionPane.showMessageDialog(
+                                    panel,
+                                    (errorMessage == null || "".equals(errorMessage))
+                                        ? "No error message provided -- see the log, which should have more details."
+                                        : errorMessage,
+                                    "Evaluation failed!",
+                                    JOptionPane.ERROR_MESSAGE
+                                );
+                            }
                         );
 
                         return;
