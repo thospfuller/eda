@@ -4,12 +4,15 @@ import java.net.URI;
 
 import javax.ws.rs.core.UriBuilder;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.client.RestTemplate;
 
 import com.coherentlogic.coherent.data.adapter.core.builders.CacheableQueryBuilder;
 import com.coherentlogic.coherent.data.adapter.core.builders.GetMethodSpecification;
 import com.coherentlogic.coherent.data.adapter.core.cache.CacheServiceProviderSpecification;
 import com.coherentlogic.coherent.data.adapter.core.cache.NullCache;
+import com.coherentlogic.coherent.data.adapter.core.exceptions.ExecutionFailedException;
 import com.coherentlogic.coherent.data.adapter.core.listeners.QueryBuilderEvent;
 import com.coherentlogic.coherent.data.adapter.core.listeners.QueryBuilderExceptionEvent;
 import com.coherentlogic.coherent.data.adapter.core.util.WelcomeMessage;
@@ -23,6 +26,8 @@ import com.coherentlogic.coherent.data.adapter.core.util.WelcomeMessage;
  */
 public abstract class AbstractRESTQueryBuilder<K> extends CacheableQueryBuilder<K, Object>
     implements GetMethodSpecification {
+
+    private static final Logger log = LoggerFactory.getLogger(AbstractRESTQueryBuilder.class);
 
     private final RestTemplate restTemplate;
 
@@ -205,25 +210,16 @@ public abstract class AbstractRESTQueryBuilder<K> extends CacheableQueryBuilder<
     protected abstract <T> T doExecute (Class<T> type);
 
     /**
-     * Method constructs the URI and first checks to see if the object currently
-     * exists in the cache -- if it does, then this object is returned, other-
-     * -wise the URI is called and the resultant XML is converted into an
-     * instance of type <i>type</i> and the result is returned to the user.
+     * Method constructs the URI and first checks to see if the object currently exists in the cache -- if it does, then
+     * this object is returned, otherwise the URI is called and the resultant XML is converted into an instance of type
+     * <i>type</i> and the result is returned to the user.
      */
     @Override
     public <T> T doGet (Class<T> type) {
 
         long operationBeganAtMillis = System.currentTimeMillis();
 
-        fireQueryBuilderEvent(
-            new QueryBuilderEvent<K, Object>(
-                this,
-                QueryBuilderEvent.EventType.methodBegins,
-                null,
-                null,
-                operationBeganAtMillis, operationBeganAtMillis
-            )
-        );
+        fireQueryBuilderEvent(QueryBuilderEvent.EventType.methodBegins, null, null, operationBeganAtMillis);
 
         K key = getKey ();
 
@@ -232,13 +228,10 @@ public abstract class AbstractRESTQueryBuilder<K> extends CacheableQueryBuilder<
         CacheServiceProviderSpecification<K, Object> cache = getCache();
 
         fireQueryBuilderEvent(
-            new QueryBuilderEvent<K, Object>(
-                this,
-                QueryBuilderEvent.EventType.preCache,
-                key,
-                null,
-                operationBeganAtMillis, System.currentTimeMillis()
-            )
+            QueryBuilderEvent.EventType.preCacheCheck,
+            key,
+            null,
+            operationBeganAtMillis
         );
 
         Object object = cache.get(key);
@@ -248,13 +241,10 @@ public abstract class AbstractRESTQueryBuilder<K> extends CacheableQueryBuilder<
             result = (T) object;
 
             fireQueryBuilderEvent(
-                new QueryBuilderEvent<K, Object>(
-                    this,
-                    QueryBuilderEvent.EventType.cacheHit,
-                    key,
-                    result,
-                    operationBeganAtMillis, System.currentTimeMillis()
-                )
+                QueryBuilderEvent.EventType.cacheHit,
+                key,
+                result,
+                operationBeganAtMillis
             );
 
         } else if (object != null && !type.isInstance(object)) {
@@ -262,46 +252,51 @@ public abstract class AbstractRESTQueryBuilder<K> extends CacheableQueryBuilder<
             RuntimeException exception = new ClassCastException (
                 "The object " + object + " cannot be cast to type " + type + ".");
 
-            fireQueryBuilderEvent(
-                new QueryBuilderExceptionEvent<K, Object>(
-                    this,
-                    QueryBuilderEvent.EventType.methodEnds,
-                    key,
-                    result,
-                    exception,
-                    operationBeganAtMillis, System.currentTimeMillis()
-                )
-            );
-
-            throw exception;
+            onException(key, result, exception, operationBeganAtMillis);
 
         } else if (object == null) {
 
-            result = doExecute (type);
+            try {
+                result = doExecute (type);
+            } catch (Throwable cause) {
+
+                onException (
+                    key,
+                    null,
+                    new ExecutionFailedException (
+                        "The call to the doExecute method caused an exception to be thrown.",
+                        cause
+                    ),
+                    operationBeganAtMillis
+                );
+            }
 
             cache.put(key, result);
 
-            fireQueryBuilderEvent(
-                new QueryBuilderEvent<K, Object>(
-                    this,
-                    QueryBuilderEvent.EventType.cacheMiss,
-                    key,
-                    result,
-                    operationBeganAtMillis, System.currentTimeMillis()
-                )
-            );
+            fireQueryBuilderEvent(QueryBuilderEvent.EventType.cacheMiss, key, result, operationBeganAtMillis);
         }
 
-        fireQueryBuilderEvent(
-            new QueryBuilderEvent<K, Object>(
-                this,
-                QueryBuilderEvent.EventType.methodEnds,
-                key,
-                result,
-                operationBeganAtMillis, System.currentTimeMillis()
-            )
-        );
+        fireQueryBuilderEvent(QueryBuilderEvent.EventType.methodEnds, key, result, operationBeganAtMillis);
 
         return result;
+    }
+
+    void onException (
+        K key,
+        Object value,
+        RuntimeException cause,
+        long operationBeganAtMillis
+    ) {
+
+        log.error(cause.getMessage(), cause);
+
+        fireQueryBuilderEvent(
+            key,
+            null,
+            cause,
+            operationBeganAtMillis
+        );
+
+        throw cause;
     }
 }
