@@ -82,6 +82,6 @@ public class QueryBuilderEvent<K, V> extends EventObject {
     }
 
     public static enum EventType {
-        methodBegins, methodEnds, preCache, cacheHit, cacheMiss, preInvocation, postInvocation;
+        methodBegins, methodEnds, preCacheCheck, cacheHit, cacheMiss, preInvocation, postInvocation, exceptionThrown;
     }
 }
