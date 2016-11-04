@@ -34,29 +34,11 @@ public class GroovyExampleBean<Q extends TypedFactory<AbstractQueryBuilder<Strin
 
     public Object execute (JPanel panel, String scriptText) {
 
-        Object result = null;
-
         AbstractQueryBuilder<String, Object> queryBuilder = queryBuilderFactory.getInstance();
 
         groovyEngine.setVariable(QUERY_BUILDER, queryBuilder);
 
-        try {
-            result = groovyEngine.evaluate(scriptText);
-        } catch (Throwable throwable) {
-
-            log.error("Evaluation failed for the script:\n\n" +
-                scriptText, throwable);
-
-            JOptionPane.showMessageDialog(
-                panel,
-                throwable.getMessage(),
-                "Evaluation failed!",
-                JOptionPane.ERROR_MESSAGE);
-
-            throw throwable;
-        }
-
-        return result;
+        return groovyEngine.evaluate(scriptText);
     }
 
     public String getScriptText() {
