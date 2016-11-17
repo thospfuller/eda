@@ -56,8 +56,13 @@ public class SerializableBean<T> implements Serializable, Cloneable {
 
     private static final long serialVersionUID = 3557664417023869095L;
 
-    public static final String SERIALIZABLE_BEAN = "serializable_bean",
-        PRIMARY_KEY = "primaryKey", CREATED_TIME_MILLIS = "createdTimeMillis";
+    public static final String
+        SERIALIZABLE_BEAN = "serializable_bean",
+        PRIMARY_KEY = "primaryKey",
+        CREATED_TIME_MILLIS = "createdTimeMillis",
+        CREATED_DATE = "createdDate",
+        UPDATED_DATE = "updatedDate",
+        VERSION = "version";
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long primaryKey = null;
@@ -143,7 +148,12 @@ public class SerializableBean<T> implements Serializable, Cloneable {
     }
 
     public void setCreatedDate(Date createdDate) {
+
+    	Date oldValue = this.createdDate;
+
         this.createdDate = createdDate;
+
+        firePropertyChange(CREATED_DATE, oldValue, createdDate);
     }
 
     public Date getUpdatedDate() {
@@ -151,7 +161,12 @@ public class SerializableBean<T> implements Serializable, Cloneable {
     }
 
     public void setUpdatedDate(Date updatedDate) {
+
+    	Date oldValue = this.updatedDate;
+
         this.updatedDate = updatedDate;
+
+        firePropertyChange(UPDATED_DATE, oldValue, updatedDate);
     }
 
     public long getVersion() {
@@ -159,7 +174,12 @@ public class SerializableBean<T> implements Serializable, Cloneable {
     }
 
     public void setVersion(long version) {
+
+    	long oldValue = this.version;
+
         this.version = version;
+
+        firePropertyChange(VERSION, oldValue, version);
     }
 
     @Id
