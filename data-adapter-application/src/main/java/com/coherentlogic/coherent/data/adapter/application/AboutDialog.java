@@ -45,7 +45,7 @@ public class AboutDialog extends JDialog {
         this (
             "Welcome to the Coherent Logic Hello World Client GUI!",
             new JLabel[] {
-                newLabel("Coherent Logic Hello World Client GUI version 1.0.26-RELEASE"),
+                newLabel("Coherent Logic Hello World Client GUI version 1.0.27-RELEASE"),
                 newLabel("Copyright (C) 2012 - Present Coherent Logic Limited; All Rights Reserved."),
                 newLabel("Licensed under the GNU Lesser General Public License"),
                 newLabel("Follow us on Twitter at:"),
