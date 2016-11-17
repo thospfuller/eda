@@ -2,9 +2,11 @@ package com.coherentlogic.coherent.data.model.core.domain;
 
 import java.util.Collection;
 
+import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 
 /**
  * A representation of a user for projects using Spring Security.
@@ -15,11 +17,14 @@ import javax.persistence.ManyToMany;
  * @author <a href="https://www.linkedin.com/in/thomasfuller">Thomas P. Fuller</a>
  * @author <a href="mailto:support@coherentlogic.com">Support</a>
  */
+@Entity
+@Table(name=User.USER)
 public class User extends SerializableBean<User> {
 
     private static final long serialVersionUID = -5526931904298035968L;
 
     public static final String
+        USER = "user",
         FIRST_NAME = "firstName",
         LAST_NAME = "lastName",
         EMAIL = "email",

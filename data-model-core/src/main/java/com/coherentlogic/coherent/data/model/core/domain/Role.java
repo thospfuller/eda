@@ -3,9 +3,11 @@ package com.coherentlogic.coherent.data.model.core.domain;
 import java.util.Collection;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 
 /**
  * A representation of a role for projects using Spring Security.
@@ -16,11 +18,13 @@ import javax.persistence.ManyToMany;
  * @author <a href="https://www.linkedin.com/in/thomasfuller">Thomas P. Fuller</a>
  * @author <a href="mailto:support@coherentlogic.com">Support</a>
  */
+@Entity
+@Table(name=Role.ROLE)
 public class Role extends SerializableBean<User> {
 
     private static final long serialVersionUID = -8984788924094495235L;
 
-    private static final String
+    public static final String
         NAME = "name",
         ROLE = "role",
         ROLE_PRIVILEGES = "role_privileges",

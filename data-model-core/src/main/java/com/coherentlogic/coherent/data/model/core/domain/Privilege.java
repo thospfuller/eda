@@ -2,7 +2,9 @@ package com.coherentlogic.coherent.data.model.core.domain;
 
 import java.util.Collection;
 
+import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 
 /**
  * A representation of a privilege for projects using Spring Security.
@@ -13,11 +15,17 @@ import javax.persistence.ManyToMany;
  * @author <a href="https://www.linkedin.com/in/thomasfuller">Thomas P. Fuller</a>
  * @author <a href="mailto:support@coherentlogic.com">Support</a>
  */
+@Entity
+@Table(name=Privilege.PRIVILEGE)
 public class Privilege extends SerializableBean<Privilege> {
 
     private static final long serialVersionUID = -4093874560457654213L;
 
-    public static final String PRIVILEGES = "privileges", NAME = "name", ROLES = "roles";
+    public static final String
+        PRIVILEGE = "privilege",
+        PRIVILEGES = "privileges",
+        NAME = "name",
+        ROLES = "roles";
 
     private String name;
  
