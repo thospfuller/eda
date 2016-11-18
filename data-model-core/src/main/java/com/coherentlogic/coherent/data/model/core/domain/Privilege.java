@@ -24,7 +24,11 @@ import javax.persistence.Table;
 @Table(name=SecurityConstants.PRIVILEGE)
 public class Privilege extends SerializableBean<Privilege> {
 
-    private static final long serialVersionUID = 4729270120454457588L;
+    private static final long serialVersionUID = 8160450404279155148L;
+
+    public static enum Name {
+        READ_PRIVILEGE, WRITE_PRIVILEGE;
+    }
 
     private String name;
  
@@ -41,6 +45,18 @@ public class Privilege extends SerializableBean<Privilege> {
         this.name = name;
 
         firePropertyChange(NAME, oldValue, name);
+    }
+
+    public void setName(Name name) {
+        setName (name.toString());
+    }
+
+    public void setNameToRead () {
+        setName (Name.READ_PRIVILEGE);
+    }
+
+    public void setNameToWrite () {
+        setName (Name.WRITE_PRIVILEGE);
     }
 
     @ManyToMany(targetEntity=Role.class, mappedBy = PRIVILEGES, fetch=FetchType.EAGER)
