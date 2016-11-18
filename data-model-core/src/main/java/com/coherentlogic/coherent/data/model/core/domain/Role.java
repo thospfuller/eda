@@ -1,5 +1,13 @@
 package com.coherentlogic.coherent.data.model.core.domain;
 
+import static com.coherentlogic.coherent.data.model.core.domain.SecurityConstants.NAME;
+import static com.coherentlogic.coherent.data.model.core.domain.SecurityConstants.PRIVILEGES;
+import static com.coherentlogic.coherent.data.model.core.domain.SecurityConstants.PRIVILEGE_KEY;
+import static com.coherentlogic.coherent.data.model.core.domain.SecurityConstants.ROLES;
+import static com.coherentlogic.coherent.data.model.core.domain.SecurityConstants.ROLE_ID;
+import static com.coherentlogic.coherent.data.model.core.domain.SecurityConstants.ROLE_PRIVILEGES;
+import static com.coherentlogic.coherent.data.model.core.domain.SecurityConstants.USERS;
+
 import java.util.Collection;
 
 import javax.persistence.Column;
@@ -20,20 +28,14 @@ import javax.persistence.Table;
  * @author <a href="mailto:support@coherentlogic.com">Support</a>
  */
 @Entity
-@Table(name=Role.ROLE)
-public class Role extends SerializableBean<User> {
+@Table(name=SecurityConstants.ROLE)
+public class Role extends SerializableBean<Role> {
 
-    private static final long serialVersionUID = -8984788924094495235L;
+    private static final long serialVersionUID = 3135501909820372946L;
 
-    public static final String
-        NAME = "name",
-        ROLE = "role",
-        ROLES = "roles",
-        ROLE_PRIVILEGES = "role_privileges",
-        PRIVILEGES = "privileges",
-        ROLE_ID = "role_id",
-        PRIVILEGE_KEY = "privilege_key",
-        USERS = "users";
+    public static enum Name {
+        ROLE_USER, ROLE_ADMIN;
+    }
 
     @Column(name = NAME, nullable = false)
     private String name;
@@ -53,6 +55,18 @@ public class Role extends SerializableBean<User> {
         this.name = name;
 
         firePropertyChange(NAME, oldValue, name);
+    }
+
+    public void setName(Name name) {
+        setName (name.toString());
+    }
+
+    public void setNameToUser() {
+        setName (Name.ROLE_USER);
+    }
+
+    public void setNameToAdmin() {
+        setName (Name.ROLE_ADMIN);
     }
 
     @ManyToMany(targetEntity=User.class, mappedBy = ROLES, fetch=FetchType.EAGER)
