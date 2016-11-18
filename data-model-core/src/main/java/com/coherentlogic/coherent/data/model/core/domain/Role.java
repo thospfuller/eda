@@ -31,7 +31,7 @@ import javax.persistence.Table;
 @Table(name=SecurityConstants.ROLE)
 public class Role extends SerializableBean<Role> {
 
-    private static final long serialVersionUID = 3135501909820372946L;
+    private static final long serialVersionUID = 2650772010408194802L;
 
     public static enum Name {
         ROLE_USER, ROLE_ADMIN;
