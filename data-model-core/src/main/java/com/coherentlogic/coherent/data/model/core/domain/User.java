@@ -1,5 +1,15 @@
 package com.coherentlogic.coherent.data.model.core.domain;
 
+import static com.coherentlogic.coherent.data.model.core.domain.SecurityConstants.EMAIL;
+import static com.coherentlogic.coherent.data.model.core.domain.SecurityConstants.ENABLED;
+import static com.coherentlogic.coherent.data.model.core.domain.SecurityConstants.FIRST_NAME;
+import static com.coherentlogic.coherent.data.model.core.domain.SecurityConstants.LAST_NAME;
+import static com.coherentlogic.coherent.data.model.core.domain.SecurityConstants.PASSWORD;
+import static com.coherentlogic.coherent.data.model.core.domain.SecurityConstants.ROLE_KEY;
+import static com.coherentlogic.coherent.data.model.core.domain.SecurityConstants.TOKEN_EXPIRED;
+import static com.coherentlogic.coherent.data.model.core.domain.SecurityConstants.USERS_ROLLS;
+import static com.coherentlogic.coherent.data.model.core.domain.SecurityConstants.USER_KEY;
+
 import java.util.Collection;
 
 import javax.persistence.Entity;
@@ -18,24 +28,10 @@ import javax.persistence.Table;
  * @author <a href="mailto:support@coherentlogic.com">Support</a>
  */
 @Entity
-@Table(name=User.USER)
+@Table(name=SecurityConstants.USER)
 public class User extends SerializableBean<User> {
 
-    private static final long serialVersionUID = -5526931904298035968L;
-
-    public static final String
-        USER = "user",
-        FIRST_NAME = "firstName",
-        LAST_NAME = "lastName",
-        EMAIL = "email",
-        PASSWORD = "password",
-        ENABLED = "enabled",
-        TOKEN_EXPIRED = "tokenExpired",
-        USER_ROLES = "user_roles",
-        USER_KEY = "user_key",
-        ROLE_KEY = "role_key",
-        PRIMARY_KEY = "primaryKey",
-        USERS_ROLLS = "users_rolls";
+    private static final long serialVersionUID = 7674966586748982193L;
 
     private String firstName;
 

@@ -1,5 +1,9 @@
 package com.coherentlogic.coherent.data.model.core.domain;
 
+import static com.coherentlogic.coherent.data.model.core.domain.SecurityConstants.NAME;
+import static com.coherentlogic.coherent.data.model.core.domain.SecurityConstants.PRIVILEGES;
+import static com.coherentlogic.coherent.data.model.core.domain.SecurityConstants.ROLES;
+
 import java.util.Collection;
 
 import javax.persistence.Entity;
@@ -17,16 +21,10 @@ import javax.persistence.Table;
  * @author <a href="mailto:support@coherentlogic.com">Support</a>
  */
 @Entity
-@Table(name=Privilege.PRIVILEGE)
+@Table(name=SecurityConstants.PRIVILEGE)
 public class Privilege extends SerializableBean<Privilege> {
 
-    private static final long serialVersionUID = -4093874560457654213L;
-
-    public static final String
-        PRIVILEGE = "privilege",
-        PRIVILEGES = "privileges",
-        NAME = "name",
-        ROLES = "roles";
+    private static final long serialVersionUID = 4729270120454457588L;
 
     private String name;
  
