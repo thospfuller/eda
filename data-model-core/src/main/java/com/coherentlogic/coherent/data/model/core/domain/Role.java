@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -27,6 +28,7 @@ public class Role extends SerializableBean<User> {
     public static final String
         NAME = "name",
         ROLE = "role",
+        ROLES = "roles",
         ROLE_PRIVILEGES = "role_privileges",
         PRIVILEGES = "privileges",
         ROLE_ID = "role_id",
@@ -36,15 +38,8 @@ public class Role extends SerializableBean<User> {
     @Column(name = NAME, nullable = false)
     private String name;
 
-    @ManyToMany(mappedBy = ROLE)
     private Collection<User> users;
 
-    @ManyToMany
-    @JoinTable(
-        name = ROLE_PRIVILEGES, 
-        joinColumns = @JoinColumn(name = ROLE_ID, referencedColumnName = PRIMARY_KEY), 
-        inverseJoinColumns = @JoinColumn(name = PRIVILEGE_KEY, referencedColumnName = PRIMARY_KEY)
-    )
     private Collection<Privilege> privileges;
 
     public String getName() {
@@ -60,6 +55,7 @@ public class Role extends SerializableBean<User> {
         firePropertyChange(NAME, oldValue, name);
     }
 
+    @ManyToMany(targetEntity=User.class, mappedBy = ROLES, fetch=FetchType.EAGER)
     public Collection<User> getUsers() {
         return users;
     }
@@ -73,6 +69,12 @@ public class Role extends SerializableBean<User> {
         firePropertyChange(USERS, oldValue, users);
     }
 
+    @ManyToMany
+    @JoinTable(
+        name = ROLE_PRIVILEGES, 
+        joinColumns = @JoinColumn(name = ROLE_ID, referencedColumnName = PRIMARY_KEY), 
+        inverseJoinColumns = @JoinColumn(name = PRIVILEGE_KEY, referencedColumnName = PRIMARY_KEY)
+    )
     public Collection<Privilege> getPrivileges() {
         return privileges;
     }

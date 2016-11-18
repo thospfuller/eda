@@ -3,6 +3,7 @@ package com.coherentlogic.coherent.data.model.core.domain;
 import java.util.Collection;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
@@ -29,7 +30,6 @@ public class Privilege extends SerializableBean<Privilege> {
 
     private String name;
  
-    @ManyToMany(mappedBy = PRIVILEGES)
     private Collection<Role> roles;
 
     public String getName() {
@@ -45,6 +45,7 @@ public class Privilege extends SerializableBean<Privilege> {
         firePropertyChange(NAME, oldValue, name);
     }
 
+    @ManyToMany(targetEntity=Role.class, mappedBy = PRIVILEGES, fetch=FetchType.EAGER)
     public Collection<Role> getRoles() {
         return roles;
     }

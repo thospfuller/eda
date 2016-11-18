@@ -34,7 +34,8 @@ public class User extends SerializableBean<User> {
         USER_ROLES = "user_roles",
         USER_KEY = "user_key",
         ROLE_KEY = "role_key",
-        PRIMARY_KEY = "primaryKey";
+        PRIMARY_KEY = "primaryKey",
+        USERS_ROLLS = "users_rolls";
 
     private String firstName;
 
@@ -48,11 +49,6 @@ public class User extends SerializableBean<User> {
 
     private boolean tokenExpired;
 
-    @ManyToMany
-    @JoinTable( 
-        name = "user_roles", 
-        joinColumns = @JoinColumn(name = ROLE_KEY, referencedColumnName = PRIMARY_KEY), 
-        inverseJoinColumns = @JoinColumn(name = ROLE_KEY, referencedColumnName = PRIMARY_KEY)) 
     private Collection<Role> roles;
 
     public String getFirstName() {
@@ -133,6 +129,19 @@ public class User extends SerializableBean<User> {
         firePropertyChange(TOKEN_EXPIRED, oldValue, tokenExpired);
     }
 
+    @ManyToMany
+    @JoinTable( 
+        name = USERS_ROLLS,
+        joinColumns = @JoinColumn(name = USER_KEY, referencedColumnName = PRIMARY_KEY), 
+        inverseJoinColumns = @JoinColumn(name = ROLE_KEY, referencedColumnName = PRIMARY_KEY))
+    public Collection<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Collection<Role> roles) {
+        this.roles = roles;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -142,6 +151,7 @@ public class User extends SerializableBean<User> {
         result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
         result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
         result = prime * result + ((password == null) ? 0 : password.hashCode());
+        result = prime * result + ((roles == null) ? 0 : roles.hashCode());
         result = prime * result + (tokenExpired ? 1231 : 1237);
         return result;
     }
@@ -177,6 +187,11 @@ public class User extends SerializableBean<User> {
                 return false;
         } else if (!password.equals(other.password))
             return false;
+        if (roles == null) {
+            if (other.roles != null)
+                return false;
+        } else if (!roles.equals(other.roles))
+            return false;
         if (tokenExpired != other.tokenExpired)
             return false;
         return true;
@@ -185,6 +200,7 @@ public class User extends SerializableBean<User> {
     @Override
     public String toString() {
         return "User [firstName=" + firstName + ", lastName=" + lastName + ", email=" + email + ", password=" + password
-            + ", enabled=" + enabled + ", tokenExpired=" + tokenExpired + ", toString()=" + super.toString() + "]";
+            + ", enabled=" + enabled + ", tokenExpired=" + tokenExpired + ", roles=" + roles + ", toString()="
+            + super.toString() + "]";
     }
 }
