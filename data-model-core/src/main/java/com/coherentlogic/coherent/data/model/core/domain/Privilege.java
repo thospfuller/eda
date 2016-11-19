@@ -117,6 +117,6 @@ public class Privilege extends SerializableBean<Privilege> {
 
     @Override
     public String toString() {
-        return "Privilege [name=" + name + ", roles=" + roles + "]";
+        return "Privilege [name=" + name + "]";
     }
 }

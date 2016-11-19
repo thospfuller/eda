@@ -160,6 +160,6 @@ public class Role extends SerializableBean<Role> {
 
     @Override
     public String toString() {
-        return "Role [name=" + name + ", users=" + users + ", privileges=" + privileges + "]";
+        return "Role [name=" + name + "]";
     }
 }
