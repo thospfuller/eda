@@ -4,13 +4,15 @@ import static com.coherentlogic.coherent.data.model.core.domain.SecurityConstant
 import static com.coherentlogic.coherent.data.model.core.domain.SecurityConstants.PRIVILEGES;
 import static com.coherentlogic.coherent.data.model.core.domain.SecurityConstants.ROLES;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import javax.persistence.CascadeType;
 
 /**
  * A representation of a privilege for projects using Spring Security.
@@ -33,7 +35,7 @@ public class Privilege extends SerializableBean<Privilege> {
 
     private String name;
  
-    private Collection<Role> roles;
+    private List<Role> roles = new ArrayList<Role> ();
 
     public String getName() {
         return name;
@@ -65,9 +67,9 @@ public class Privilege extends SerializableBean<Privilege> {
         return roles;
     }
 
-    public void setRoles(Collection<Role> roles) {
+    public void setRoles(List<Role> roles) {
 
-        Collection<Role> oldValue = this.roles;
+        List<Role> oldValue = this.roles;
 
         this.roles = roles;
 
