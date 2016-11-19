@@ -10,8 +10,11 @@ import static com.coherentlogic.coherent.data.model.core.domain.SecurityConstant
 import static com.coherentlogic.coherent.data.model.core.domain.SecurityConstants.USERS_ROLLS;
 import static com.coherentlogic.coherent.data.model.core.domain.SecurityConstants.USER_KEY;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -45,7 +48,7 @@ public class User extends SerializableBean<User> {
 
     private boolean tokenExpired;
 
-    private Collection<Role> roles;
+    private List<Role> roles = new ArrayList <Role> ();
 
     public String getFirstName() {
         return firstName;
@@ -125,7 +128,7 @@ public class User extends SerializableBean<User> {
         firePropertyChange(TOKEN_EXPIRED, oldValue, tokenExpired);
     }
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable( 
         name = USERS_ROLLS,
         joinColumns = @JoinColumn(name = USER_KEY, referencedColumnName = PRIMARY_KEY), 
@@ -134,8 +137,16 @@ public class User extends SerializableBean<User> {
         return roles;
     }
 
-    public void setRoles(Collection<Role> roles) {
+    public void setRoles(List<Role> roles) {
         this.roles = roles;
+    }
+
+    public User addRoles (Role... roles) {
+
+        for (Role role : roles)
+            this.roles.add(role);
+
+        return this;
     }
 
     @Override
@@ -196,7 +207,6 @@ public class User extends SerializableBean<User> {
     @Override
     public String toString() {
         return "User [firstName=" + firstName + ", lastName=" + lastName + ", email=" + email + ", password=" + password
-            + ", enabled=" + enabled + ", tokenExpired=" + tokenExpired + ", roles=" + roles + ", toString()="
-            + super.toString() + "]";
+            + ", enabled=" + enabled + ", tokenExpired=" + tokenExpired + ", roles=" + roles + "]";
     }
 }

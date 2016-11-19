@@ -4,19 +4,22 @@ import static com.coherentlogic.coherent.data.model.core.domain.SecurityConstant
 import static com.coherentlogic.coherent.data.model.core.domain.SecurityConstants.PRIVILEGES;
 import static com.coherentlogic.coherent.data.model.core.domain.SecurityConstants.PRIVILEGE_KEY;
 import static com.coherentlogic.coherent.data.model.core.domain.SecurityConstants.ROLES;
-import static com.coherentlogic.coherent.data.model.core.domain.SecurityConstants.ROLE_ID;
+import static com.coherentlogic.coherent.data.model.core.domain.SecurityConstants.ROLE_KEY;
 import static com.coherentlogic.coherent.data.model.core.domain.SecurityConstants.ROLE_PRIVILEGES;
 import static com.coherentlogic.coherent.data.model.core.domain.SecurityConstants.USERS;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.Table;;
 
 /**
  * A representation of a role for projects using Spring Security.
@@ -40,9 +43,9 @@ public class Role extends SerializableBean<Role> {
     @Column(name = NAME, nullable = false)
     private String name;
 
-    private Collection<User> users;
+    private List<User> users = new ArrayList<User> ();
 
-    private Collection<Privilege> privileges;
+    private List<Privilege> privileges = new ArrayList<Privilege> ();
 
     public String getName() {
         return name;
@@ -69,37 +72,53 @@ public class Role extends SerializableBean<Role> {
         setName (Name.ROLE_ADMIN);
     }
 
-    @ManyToMany(targetEntity=User.class, mappedBy = ROLES, fetch=FetchType.EAGER)
+    @ManyToMany(targetEntity=User.class, mappedBy = ROLES, fetch=FetchType.EAGER, cascade = CascadeType.ALL)
     public Collection<User> getUsers() {
         return users;
     }
 
-    public void setUsers(Collection<User> users) {
+    public void setUsers(List<User> users) {
 
-        Collection<User> oldValue = this.users;
+        List<User> oldValue = this.users;
 
         this.users = users;
 
         firePropertyChange(USERS, oldValue, users);
     }
 
-    @ManyToMany
+    public Role addUsers (User... users) {
+
+        for (User user : users)
+            this.users.add(user);
+
+        return this;
+    }
+
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
         name = ROLE_PRIVILEGES, 
-        joinColumns = @JoinColumn(name = ROLE_ID, referencedColumnName = PRIMARY_KEY), 
+        joinColumns = @JoinColumn(name = ROLE_KEY, referencedColumnName = PRIMARY_KEY), 
         inverseJoinColumns = @JoinColumn(name = PRIVILEGE_KEY, referencedColumnName = PRIMARY_KEY)
     )
-    public Collection<Privilege> getPrivileges() {
+    public List<Privilege> getPrivileges() {
         return privileges;
     }
 
-    public void setPrivileges(Collection<Privilege> privileges) {
+    public void setPrivileges(List<Privilege> privileges) {
 
-        Collection<Privilege> oldValue = this.privileges;
+        List<Privilege> oldValue = this.privileges;
 
         this.privileges = privileges;
 
         firePropertyChange(PRIVILEGES, oldValue, privileges);
+    }
+
+    public Role addPrivileges (Privilege... privileges) {
+
+        for (Privilege privilege : privileges)
+            this.privileges.add(privilege);
+
+        return this;
     }
 
     @Override
@@ -141,7 +160,6 @@ public class Role extends SerializableBean<Role> {
 
     @Override
     public String toString() {
-        return "Role [name=" + name + ", users=" + users + ", privileges=" + privileges + ", toString()="
-            + super.toString() + "]";
+        return "Role [name=" + name + ", users=" + users + ", privileges=" + privileges + "]";
     }
 }

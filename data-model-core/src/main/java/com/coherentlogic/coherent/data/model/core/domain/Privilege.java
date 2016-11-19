@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.CascadeType;
 
 /**
  * A representation of a privilege for projects using Spring Security.
@@ -59,7 +60,7 @@ public class Privilege extends SerializableBean<Privilege> {
         setName (Name.WRITE_PRIVILEGE);
     }
 
-    @ManyToMany(targetEntity=Role.class, mappedBy = PRIVILEGES, fetch=FetchType.EAGER)
+    @ManyToMany(targetEntity=Role.class, mappedBy = PRIVILEGES, fetch=FetchType.EAGER, cascade = CascadeType.ALL)
     public Collection<Role> getRoles() {
         return roles;
     }
@@ -71,6 +72,14 @@ public class Privilege extends SerializableBean<Privilege> {
         this.roles = roles;
 
         firePropertyChange(ROLES, oldValue, roles);
+    }
+
+    public Privilege addRoles (Role... roles) {
+
+        for (Role role : roles)
+            this.roles.add(role);
+
+        return this;
     }
 
     @Override
@@ -106,6 +115,6 @@ public class Privilege extends SerializableBean<Privilege> {
 
     @Override
     public String toString() {
-        return "Privilege [name=" + name + ", roles=" + roles + ", toString()=" + super.toString() + "]";
+        return "Privilege [name=" + name + ", roles=" + roles + "]";
     }
 }
