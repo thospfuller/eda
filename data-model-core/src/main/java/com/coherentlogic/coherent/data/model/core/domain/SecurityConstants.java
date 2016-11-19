@@ -9,7 +9,6 @@ public interface SecurityConstants {
         ROLE = "role",
         ROLES = "roles",
         ROLE_PRIVILEGES = "role_privileges",
-        ROLE_ID = "role_id",
         PRIVILEGE_KEY = "privilege_key",
         USERS = "users",
         USER = "user",
