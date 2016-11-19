@@ -7,7 +7,7 @@ import static com.coherentlogic.coherent.data.model.core.domain.SecurityConstant
 import static com.coherentlogic.coherent.data.model.core.domain.SecurityConstants.PASSWORD;
 import static com.coherentlogic.coherent.data.model.core.domain.SecurityConstants.ROLE_KEY;
 import static com.coherentlogic.coherent.data.model.core.domain.SecurityConstants.TOKEN_EXPIRED;
-import static com.coherentlogic.coherent.data.model.core.domain.SecurityConstants.USERS_ROLLS;
+import static com.coherentlogic.coherent.data.model.core.domain.SecurityConstants.USERS_ROLES;
 import static com.coherentlogic.coherent.data.model.core.domain.SecurityConstants.USER_KEY;
 
 import java.util.ArrayList;
@@ -130,7 +130,7 @@ public class User extends SerializableBean<User> {
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable( 
-        name = USERS_ROLLS,
+        name = USERS_ROLES,
         joinColumns = @JoinColumn(name = USER_KEY, referencedColumnName = PRIMARY_KEY), 
         inverseJoinColumns = @JoinColumn(name = ROLE_KEY, referencedColumnName = PRIMARY_KEY))
     public Collection<Role> getRoles() {

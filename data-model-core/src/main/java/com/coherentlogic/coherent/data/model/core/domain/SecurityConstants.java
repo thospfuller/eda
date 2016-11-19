@@ -22,5 +22,5 @@ public interface SecurityConstants {
         USER_KEY = "user_key",
         ROLE_KEY = "role_key",
         PRIMARY_KEY = "primaryKey",
-        USERS_ROLLS = "users_rolls";
+        USERS_ROLES = "users_roles";
 }
