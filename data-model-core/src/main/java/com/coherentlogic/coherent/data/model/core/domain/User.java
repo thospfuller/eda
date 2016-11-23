@@ -9,6 +9,7 @@ import static com.coherentlogic.coherent.data.model.core.domain.SecurityConstant
 import static com.coherentlogic.coherent.data.model.core.domain.SecurityConstants.TOKEN_EXPIRED;
 import static com.coherentlogic.coherent.data.model.core.domain.SecurityConstants.USERS_ROLES;
 import static com.coherentlogic.coherent.data.model.core.domain.SecurityConstants.USER_KEY;
+import static com.coherentlogic.coherent.data.model.core.domain.SecurityConstants.USER_NAME;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -34,7 +35,9 @@ import javax.persistence.Table;
 @Table(name=SecurityConstants.USER)
 public class User extends SerializableBean<User> {
 
-    private static final long serialVersionUID = 7674966586748982193L;
+    private static final long serialVersionUID = 3503292598639890879L;
+
+    private String userName;
 
     private String firstName;
 
@@ -49,6 +52,19 @@ public class User extends SerializableBean<User> {
     private boolean tokenExpired;
 
     private List<Role> roles = new ArrayList <Role> ();
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+
+        String oldValue = this.userName;
+
+        this.userName = userName;
+
+        firePropertyChange(USER_NAME, oldValue, firstName);
+    }
 
     public String getFirstName() {
         return firstName;
@@ -160,6 +176,7 @@ public class User extends SerializableBean<User> {
         result = prime * result + ((password == null) ? 0 : password.hashCode());
         result = prime * result + ((roles == null) ? 0 : roles.hashCode());
         result = prime * result + (tokenExpired ? 1231 : 1237);
+        result = prime * result + ((userName == null) ? 0 : userName.hashCode());
         return result;
     }
 
@@ -200,6 +217,11 @@ public class User extends SerializableBean<User> {
         } else if (!roles.equals(other.roles))
             return false;
         if (tokenExpired != other.tokenExpired)
+            return false;
+        if (userName == null) {
+            if (other.userName != null)
+                return false;
+        } else if (!userName.equals(other.userName))
             return false;
         return true;
     }
