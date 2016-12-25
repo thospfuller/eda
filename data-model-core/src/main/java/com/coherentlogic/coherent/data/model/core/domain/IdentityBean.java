@@ -15,8 +15,6 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
  * @author <a href="https://www.linkedin.com/in/thomasfuller">Thomas P. Fuller</a>
  * @author <a href="mailto:support@coherentlogic.com">Support</a>
  */
-//@Entity
-//@Table(name=IDENTITY_BEAN)
 @MappedSuperclass
 public class IdentityBean extends SerializableBean
     implements IdentitySpecification<String> {
@@ -63,7 +61,6 @@ public class IdentityBean extends SerializableBean
 
     @Override
     public String toString() {
-        return "IdentityBean [id=" + id + ", toString()=" + super.toString()
-            + "]";
+        return "IdentityBean [id=" + id + ", toString()=" + super.toString() + "]";
     }
 }
