@@ -3,6 +3,9 @@ package com.coherentlogic.coherent.data.adapter.core.builders.rest;
 import static org.junit.Assert.assertEquals;
 
 import java.math.BigDecimal;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
@@ -12,7 +15,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.web.client.RestTemplate;
 
-import com.coherentlogic.coherent.data.adapter.core.builders.rest.AbstractRESTQueryBuilder;
 import com.coherentlogic.coherent.data.adapter.core.cache.CacheServiceProviderSpecification;
 
 /**
@@ -20,7 +22,7 @@ import com.coherentlogic.coherent.data.adapter.core.cache.CacheServiceProviderSp
  *
  * @author <a href="mailto:support@coherentlogic.com">Support</a>
  */
-public class AbstractQueryBuilderTest {
+public class AbstractRESTQueryBuilderTest {
 
     private static final String TEST = "test",
         TEST_COM = "http://www.test.com/";
@@ -54,6 +56,22 @@ public class AbstractQueryBuilderTest {
         queryBuilder.doGet(Object.class);
 
         assertEquals(4, ctr.get());
+    }
+
+    @Test
+    public void testAddParameterUsingDate () {
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat ("yyyy-MM-dd");
+
+        Calendar testCalendar = Calendar.getInstance();
+
+        testCalendar.clear();
+
+        testCalendar.set(1992, Calendar.JULY, 20);
+
+        queryBuilder.addParameter("testDate", dateFormat, testCalendar.getTime());
+
+        assertEquals("http://www.test.com/?testDate=1992-07-20", queryBuilder.getEscapedURI());
     }
 
     @Test(expected=NullPointerException.class)
