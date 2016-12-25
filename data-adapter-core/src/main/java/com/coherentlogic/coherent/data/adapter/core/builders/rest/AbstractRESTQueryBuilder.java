@@ -1,6 +1,8 @@
 package com.coherentlogic.coherent.data.adapter.core.builders.rest;
 
 import java.net.URI;
+import java.text.DateFormat;
+import java.util.Date;
 
 import javax.ws.rs.core.UriBuilder;
 
@@ -14,7 +16,6 @@ import com.coherentlogic.coherent.data.adapter.core.cache.CacheServiceProviderSp
 import com.coherentlogic.coherent.data.adapter.core.cache.NullCache;
 import com.coherentlogic.coherent.data.adapter.core.exceptions.ExecutionFailedException;
 import com.coherentlogic.coherent.data.adapter.core.listeners.QueryBuilderEvent;
-import com.coherentlogic.coherent.data.adapter.core.listeners.QueryBuilderExceptionEvent;
 import com.coherentlogic.coherent.data.adapter.core.util.WelcomeMessage;
 
 /**
@@ -38,7 +39,7 @@ public abstract class AbstractRESTQueryBuilder<K> extends CacheableQueryBuilder<
             .addText("************************************************************************************************")
             .addText("***                                                                                          ***")
             .addText("***                  Welcome to the Coherent Logic Foundation Data Adapter                   ***")
-            .addText("***                                version 1.0.27-RELEASE.                                   ***")
+            .addText("***                                version 1.0.28-RELEASE.                                   ***")
             .addText("***                                                                                          ***")
             .addText("***                     Please  take a moment to follow us on LinkedIn:                      ***")
             .addText("***                                                                                          ***")
@@ -104,29 +105,107 @@ public abstract class AbstractRESTQueryBuilder<K> extends CacheableQueryBuilder<
     }
 
     /**
-     * Method adds a name-value pair to the internal list of name-value pairs.
-     *
-     * @param name The name of the parameter.
-     * @param value The parameter value.
-     *
-     * @throws IllegaStateException If either the name or value is null.
+     * Method throws a NullPointerException if either the name or value are null; if neither reference is null a message
+     * will be logged at debug level that includes the name and value.
      */
-    protected void addParameter (String name, String value) {
+    protected AbstractRESTQueryBuilder<K> assertNotNull (String name, Object value) {
 
         // The uriBuilder will throw an exception if the name is null. We add
         // an additional check so that an exception is thrown if the value is
         // null. The reason for this is that the parameter should not be added
         // unless there's an appropriate value.
         if (name == null || value == null)
-            throw new NullPointerException ("The name and value must " +
-                "both be set to non-null values (name: " + name + ", value: " +
-                value + ").");
+            throw new NullPointerException ("The name and value must both be set to non-null values (name: " + name +
+                ", value: " + value + ").");
+        else if (log.isDebugEnabled()) {
+            log.debug("Adding the parameter with name: " + name + " and value: " + value);
+        }
 
-        uriBuilder.queryParam(name, value);
+        return this;
     }
 
-    // TODO: Consider implementing the following method.
-    // protected void addParameter (String name, Object value)
+    /**
+     * Method adds a name-value pair to the URI -- for example, assume that we're working with the URI
+     * <p>
+     * http://www.coherentlogic.com
+     * <p>
+     * calling:
+     * <p>
+     * addParameter("xyz", "123");
+     * <p>
+     * will result in:
+     * <p>
+     * http://www.coherentlogic.com?xyz=123
+     *
+     * @param name The name of the parameter.
+     * @param value The parameter value.
+     *
+     * @throws NullPointerException If either the name or value is null.
+     */
+    protected AbstractRESTQueryBuilder<K> addParameter (String name, Object value) {
+
+        assertNotNull(name, value);
+
+        uriBuilder.queryParam(name, value.toString());
+
+        return this;
+    }
+
+    /**
+     * Method adds a name-value date pair to the URI -- for example, assume that we're working with the URI
+     * <p>
+     * http://www.coherentlogic.com
+     * <p>
+     * calling:
+     * <p>
+     * addParameter("xyz", "123");
+     * <p>
+     * will result in:
+     * <p>
+     * http://www.coherentlogic.com?xyz=123
+     *
+     * @param name The name of the parameter.
+     * @param value The parameter value.
+     *
+     * @throws NullPointerException If either the name or value is null.
+     */
+    protected AbstractRESTQueryBuilder<K> addParameter (String name, DateFormat dateFormat, Date date) {
+
+        assertNotNull(name, date);
+
+        String value = dateFormat.format(date);
+
+        uriBuilder.queryParam(name, value);
+
+        return this;
+    }
+
+    /**
+     * Method adds a name-value pair to the URI -- for example, assume that we're working with the URI
+     * <p>
+     * http://www.coherentlogic.com
+     * <p>
+     * calling:
+     * <p>
+     * addParameter("xyz", "123");
+     * <p>
+     * will result in:
+     * <p>
+     * http://www.coherentlogic.com?xyz=123
+     *
+     * @param name The name of the parameter.
+     * @param value The parameter value.
+     *
+     * @throws NullPointerException If either the name or value is null.
+     */
+    protected AbstractRESTQueryBuilder<K> addParameter (String name, Number value) {
+
+        assertNotNull(name, value);
+
+        uriBuilder.queryParam(name, value.toString());
+
+        return this;
+    }
 
     /**
      * Method adds a name-value pair to the internal list of name-value pairs.
@@ -134,20 +213,15 @@ public abstract class AbstractRESTQueryBuilder<K> extends CacheableQueryBuilder<
      * @param name The name of the parameter.
      * @param value The parameter value.
      *
-     * @throws IllegaStateException If either the name or value is null.
+     * @throws NullPointerException If either the name or value is null.
      */
-    protected void addParameter (String name, Number value) {
+    protected AbstractRESTQueryBuilder<K> addParameter (String name, String value) {
 
-        // The uriBuilder will throw an exception if the name is null. We add
-        // an additional check so that an exception is thrown if the value is
-        // null. The reason for this is that the parameter should not be added
-        // unless there's an appropriate value.
-        if (name == null || value == null)
-            throw new NullPointerException ("The name and value must " +
-                "both be set to non-null values (name: " + name + ", value: " +
-                value + ").");
+        assertNotNull(name, value);
 
-        uriBuilder.queryParam(name, value.toString());
+        uriBuilder.queryParam(name, value);
+
+        return this;
     }
 
     /**
@@ -158,6 +232,7 @@ public abstract class AbstractRESTQueryBuilder<K> extends CacheableQueryBuilder<
      * @param path The additional path value -- in the example above, 'baz'.
      */
     protected AbstractRESTQueryBuilder<K> extendPathWith (String path) {
+
         uriBuilder.path(path);
 
         return this;
