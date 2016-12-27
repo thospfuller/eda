@@ -3,6 +3,7 @@ package com.coherentlogic.coherent.data.adapter.core.builders.rest;
 import java.net.URI;
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.function.Function;
 
 import javax.ws.rs.core.UriBuilder;
 
@@ -356,22 +357,103 @@ public abstract class AbstractRESTQueryBuilder<K> extends CacheableQueryBuilder<
         return result;
     }
 
-    void onException (
-        K key,
-        Object value,
-        RuntimeException cause,
-        long operationBeganAtMillis
-    ) {
+    void onException (K key, Object value, RuntimeException cause, long operationBeganAtMillis) {
 
         log.error(cause.getMessage(), cause);
 
-        fireQueryBuilderEvent(
-            key,
-            null,
-            cause,
-            operationBeganAtMillis
-        );
+        fireQueryBuilderEvent(key, null, cause, operationBeganAtMillis);
 
         throw cause;
+    }
+
+    /**
+     * Method executes the call to the URI returned from the call to {@link #getEscapedURI()} and returns the result as
+     * a String.
+     *
+     * Note that this method does <i>not</i> cache responses so every call to this method will result in a call being
+     * made to the web service end point.
+     */
+    public String doGetAsString() {
+        return doGetAsString (String.class, (String result) -> { return result; });
+    }
+
+    /**
+     * Method executes the call to the URI returned from the call to {@link #getEscapedURI()} and returns the result of
+     * type R. Note that a new instance of RestTemplate each time this method is called.
+     *
+     * Note that this method does <i>not</i> cache responses so every call to this method will result in a call being
+     * made to the web service end point.
+     *
+     * @param resultType The class of the result returned from the function.
+     *
+     * @param function Will be applied to the result and returns a result of type R.
+     *
+     * @return A result of type R.
+     */
+    public <R> R doGetAsString(Class<R> resultType, Function<String, R> function) {
+        return doGetAsString (new RestTemplate (), resultType, function);
+    }
+
+    /**
+     * Method executes the call to the URI returned from the call to {@link #getEscapedURI()} and returns the result of
+     * type R.
+     *
+     * Note that this method does <i>not</i> cache responses so every call to this method will result in a call being
+     * made to the web service end point.
+     *
+     * @param restTemplate The instance used to execute the GET web service call (via the getForObject method).
+     *  Developers can override this method when it's necessary to use a different method (ie. postForObject).
+     *
+     * @param resultType The class of the result returned from the function.
+     *
+     * @param function Will be applied to the result and returns a result of type R.
+     *
+     * @return A result of type R.
+     */
+    protected <R> R doGetAsString(RestTemplate restTemplate, Class<R> resultType, Function<String, R> function) {
+
+        return doGetAsString (
+            restTemplate,
+            (RestTemplate webMethodCall) -> {
+                return webMethodCall.getForObject(getEscapedURI(), String.class);
+            },
+            resultType,
+            function
+        );
+    }
+
+    /**
+     * Method executes the call to the URI returned from the call to {@link #getEscapedURI()} and then invokes the
+     * specified function and returns the result of type R.
+     *
+     * Note that this method does <i>not</i> cache responses so every call to this method will result in a call being
+     * made to the web service end point.
+     *
+     * @param restTemplate The instance used to execute the GET web service call (via the getForObject method).
+     *  Developers can override this method when it's necessary to use a different method (ie. postForObject).
+     *
+     * @param webMethod A function that will execute the web method call using the restTemplate.
+     *
+     * @param resultType The class of the result returned from the function.
+     *
+     * @param function Will be applied to the result and then returns a result of type R.
+     *
+     * @return A result of type R.
+     */
+    protected <R> R doGetAsString(
+        RestTemplate restTemplate,
+        Function<RestTemplate, String> webMethod,
+        Class<R> resultType,
+        Function<String, R> function
+    ) {
+
+        log.debug("doGetAsString: method begins; restTemplate: " + restTemplate + ", webMethod: " + webMethod +
+            ", resultType: " + resultType + ", function: " + function);
+
+        String result = webMethod.apply(restTemplate);
+
+        log.debug("doGetAsString: method ends; result: " + result);
+
+        return function.apply(result);
     }
 }
