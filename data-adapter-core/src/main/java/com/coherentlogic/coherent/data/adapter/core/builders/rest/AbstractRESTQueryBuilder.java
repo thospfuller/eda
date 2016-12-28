@@ -446,11 +446,19 @@ public abstract class AbstractRESTQueryBuilder<K> extends CacheableQueryBuilder<
         Class<R> resultType,
         Function<String, R> function
     ) {
-
         log.debug("doGetAsString: method begins; restTemplate: " + restTemplate + ", webMethod: " + webMethod +
             ", resultType: " + resultType + ", function: " + function);
 
-        String result = webMethod.apply(restTemplate);
+        String result;
+
+        try {
+            result = webMethod.apply(restTemplate);
+        } catch (Exception cause) {
+            throw new ExecutionFailedException (
+                "The call to webMethod.apply resulted in an exception being thrown.",
+                cause
+            );
+        }
 
         log.debug("doGetAsString: method ends; result: " + result);
 
