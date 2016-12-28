@@ -43,6 +43,7 @@
         <module>data-adapter-core</module>
         <module>data-adapter-application</module>
         <module>xstream-int</module>
+        <module>infinispan-int</module>
     </modules>
     <dependencyManagement>
         <dependencies>
