@@ -2,10 +2,10 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.coherentlogic.coherent.data-model</groupId>
+    <groupId>com.coherentlogic.enterprise-data-adapter</groupId>
     <artifactId>bom</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.28-RELEASE</version>
+    <version>2.0.0-RELEASE</version>
 
     <name>Coherent Data Model Bill of Materials</name>
     <description>The bill of materials (bom) for the CL Data Model.</description>
@@ -75,27 +75,27 @@
                 <version>${spring.boot.version}</version>
             </dependency -->
             <dependency>
-                <groupId>com.coherentlogic.coherent.data-model</groupId>
+                <groupId>com.coherentlogic.enterprise-data-adapter</groupId>
                 <artifactId>data-model-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.coherentlogic.coherent.data-model</groupId>
+                <groupId>com.coherentlogic.enterprise-data-adapter</groupId>
                 <artifactId>data-adapter-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.coherentlogic.coherent.data-model</groupId>
+                <groupId>com.coherentlogic.enterprise-data-adapter</groupId>
                 <artifactId>xstream-int</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.coherentlogic.coherent.data-model</groupId>
+                <groupId>com.coherentlogic.enterprise-data-adapter</groupId>
                 <artifactId>data-adapter-application</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <!-- dependency>
-                <groupId>com.coherentlogic.coherent.data-model</groupId>
+                <groupId>com.coherentlogic.enterprise-data-adapter</groupId>
                 <artifactId>logging</artifactId>
                 <version>${project.version}</version>
             </dependency -->
