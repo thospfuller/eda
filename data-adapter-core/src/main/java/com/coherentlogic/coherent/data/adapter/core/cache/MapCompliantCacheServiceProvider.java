@@ -15,8 +15,7 @@ import org.slf4j.LoggerFactory;
  * @param <K> The key type.
  * @param <V> The value type.
  */
-public class MapCompliantCacheServiceProvider<K, V>
-    implements CacheServiceProviderSpecification<K, V> {
+public class MapCompliantCacheServiceProvider<K, V> implements CacheServiceProviderSpecification<K, V> {
 
     private static final Logger log = LoggerFactory.getLogger(MapCompliantCacheServiceProvider.class);
 
