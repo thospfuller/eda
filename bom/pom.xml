@@ -91,6 +91,11 @@
             </dependency>
             <dependency>
                 <groupId>com.coherentlogic.enterprise-data-adapter</groupId>
+                <artifactId>infinispan-int</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.coherentlogic.enterprise-data-adapter</groupId>
                 <artifactId>data-adapter-application</artifactId>
                 <version>${project.version}</version>
             </dependency>
